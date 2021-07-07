@@ -9,6 +9,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @Description:
@@ -33,6 +36,6 @@ public class WebAppConfigurer implements WebMvcConfigurer {
         // 拦截所有请求 "/** "
 //        registry.addInterceptor(new CheckResourceInterceptor()).addPathPatterns("/api/person/**");
 //        registry.addInterceptor(new CheckResourceInterceptor()).addPathPatterns("/**").excludePathPatterns();
-        registry.addInterceptor(new CheckResourceInterceptor()).addPathPatterns(addPathPatterns);
+        registry.addInterceptor(new CheckResourceInterceptor()).addPathPatterns(addPathPatterns.stream().map(String::trim).collect(toList()));
     }
 }
