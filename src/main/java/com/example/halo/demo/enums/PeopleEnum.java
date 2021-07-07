@@ -16,14 +16,14 @@ public enum PeopleEnum {
     WHITE(1, "白种人"),
 
     /**
-     * 黑种人
-     */
-    BLACK(2, "黑种人"),
-
-    /**
      * 黄种人
      */
-    ASIAN(3, "黄种人"),
+    BLACK(2, "黄种人"),
+
+    /**
+     * 黑种人
+     */
+    ASIAN(3, "黑种人"),
     ;
 
     @Getter

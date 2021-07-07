@@ -3,6 +3,7 @@ package com.example.halo.demo.controller;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.halo.demo.api.PeopleServiceApi;
 import com.example.halo.demo.common.Result;
 import com.example.halo.demo.entity.Greeting;
@@ -24,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -56,6 +58,7 @@ public class GreetingController {
         log.info("页面请求参数：{}", JSON.toJSONString(name));
         People people = new People();
         people.setId(2);
+        List<People> list = peopleServiceApi.list(new LambdaQueryWrapper<People>().eq(People::getId, people.getId()));
         Result<People> result = peopleServiceApi.queryPeople(people);
         return new Greeting(counter.incrementAndGet(), String.format(TEMPLATE, name));
     }

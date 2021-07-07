@@ -26,6 +26,11 @@ public class People implements Serializable {
 
     private Integer age;
 
+    /**
+     * 1-白种人,2-黄种人,3-黑种人,4-混血儿
+     */
+    private Integer type;
+
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 }
