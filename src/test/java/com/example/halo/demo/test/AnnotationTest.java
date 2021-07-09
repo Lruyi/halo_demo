@@ -1,7 +1,7 @@
 package com.example.halo.demo.test;
 
 import com.example.halo.demo.MyAnnotation;
-import com.example.halo.demo.proxy.ProxyTest;
+import com.example.halo.demo.设计模式23.proxy.ProxyTest;
 
 /**
  * @Description:
