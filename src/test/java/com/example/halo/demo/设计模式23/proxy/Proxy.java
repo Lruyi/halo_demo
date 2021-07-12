@@ -10,6 +10,7 @@ public class Proxy implements Sourceable {
     private Source source;
 
     public Proxy() {
+        super();
         this.source = new Source();
     }
 
