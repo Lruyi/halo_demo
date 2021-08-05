@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.example.halo.demo.api.PeopleServiceApi;
 import com.example.halo.demo.common.Result;
 import com.example.halo.demo.entity.Greeting;
@@ -11,6 +12,7 @@ import com.example.halo.demo.entity.People;
 import com.example.halo.demo.enums.PeopleEnum;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,12 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -90,6 +92,15 @@ public class GreetingController {
     }
 
     public static void main(String[] args) {
+
+        String replayNums = "1,a";
+        String[] split = replayNums.trim().split(StringPool.COMMA);
+        List<Integer> collect = Arrays.stream(split).filter(NumberUtils::isCreatable).map(Integer::parseInt).collect(Collectors.toList());
+        if (Objects.equals(collect.size(), split.length)) {
+            System.out.println("满足");
+        } else {
+            System.out.println("存在非法字符");
+        }
 
         for (PeopleEnum value : PeopleEnum.values()) {
             System.out.println(value.getDesc());
