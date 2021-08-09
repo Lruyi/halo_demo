@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 这里的status代表log4j初始化的时候的日志级别 -->
+<Configuration status="INFO" monitorInterval="1800">
+    <!-- prop配置,可以在下面的配置中引用此属性 -->
+    <properties></properties>
+    <!-- appender -->
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-4level] [%thread] [%logger{80}] - [%traceId][%X{X-XES-GOW}] %msg%n"/>
+        </Console>
+        <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="${sys:catalina.home}/logs/catalinaRolling.log" immediateFlush="false" filePattern="${sys:catalina.home}/logs/catalinaRolling-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-4level] [%thread] [%logger{80}] - [%traceId][%X{X-XES-GOW}] %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="200 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="RocketmqClientAppender" fileName="${sys:catalina.home}/logs/mqRolling.log" immediateFlush="false" filePattern="${sys:catalina.home}/logs/mqRolling-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout pattern="[%d{yyy-MM-dd HH:mm:ss,SSS}] %p %c{1}(%L) - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="200 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="StatisticsLog" immediateFlush="false" fileName="${sys:catalina.home}/logs/statistics-log.log" filePattern="${sys:catalina.home}/logs/statistics-log-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-4level] [%thread] [%logger{80}] - [%traceId][%X{X-XES-GOW}] %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="200 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <!-- 统一配置Appender和日志级别 -->
+        <!-- OFF、FATAL、ERROR、WARN、INFO、DEBUG、TRACE、 ALL -->
+        <asyncRoot level="INFO" includeLocation="true">
+            <!-- 所有的append都会处理日志, 如果console和ErrorLog的级别有重叠,就会打印两次 -->
+            <appender-ref ref="RollingRandomAccessFile"/>
+            <appender-ref ref="Console"/>
+        </asyncRoot>
+        <!-- Swagger日志 -->
+        <asyncLogger name="com.mangofactory.swagger" level="WARN"/>
+        <asyncLogger name="springfox.documentation" level="WARN"/>
+        <!-- Spring日志 -->
+        <asyncLogger name="org.springframework" level="INFO"/>
+        <!-- 阿里云MQ相关日志 -->
+        <asyncLogger name="com.aliyun.openservices" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqRemoting" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqFiltersrv" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqNamesrv" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqBroker" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqConsole" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqClient" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqTools" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqCommon" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqStore" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqStoreError" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqTransaction" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqRebalanceLock" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqStats" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqDLQStats" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqDLQ" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqConsumerStats" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqCommercial" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqAccount" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqFlowControl" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqAuthorize" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqDuplication" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqProtection" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqWaterMark" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqFilter" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+        <asyncLogger name="RocketmqPop" level="INFO" additivity="false">
+            <appender-ref ref="RocketmqClientAppender"/>
+        </asyncLogger>
+
+        <!-- 阿里云dts日志 -->
+        <asyncLogger name="com.xes.mplat.trade.order.dts" level="INFO"/>
+        <asyncLogger name="com.aliyun.drc" level="INFO"/>
+        <!-- quartz日志 -->
+        <asyncLogger name="com.xes.lego.common.task.quartz" level="WARN"/>
+        <!-- 消息组件的日志 -->
+        <asyncLogger name="com.xes.mplat.common.message" level="INFO"/>
+        <asyncLogger name="com.xes.mplat.trade.refund.remote" level="INFO"/>
+        <asyncLogger name="accessLog" level="INFO" includeLocation="true" additivity="false">
+            <appender-ref ref="StatisticsLog"/>
+        </asyncLogger>
+        <asyncLogger name="businessLog" level="INFO" includeLocation="true" additivity="false">
+            <appender-ref ref="StatisticsLog"/>
+        </asyncLogger>
+        <asyncLogger name="com.xes.mplat.common.versioningmessage" level="INFO"/>
+    </Loggers>
+</Configuration>
