@@ -24,6 +24,11 @@ public enum PeopleEnum {
      * 黑种人
      */
     ASIAN(3, "黑种人"),
+
+    /**
+     * 混血儿
+     */
+    MIXED_RACE(4, "混血儿"),
     ;
 
     @Getter
