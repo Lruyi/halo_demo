@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 //@SpringBootTest
 //@RunWith(SpringRunner.class)
-class DemoApplicationTests {
+class HaloApplicationTests {
 
     @Autowired
     private DataSource dataSource;

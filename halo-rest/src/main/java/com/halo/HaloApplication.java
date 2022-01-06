@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication(scanBasePackages = {"com.halo.*"})
 @RestController
 @MapperScan(basePackages = {"com.halo.mapper"})
-public class DemoApplication {
+public class HaloApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-        System.out.println("DemoApplication IS START ... ");
+        SpringApplication.run(HaloApplication.class, args);
+        System.out.println("HaloApplication IS START ... ");
     }
 
 }
