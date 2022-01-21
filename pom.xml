@@ -46,6 +46,8 @@
         <hibernate-validator.version>7.0.1.Final</hibernate-validator.version>
         <mysql-connector-java.version>8.0.27</mysql-connector-java.version>
         <xxl-job.version>2.3.0</xxl-job.version>
+        <logstash-logback-encoder.version>7.0.1</logstash-logback-encoder.version>
+        <apm-toolkit-logback-1.x.version>8.8.0</apm-toolkit-logback-1.x.version>
     </properties>
 
     <!--声明此处进行依赖管理-->
@@ -207,6 +209,20 @@
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
             </dependency>
+
+            <!--logback 日志配置 开始-->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback-encoder.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${apm-toolkit-logback-1.x.version}</version>
+            </dependency>
+            <!--logback 日志配置 结束-->
 
         </dependencies>
     </dependencyManagement>

@@ -115,7 +115,7 @@ public class GreetingController {
         System.out.println(JSON.toJSONString(curriculumnIds));
 
 
-        String date11 = "2021-11-30 18:15:00";
+        String date11 = "2022-01-22 18:10:00";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date parse1 = sdf.parse(date11);
         System.out.println(parse1.getTime());

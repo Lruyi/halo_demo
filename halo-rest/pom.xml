@@ -27,6 +27,24 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <!--springboot 自带的健康检查-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--logback 日志配置 开始-->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.skywalking</groupId>
+            <artifactId>apm-toolkit-logback-1.x</artifactId>
+        </dependency>
+        <!--logback 日志配置 结束-->
+
         <dependency>
             <groupId>com.halo.demo</groupId>
             <artifactId>halo-common</artifactId>

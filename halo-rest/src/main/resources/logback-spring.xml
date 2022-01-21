@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+    <!-- prop配置,可以在下面的配置中引用此属性 -->
+<!--    <properties></properties>-->
+<!--    <springProperty scope="context" name="ROOT_PATH" source="logging.rootPath"/>-->
+    <springProperty scope="context" name="ROOT_PATH" source="/tmp/halo-logs"/>
+    <property name="APP_NAME" value="halo-project"/>
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="${ROOT_PATH}/${APP_NAME}/logs"/>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta}
+              %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+    <!--1. 输出到控制台-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>
+                    {
+                    "time": "%d{yyyy-MM-dd HH:mm:ss.SSS}",
+                    "level": "%level",
+                    "thread": "%thread",
+                    "class": "%logger{80}",
+                    "trace": "%tid",
+                    "message": "%message"
+                    }
+                </pattern>
+            </layout>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 按照每天生成日志文件 -->
+    <appender name="RollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${LOG_HOME}/catalinaJson-${APP_NAME}.log</file>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <provider class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.logstash.TraceIdJsonProvider">
+            </provider>
+        </encoder>
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 每天日志归档路径以及格式 -->
+            <fileNamePattern>${LOG_HOME}/catalinaJson-${APP_NAME}-%d{yyyy-MM-dd-HH}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文档保留天数-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 异步输出 -->
+    <appender name="asyncRollingFileAppender" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="RollingFileAppender"/>
+    </appender>
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="asyncRollingFileAppender"/>
+    </root>
+</configuration>
