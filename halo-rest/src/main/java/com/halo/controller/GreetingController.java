@@ -45,6 +45,7 @@ public class GreetingController {
 
     @GetMapping("/hello")
     public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+        log.info("这是一个get请求。。。。");
         return String.format("hello %s!", name);
     }
 

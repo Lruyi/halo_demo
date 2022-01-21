@@ -136,7 +136,7 @@ mybatis:
 # 显示SQL语句部分
 logging:
   # 配置日志输出路径
-  rootPath: /tmp/halo-logs
+  rootPath: /Users/liuruyi/tmp/halo-logs
   level:
     com.example.halo.demo.mapper: debug
 
