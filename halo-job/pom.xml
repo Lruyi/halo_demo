@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>MyProject</artifactId>
         <groupId>com.halo.demo</groupId>
         <version>1.1.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>halo-job</artifactId>
 
@@ -18,8 +18,23 @@
         </dependency>
 
         <dependency>
+            <groupId>com.halo.demo</groupId>
+            <artifactId>halo-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.halo.demo</groupId>
+            <artifactId>halo-pojo</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 
