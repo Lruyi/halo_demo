@@ -1,0 +1,79 @@
+
+server:
+  port: ${SERVER_PORT:8090}
+  servlet:
+    context-path: /report
+  tomcat:
+    uri-encoding: UTF-8
+  http:
+    encoding:
+      charset: UTF-8
+
+
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://192.168.158.5:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false
+    url: jdbc:mysql://localhost:3306/halo_ry?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false
+    username: root
+    password: mdd05081212
+    druid:
+      maxActive: 50
+      minIdle: 0
+      initialSize: 5
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall
+      filter:
+        stat:
+          logSlowSql: true
+          slowSqlMillis: 500 #毫秒
+      statViewServlet:
+        enabled: true
+        loginUsername: admin
+        loginUassword: 123456
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+
+# Redis配置
+  redis:
+    database: 2
+    host: 192.168.158.5
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: 1000
+
+# 报警邮箱
+  mail:
+    host: smtp.qq.com
+    port: 25
+    username: 876833807@qq.com
+    password: bqgwcragovnabbga
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+
+
+
+
+

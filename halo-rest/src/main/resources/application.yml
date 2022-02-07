@@ -1,0 +1,168 @@
+
+server:
+  port: ${SERVER_PORT:8090}
+  servlet:
+    context-path: /report
+  tomcat:
+    uri-encoding: UTF-8
+  http:
+    encoding:
+      charset: UTF-8
+
+
+spring:
+  # 激活哪一个环境的配置文件
+  profiles:
+    active: ${ACTIVE_ENV:}
+    # 服务名称
+  application:
+    name: halo-project
+  jackson:
+    default-property-inclusion: non_null # 全局jackson配置
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://192.168.158.5:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false
+    url: jdbc:mysql://localhost:3306/halo_ry?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false
+    username: root
+    password: mdd05081212
+    druid:
+      maxActive: 50
+      minIdle: 0
+      initialSize: 5
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall
+      filter:
+        stat:
+          logSlowSql: true
+          slowSqlMillis: 500 #毫秒
+      statViewServlet:
+        enabled: true
+        loginUsername: admin
+        loginUassword: 123456
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+
+#数据源
+#spring:
+#  datasource:
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://192.168.158.5:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false
+##    url: jdbc:mysql://localhost:3306/bugbye?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false
+#    username: root
+#    password: halo2021@7fa71?3J
+#    druid:
+#      maxActive: 50
+#      minIdle: 0
+#      initialSize: 5
+#      maxWait: 60000
+#      timeBetweenEvictionRunsMillis: 60000
+#      minEvictableIdleTimeMillis: 300000
+#      validationQuery: SELECT 1 FROM DUAL
+#      testWhileIdle: true
+#      testOnBorrow: false
+#      testOnReturn: false
+#      poolPreparedStatements: true
+#      #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+#      filters: stat,wall
+#      filter:
+#        stat:
+#          logSlowSql: true
+#          slowSqlMillis: 500 #毫秒
+#      statViewServlet:
+#        enabled: true
+#        loginUsername: admin
+#        loginUassword: 123456
+#      maxPoolPreparedStatementPerConnectionSize: 20
+#      useGlobalDataSourceStat: true
+#      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+
+# Redis配置
+  redis:
+    database: 2
+    host: 192.168.158.5
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: 1000
+
+# 报警邮箱
+  mail:
+    host: smtp.qq.com
+    port: 25
+    username: 876833807@qq.com
+    password: iivtrckmlbqsbfia
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+
+
+
+# MyBatis
+mybatis:
+  # 指定全局配置文件
+  config-location: classpath:/mybatis/mybatis-config.xml
+  mapper-locations: classpath*:mybatis/mapper/**/*Mapper.xml
+
+# 显示SQL语句部分
+logging:
+  # 配置日志输出路径
+  rootPath: /Users/liuruyi/tmp/halo-logs
+  level:
+    com.example.halo.demo.mapper: debug
+
+# 拦截器拦截如下URI
+interceptor:
+  addpathpatterns: "/api/person,/halo/hello"
+
+# xxl-job配置
+xxl:
+  job:
+    admin:
+      # 调度中心部署跟地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔。执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册；
+      addresses: http://127.0.0.1:8080/xxl-job-admin
+    executor:
+      # 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
+#      appname: ${spring.application.name}
+      appname: halo-project
+      # 执行器IP [选填]：默认为空表示自动获取IP，多网卡时可手动设置指定IP，该IP不会绑定Host仅作为通讯实用；地址信息用于 "执行器注册" 和 "调度中心请求并触发任务"；
+      ip:
+      # 执行器端口号 [选填]：小于等于0则自动获取；默认端口为9999，单机部署多个执行器时，注意要配置不同执行器端口；
+      port: 9999
+      # 执行器运行日志文件存储磁盘路径 [选填] ：需要对该路径拥有读写权限；为空则使用默认路径；
+      logpath: ./data/applogs/xxl-job/jobhandler
+      # 执行器日志保存天数 [选填] ：值大于3时生效，启用执行器Log文件定期清理功能，否则不生效；
+      logretentiondays: 10
+    # 执行器通讯TOKEN [选填]：非空时启用；
+    accessToken:
+
+
