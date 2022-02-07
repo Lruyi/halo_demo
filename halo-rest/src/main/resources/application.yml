@@ -110,20 +110,20 @@ spring:
         max-wait: 1000
 
 # 报警邮箱
-#  mail:
-#    host: smtp.qq.com
-#    port: 25
-#    username: 876833807@qq.com
-#    password: bqgwcragovnabbga
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
-#            required: true
-#          socketFactory:
-#            class: javax.net.ssl.SSLSocketFactory
+  mail:
+    host: smtp.qq.com
+    port: 25
+    username: 876833807@qq.com
+    password: iivtrckmlbqsbfia
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
 
 
 
