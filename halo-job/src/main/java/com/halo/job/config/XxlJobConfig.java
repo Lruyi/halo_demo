@@ -8,6 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+/**
+ * @author halo_ry
+ * @Date: 2022/01/29 14:40
+ */
 @Data
 @Slf4j
 @Configuration

@@ -2,6 +2,7 @@ package com.halo.job.handler;
 
 import com.halo.api.PeopleServiceApi;
 import com.halo.entity.People;
+import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
@@ -17,16 +18,17 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public abstract class HaloPeopleHandler extends AbstractCaptrueJob<People> {
+public class HaloPeopleHandler {
 
     @Autowired
     private PeopleServiceApi peopleServiceApi;
 
     @XxlJob("haloPeopleHandler")
-    public String handler() {
+    public ReturnT<String> handler() {
         XxlJobHelper.log("HaloPeopleHandler 的入参：", XxlJobHelper.getJobParam());
         List<People> peopleList = peopleServiceApi.list();
         XxlJobHelper.handleSuccess();
-        return "SUCCESS";
+        XxlJobHelper.log("是否执行成功：" + XxlJobHelper.handleSuccess());
+        return ReturnT.SUCCESS;
     }
 }
