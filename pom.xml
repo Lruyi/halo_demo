@@ -8,7 +8,7 @@
         <module>halo-rest</module>
         <module>halo-core</module>
         <module>halo-dao</module>
-        <module>halo-pojo</module>
+        <module>halo-entity</module>
         <module>halo-job</module>
     </modules>
 
@@ -85,7 +85,7 @@
 
             <dependency>
                 <groupId>com.halo.demo</groupId>
-                <artifactId>halo-pojo</artifactId>
+                <artifactId>halo-entity</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -14,8 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.halo.demo</groupId>
-            <artifactId>halo-pojo</artifactId>
-            <version>${parent.version}</version>
+            <artifactId>halo-entity</artifactId>
         </dependency>
 
         <dependency>

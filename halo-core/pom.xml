@@ -19,7 +19,7 @@
 
         <dependency>
             <groupId>com.halo.demo</groupId>
-            <artifactId>halo-pojo</artifactId>
+            <artifactId>halo-entity</artifactId>
         </dependency>
 
         <dependency>

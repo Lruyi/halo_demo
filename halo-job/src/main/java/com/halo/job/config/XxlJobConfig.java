@@ -23,7 +23,7 @@ public class XxlJobConfig {
     @Value("${xxl.job.executor.ip:}")
     private String ip;
     @Value("${xxl.job.executor.port:}")
-    private Integer port;
+    private Integer port = 9999;
     @Value("${xxl.job.accessToken:}")
     private String accessToken;
     @Value("${xxl.job.executor.logpath:}")
