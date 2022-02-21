@@ -1,5 +1,8 @@
 package com.halo.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -8,6 +11,8 @@ import java.util.Date;
 *  调额记录vo
 * @author Halo_ry
 */
+@Getter
+@Setter
 public class AdjustmentBillListVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -65,92 +70,4 @@ public class AdjustmentBillListVo implements Serializable {
 	 * 操作人
 	 */
 	private String operator;
-
-	public BigDecimal getAvailabilityAmountBefore() {
-		return availabilityAmountBefore;
-	}
-
-	public void setAvailabilityAmountBefore(BigDecimal availabilityAmountBefore) {
-		this.availabilityAmountBefore = availabilityAmountBefore;
-	}
-
-	public BigDecimal getAvailabilityAmountAfter() {
-		return availabilityAmountAfter;
-	}
-
-	public void setAvailabilityAmountAfter(BigDecimal availabilityAmountAfter) {
-		this.availabilityAmountAfter = availabilityAmountAfter;
-	}
-
-	public String getSn() {
-		return sn;
-	}
-
-	public void setSn(String sn) {
-		this.sn = sn;
-	}
-
-	public Integer getCustId() {
-		return custId;
-	}
-
-	public void setCustId(Integer custId) {
-		this.custId = custId;
-	}
-
-	public String getCustomerName() {
-		return customerName;
-	}
-
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	public Integer getMerchentType() {
-		return merchentType;
-	}
-
-	public void setMerchentType(Integer merchentType) {
-		this.merchentType = merchentType;
-	}
-
-	public BigDecimal getPreamount() {
-		return preamount;
-	}
-
-	public void setPreamount(BigDecimal preamount) {
-		this.preamount = preamount;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public String getOperator() {
-		return operator;
-	}
-
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
 }
