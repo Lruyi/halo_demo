@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Description:
@@ -68,6 +69,11 @@ public class PeopleService extends ServiceImpl<PeopleMapper, People> implements 
             result = Result.getFail("FAIL");
         }
         return result;
+    }
+
+    @Override
+    public List<People> queryPeopleList() {
+        return peopleMapper.queryPeopleList();
     }
 
 
