@@ -8,7 +8,7 @@
         <module>halo-rest</module>
         <module>halo-core</module>
         <module>halo-dao</module>
-        <module>halo-pojo</module>
+        <module>halo-entity</module>
         <module>halo-job</module>
     </modules>
 
@@ -21,7 +21,7 @@
 
     <groupId>com.halo.demo</groupId>
     <artifactId>MyProject</artifactId>
-    <version>1.2.0-RELEASE</version>
+    <version>1.3.0-RELEASE</version>
     <name>halo-pom</name>
     <description>My Demo project</description>
     <!--定义该工程用于进行构建管理-->
@@ -85,7 +85,7 @@
 
             <dependency>
                 <groupId>com.halo.demo</groupId>
-                <artifactId>halo-pojo</artifactId>
+                <artifactId>halo-entity</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

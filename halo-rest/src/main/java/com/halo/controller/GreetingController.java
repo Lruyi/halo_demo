@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -35,7 +33,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/halo")
 @Slf4j
 public class GreetingController {
-    //    private final Logger log = LoggerFactory.getLogger(GreetingController.class);
     public static final String TEMPLATE = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
 
@@ -51,7 +48,7 @@ public class GreetingController {
 
 //    @Cacheable
     @RequestMapping("/greeting")
-    public Greeting greeting(HttpServletRequest request, @RequestParam(value = "name", defaultValue = "World") String name) {
+    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         log.info("页面请求参数：{}", JSON.toJSONString(name));
         People people = new People();
         people.setId(2);
@@ -61,26 +58,37 @@ public class GreetingController {
     }
 
     /**
-     * 获取对应的人信息
+     * 获取对应的人信息(走缓存)
      *
-     * @param request
      * @param people
      * @return
      */
     @RequestMapping("/queryPeople")
-    public Result<People> queryPeople(HttpServletRequest request, HttpServletResponse response, @RequestBody @Validated People people) {
-        log.info("接口请求参数：{}", JSON.toJSONString(people));
+    public Result<People> queryPeople(@RequestBody @Validated People people) {
+        log.info("获取对应的人信息(走缓存)接口请求参数：{}", JSON.toJSONString(people));
         return peopleServiceApi.queryPeople(people);
+    }
+
+    /**
+     * 查询所有的人员消息（不走缓存）
+     * @return
+     */
+    @GetMapping("/queryPeopleList")
+    public Result<List<People>> queryPeopleList() {
+        log.info("接口请求查询所有的人员消息（不走缓存）");
+        List<People> list = peopleServiceApi.queryPeopleList();
+//        List<People> list = peopleServiceApi.list();
+        return Result.getSuccess(list);
     }
 
     /**
      * 保存
      *
-     * @param request
+     * @param people
      * @return
      */
     @RequestMapping("/savePeople")
-    public Result<People> savePeople(HttpServletRequest request, @RequestBody People people) {
+    public Result<People> savePeople(@RequestBody People people) {
         log.info("接口请求参数：{}", JSON.toJSONString(people));
         people.setCreateTime(new Date());
         return peopleServiceApi.savePeople(people);
@@ -90,7 +98,13 @@ public class GreetingController {
 
         Date now = new Date();
 
-        Date endConvertDate = DateUtils.truncate(now, Calendar.HOUR_OF_DAY);
+        long ddd = 1643509759833L;
+
+        Date date = new Date(1643509759833L);
+        Date endConvertDate = DateUtils.truncate(date, Calendar.HOUR_OF_DAY);
+        date = DateUtils.addDays(date, 0 - 30);
+
+//        Date endConvertDate = DateUtils.truncate(now, Calendar.HOUR_OF_DAY);
 
 
         String formate = "%s#%s";
@@ -208,14 +222,14 @@ public class GreetingController {
         ArrayList<String> list = Lists.newArrayList("as", "df", "vf");
         String s = JSON.toJSONString(list);
         System.out.println(s);
-        Date date = new Date("Tue Jan 20 03:00:00 CST 1970");
+        Date date1 = new Date("Tue Jan 20 03:00:00 CST 1970");
         String format = DateUtil.format(date, "yyyy-MM-dd hh:mm:ss");
         System.out.println(format);
 
-        String date1 = "2021-06-14 00:00:00";
+        String date2 = "2021-06-14 00:00:00";
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         try {
-            Date parse = format1.parse(date1);
+            Date parse = format1.parse(date2);
             System.out.println(parse.getTime());
             System.out.println(parse);
         } catch (ParseException e) {

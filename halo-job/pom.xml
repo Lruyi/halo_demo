@@ -6,7 +6,7 @@
     <parent>
         <artifactId>MyProject</artifactId>
         <groupId>com.halo.demo</groupId>
-        <version>1.2.0-RELEASE</version>
+        <version>1.3.0-RELEASE</version>
     </parent>
 
     <artifactId>halo-job</artifactId>
@@ -24,7 +24,7 @@
 
         <dependency>
             <groupId>com.halo.demo</groupId>
-            <artifactId>halo-pojo</artifactId>
+            <artifactId>halo-entity</artifactId>
         </dependency>
 
         <dependency>

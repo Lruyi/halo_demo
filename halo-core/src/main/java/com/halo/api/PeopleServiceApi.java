@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.halo.common.Result;
 import com.halo.entity.People;
 
+import java.util.List;
+
 /**
  * @Description:
  * @Author: Halo_ry
@@ -24,4 +26,7 @@ public interface PeopleServiceApi extends IService<People> {
      * @return
      */
     Result<People> savePeople(People people);
+
+    List<People> queryPeopleList();
+
 }
