@@ -126,6 +126,12 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
 
 
+mybatis-plus:
+  configuration:
+    # 控制台显示SQL日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
 
 # MyBatis
 mybatis:
@@ -142,7 +148,8 @@ logging:
   # 配置日志输出路径
   rootPath: /Users/liuruyi/tmp/halo-logs
   level:
-    com.example.halo.demo.mapper: debug
+    com.example.halo.demo.mapper: info
+
 
 # 拦截器拦截如下URI
 interceptor:

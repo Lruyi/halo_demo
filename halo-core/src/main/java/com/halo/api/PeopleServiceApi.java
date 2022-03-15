@@ -18,7 +18,7 @@ public interface PeopleServiceApi extends IService<People> {
      * @param people
      * @return
      */
-    Result<People> queryPeople(People people);
+    Result<People> queryPeopleCache(People people);
 
     /**
      * 新增
@@ -29,4 +29,5 @@ public interface PeopleServiceApi extends IService<People> {
 
     List<People> queryPeopleList();
 
+    Result<People> queryPeople(People people);
 }

@@ -33,7 +33,7 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-collections.version>3.2.2</commons-collections.version>
-        <hutool-all.version>5.7.17</hutool-all.version>
+        <hutool-all.version>5.7.21</hutool-all.version>
         <lombok.version>1.18.22</lombok.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <fastjson.version>1.2.79</fastjson.version>

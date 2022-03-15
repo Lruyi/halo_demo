@@ -1,6 +1,8 @@
 package com.halo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,6 +18,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class People implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -31,6 +34,20 @@ public class People implements Serializable {
      */
     private Integer type;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
+
+
+    @TableField(value = "ext_1")
+    private String peopleType;
+
+    @TableField(value = "ext_2")
+    private Integer grade;
+
+    /**
+     * 是否走缓存 默认FALSE
+     * 表示该属性不为数据库表字段，但又是必须使用的
+     */
+    @TableField(exist = false)
+    private boolean flag;
 }

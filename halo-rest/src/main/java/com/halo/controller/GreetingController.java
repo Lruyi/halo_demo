@@ -1,6 +1,7 @@
 package com.halo.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -53,7 +54,7 @@ public class GreetingController {
         People people = new People();
         people.setId(2);
         List<People> list = peopleServiceApi.list(new LambdaQueryWrapper<People>().eq(People::getId, people.getId()));
-        Result<People> result = peopleServiceApi.queryPeople(people);
+        Result<People> result = peopleServiceApi.queryPeopleCache(people);
         return new Greeting(counter.incrementAndGet(), String.format(TEMPLATE, name));
     }
 
@@ -66,6 +67,9 @@ public class GreetingController {
     @RequestMapping("/queryPeople")
     public Result<People> queryPeople(@RequestBody @Validated People people) {
         log.info("获取对应的人信息(走缓存)接口请求参数：{}", JSON.toJSONString(people));
+        if (people.isFlag()) {
+            return peopleServiceApi.queryPeopleCache(people);
+        }
         return peopleServiceApi.queryPeople(people);
     }
 
@@ -76,8 +80,8 @@ public class GreetingController {
     @GetMapping("/queryPeopleList")
     public Result<List<People>> queryPeopleList() {
         log.info("接口请求查询所有的人员消息（不走缓存）");
-        List<People> list = peopleServiceApi.queryPeopleList();
-//        List<People> list = peopleServiceApi.list();
+//        List<People> list = peopleServiceApi.queryPeopleList();
+        List<People> list = peopleServiceApi.list();
         return Result.getSuccess(list);
     }
 
@@ -96,9 +100,22 @@ public class GreetingController {
 
     public static void main(String[] args) throws ParseException {
 
-        Date now = new Date();
+        String startTime = "20220101";
+        String endTime = "20220402";
+        DateTime startDate = DateUtil.parse(startTime, "yyyyMMdd");
+        DateTime endDate = DateUtil.parse(endTime, "yyyyMMdd");
+        DateTime dateTime = DateUtil.offsetMonth(startDate, 3);
+        long l = DateUtil.betweenDay(startDate, endDate, false);
+        if (endDate.after(dateTime)) {
+            System.out.println("超出了三个月了");
+        }
+
+
+        Date now1 = new Date();
 
         long ddd = 1643509759833L;
+
+        long l1 = now1.getTime() + ddd;
 
         Date date = new Date(1643509759833L);
         Date endConvertDate = DateUtils.truncate(date, Calendar.HOUR_OF_DAY);
@@ -120,7 +137,7 @@ public class GreetingController {
         int a = 100;
         long b = 100L;
         System.out.println(a==b);
-
+        String now11 = DateUtil.now();
 
         // 获取消息重试sign
         System.out.println(System.currentTimeMillis() - 3600000);
@@ -131,8 +148,8 @@ public class GreetingController {
 
 
         String date11 = "2022-02-22 11:03:00";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date parse1 = sdf.parse(date11);
+        Date parse1 = DateUtil.parse(date11, "yyyy-MM-dd HH:mm:ss");
+
         System.out.println(parse1.getTime());
 
         System.out.println(System.currentTimeMillis());
@@ -148,18 +165,25 @@ public class GreetingController {
         peopleList.add(people2);
         People people = new People();
         people.setId(1);
-        people.setAge(15);
+        people.setAge(18);
         people.setType(1);
         people.setName("halo");
         people.setCreateTime(DateUtils.addHours(new Date(), -1));
         peopleList.add(people);
         People people1 = new People();
         people1.setId(1);
-        people1.setAge(18);
+        people1.setAge(15);
         people1.setType(3);
         people1.setName("mdd");
         people1.setCreateTime(new Date());
         peopleList.add(people1);
+
+        peopleList.forEach(people3 -> {
+            if (people3.getAge() >= 15 ) {
+                return;// 相当于continue
+            }
+            System.out.println(people3.getName() + "的年龄：" + people3.getAge());
+        });
 
         List<People> collect1 = peopleList.stream().sorted(new Comparator<People>() {
             @Override
@@ -180,7 +204,7 @@ public class GreetingController {
             }
         }
         peopleList.forEach(people3 -> {
-            if (people3.getAge() <= 15 ) {
+            if (people3.getAge() >= 15 ) {
                 return;// 相当于continue
             }
             System.out.println(people3.getName() + "的年龄：" + people3.getAge());
@@ -219,8 +243,8 @@ public class GreetingController {
             System.out.println(value.getDesc());
         }
 
-        ArrayList<String> list = Lists.newArrayList("as", "df", "vf");
-        String s = JSON.toJSONString(list);
+        ArrayList<String> list1 = Lists.newArrayList("as", "df", "vf");
+        String s = JSON.toJSONString(list1);
         System.out.println(s);
         Date date1 = new Date("Tue Jan 20 03:00:00 CST 1970");
         String format = DateUtil.format(date, "yyyy-MM-dd hh:mm:ss");

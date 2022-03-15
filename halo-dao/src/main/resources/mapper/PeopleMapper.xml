@@ -7,10 +7,12 @@
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="age" property="age" jdbcType="TINYINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="ext_1" property="peopleType" jdbcType="VARCHAR"/>
+        <result column="ext_2" property="grade" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, name, age, create_time
+    id, name, age, create_time, ext_1, ext_2
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">

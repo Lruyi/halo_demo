@@ -27,7 +27,7 @@ class HaloApplicationTests {
         Connection connection = dataSource.getConnection();
         People people = new People();
         people.setId(3);
-        Result<People> result = peopleServiceApi.queryPeople(people);
+        Result<People> result = peopleServiceApi.queryPeopleCache(people);
         System.out.println(JSON.toJSONString(result));
     }
 
