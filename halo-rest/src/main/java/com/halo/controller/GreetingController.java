@@ -137,7 +137,7 @@ public class GreetingController {
         int a = 100;
         long b = 100L;
         System.out.println(a==b);
-        String now11 = DateUtil.now();
+        System.out.println(Objects.equals(a, b));
 
         // 获取消息重试sign
         System.out.println(System.currentTimeMillis() - 3600000);
@@ -184,20 +184,20 @@ public class GreetingController {
             }
             System.out.println(people3.getName() + "的年龄：" + people3.getAge());
         });
-
+        // 升序
         List<People> collect1 = peopleList.stream().sorted(new Comparator<People>() {
             @Override
             public int compare(People o1, People o2) {
                 return o1.getCreateTime().compareTo(o2.getCreateTime());
             }
-        }).collect(Collectors.toList());// 升序
-
+        }).collect(Collectors.toList());
+        // 降序
         List<People> collect2 = peopleList.stream().sorted(new Comparator<People>() {
             @Override
             public int compare(People o1, People o2) {
                 return o2.getCreateTime().compareTo(o1.getCreateTime());
             }
-        }).collect(Collectors.toList());// 降序
+        }).collect(Collectors.toList());
         for (People people3 : peopleList) {
             if (people3.getAge() <= 15) {
                 break;
@@ -243,9 +243,6 @@ public class GreetingController {
             System.out.println(value.getDesc());
         }
 
-        ArrayList<String> list1 = Lists.newArrayList("as", "df", "vf");
-        String s = JSON.toJSONString(list1);
-        System.out.println(s);
         Date date1 = new Date("Tue Jan 20 03:00:00 CST 1970");
         String format = DateUtil.format(date, "yyyy-MM-dd hh:mm:ss");
         System.out.println(format);
