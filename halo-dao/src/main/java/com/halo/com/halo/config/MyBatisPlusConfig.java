@@ -25,10 +25,10 @@ import java.util.List;
 public class MyBatisPlusConfig {
 
     @Bean("sqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource, GlobalConfig globalConfig) throws Exception {
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource);
-        sqlSessionFactory.setGlobalConfig(globalConfig);
+        sqlSessionFactory.setGlobalConfig(globalConfig());
         sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/mapper/*.xml"));
 
         MybatisConfiguration configuration = new MybatisConfiguration();
@@ -49,5 +49,16 @@ public class MyBatisPlusConfig {
     public SqlInterceptor sqlInterceptor() {
         // todo
         return new SqlInterceptor();
+    }
+
+    /**
+     * 创建全局配置
+     *
+     * @return
+     */
+    @Bean
+    public GlobalConfig globalConfig() {
+        // 全局配置文件
+        return new GlobalConfig();
     }
 }
