@@ -10,6 +10,7 @@
         <module>halo-dao</module>
         <module>halo-entity</module>
         <module>halo-job</module>
+        <module>halo-job-admin</module>
     </modules>
 
     <parent>
@@ -47,7 +48,7 @@
         <mysql-connector-java.version>8.0.27</mysql-connector-java.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <logstash-logback-encoder.version>7.0.1</logstash-logback-encoder.version>
-        <apm-toolkit-logback-1.x.version>8.8.0</apm-toolkit-logback-1.x.version>
+        <apm-toolkit-logback-1.x.version>8.10.0</apm-toolkit-logback-1.x.version>
     </properties>
 
     <!--声明此处进行依赖管理-->

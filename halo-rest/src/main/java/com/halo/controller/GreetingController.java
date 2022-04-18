@@ -3,8 +3,11 @@ package com.halo.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.google.common.collect.Lists;
 import com.halo.api.PeopleServiceApi;
@@ -13,6 +16,7 @@ import com.halo.entity.Greeting;
 import com.halo.entity.People;
 import com.halo.enums.PeopleEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +25,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
@@ -81,6 +90,37 @@ public class GreetingController {
     public Result<List<People>> queryPeopleList() {
         log.info("接口请求查询所有的人员消息（不走缓存）");
 //        List<People> list = peopleServiceApi.queryPeopleList();
+        long minId = 0;
+//        AtomicBoolean flag = new AtomicBoolean(false);
+        boolean flag = false;
+        if (minId == 0) {
+            // 获取最小ID值
+            QueryWrapper<People> queryWrapper = new QueryWrapper<>();
+            QueryWrapper<People> select = queryWrapper.select(" MIN(id) AS id");
+            People one = peopleServiceApi.getOne(select);
+            if (Objects.nonNull(one)) {
+                minId = one.getId() - 1;
+            }
+        }
+        do {
+            List<People> list = peopleServiceApi.list(new LambdaQueryWrapper<People>()
+                    .select(People::getId, People::getAge, People::getName)
+                    .gt(People::getId, minId)
+                    .between(People::getCreateTime, "2021-07-07 19:00:00", "2021-07-07 20:20:00")
+                    .orderByAsc(People::getId)
+                    .last(" LIMIT 2")
+            );
+            if (CollectionUtils.isEmpty(list)) {
+                return null;
+            }
+            flag = true;
+            minId = list.get(list.size() - 1).getId();
+            log.info("minId:{}", minId);
+        } while (flag);
+
+
+
+
         List<People> list = peopleServiceApi.list();
         return Result.getSuccess(list);
     }
@@ -99,6 +139,19 @@ public class GreetingController {
     }
 
     public static void main(String[] args) throws ParseException {
+        long startTimeLong = 1648396800000L;
+
+        LocalDateTime of = LocalDateTimeUtil.of(startTimeLong);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        String startTime1 = "20220412";
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        startTime1 = sdf.format(calendar.getTime());
+
+        LocalDateTime nowDateTime = LocalDateTime.now();
+        LocalDateTime plus = nowDateTime.plus(10, ChronoUnit.MINUTES);
+        System.out.println(!nowDateTime.isAfter(plus));
+
 
         String startTime = "20220101";
         String endTime = "20220402";
@@ -113,11 +166,16 @@ public class GreetingController {
 
         Date now1 = new Date();
 
-        long ddd = 1643509759833L;
+        long ddd = 1649847194331L;
 
         long l1 = now1.getTime() + ddd;
 
-        Date date = new Date(1643509759833L);
+        Date date = new Date(1649847194331L);
+
+        if (!now1.before(date)) {
+            System.out.println(111111111);
+        }
+
         Date endConvertDate = DateUtils.truncate(date, Calendar.HOUR_OF_DAY);
         date = DateUtils.addDays(date, 0 - 30);
 
@@ -147,8 +205,15 @@ public class GreetingController {
         System.out.println(JSON.toJSONString(curriculumnIds));
 
 
-        String date11 = "2022-02-22 11:03:00";
+        String date11 = "2022-03-24 16:56:25";
+        String date1111 = "2022-03-24 16:57:27";
+        long aadfdf = 4500L;
         Date parse1 = DateUtil.parse(date11, "yyyy-MM-dd HH:mm:ss");
+        Date parse1111 = DateUtil.parse(date1111, "yyyy-MM-dd HH:mm:ss");
+        long l2 = parse1.getTime();
+        long l4 = l2 + aadfdf;
+        long l3 = parse1111.getTime();
+        System.out.println(l4 >= l3);
 
         System.out.println(parse1.getTime());
 
