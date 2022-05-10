@@ -4,8 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -23,14 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
@@ -80,6 +79,20 @@ public class GreetingController {
             return peopleServiceApi.queryPeopleCache(people);
         }
         return peopleServiceApi.queryPeople(people);
+    }
+
+    /**
+     * 根据ID物理删除一条记录
+     * @param id
+     * @return
+     */
+    @GetMapping("/deletedPeopleById")
+    public Result<Object> deletedPeopleById(@RequestParam("id") @NotBlank(message = "id不能为空") Integer id) {
+        boolean flag = peopleServiceApi.removeById(id);
+        if (!flag) {
+            return Result.getFail("删除失败");
+        }
+        return Result.getSuccess(flag, "删除成功");
     }
 
     /**
@@ -135,11 +148,49 @@ public class GreetingController {
     public Result<People> savePeople(@RequestBody People people) {
         log.info("接口请求参数：{}", JSON.toJSONString(people));
         people.setCreateTime(new Date());
-        return peopleServiceApi.savePeople(people);
+//        peopleServiceApi.save(people);
+//        System.out.println(people.getId());
+        boolean flag = peopleServiceApi.save(people);// 可以返回主键
+        return Result.getSuccess(people);
+    }
+
+    /**
+     * 保存
+     *
+     * @param peopleList
+     * @return
+     */
+    @RequestMapping("/saveBatchPeople")
+    public Result<List<People>> savePeople(@RequestBody List<People> peopleList) {
+        log.info("接口请求参数：{}", JSON.toJSONString(peopleList));
+        peopleList.forEach(people -> people.setCreateTime(new Date()));
+        boolean flag = peopleServiceApi.saveBatch(peopleList);// 可以批量返回主键
+        return Result.getSuccess(peopleList);
     }
 
     public static void main(String[] args) throws ParseException {
+
+        // fastjson2
+        String str = "{\"id\":123, \"age\":18}";
+        JSONObject jsonObject = JSON.parseObject(str);
+        int id = jsonObject.getIntValue("age");
+        String str111 = "[\"id\", 123]";
+        JSONArray jsonArray = JSON.parseArray(str111);
+        String name = jsonArray.getString(0);
+        int id1 = jsonArray.getIntValue(1);
+
+        System.out.println(DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+
+        int random = new Random().nextInt(5);
+        System.out.println("随机数：" + random);
+
+        String sssss = "{\"普通\":0,\"公益课\":517,\"诊断课\":515,\"中考班\":520,\"精品课\":256,\"新用户专享\":519,\"小班课\":514,\"盒子课\":513,\"前台随诊\":516,\"第二课堂\":1,\"赠送类课程\":4,\"微课\":128,\"自建课\":518,\"自习室\":521}";
+        Map<String, Object> map = JSON.parseObject(sssss, Map.class);
+
+
         long startTimeLong = 1648396800000L;
+
+        Date date3 = new Date(1650511080000L);
 
         LocalDateTime of = LocalDateTimeUtil.of(startTimeLong);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -6,7 +6,9 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="age" property="age" jdbcType="TINYINT"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="nationality" property="nationality" jdbcType="VARCHAR"/>
         <result column="ext_1" property="peopleType" jdbcType="VARCHAR"/>
         <result column="ext_2" property="grade" jdbcType="INTEGER"/>
     </resultMap>
@@ -18,21 +20,25 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from people
+        from tb_people
         where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from people
+    delete from tb_people
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
     <insert id="savePeople" parameterType="com.halo.entity.People" useGeneratedKeys="true" keyProperty="id">
-    insert into people (id, name, age, create_time)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+    insert into tb_people (id, name, age, type, create_time, nationality, ext_1, ext_2)
+    values (
+            #{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=TINYINT}, #{type,jdbcType=INTEGER},
+            #{createTime,jdbcType=TIMESTAMP}, #{nationality,jdbcType=VARCHAR}, #{peopleType,jdbcType=VARCHAR},
+            #{grade,jdbcType=INTEGER}
+            )
   </insert>
 
     <insert id="insertSelective" parameterType="com.halo.entity.People">
-        insert into people
+        insert into tb_people
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -63,7 +69,7 @@
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.halo.entity.People">
-        update people
+        update tb_people
         <set>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
@@ -75,7 +81,7 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.halo.entity.People">
-    update people
+    update tb_people
     set name = #{name,jdbcType=VARCHAR},
       age = #{age,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
@@ -85,7 +91,7 @@
         SELECT
             <include refid="Base_Column_List"/>
         FROM
-            `people`
+            `tb_people`
         <where>
             <include refid="where_query"/>
         </where>
@@ -95,7 +101,7 @@
         SELECT
             <include refid="Base_Column_List"/>
         FROM
-            people
+        tb_people
     </select>
 
     <sql id="where_query">

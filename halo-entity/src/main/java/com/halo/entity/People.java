@@ -1,6 +1,9 @@
 package com.halo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -18,10 +21,12 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@TableName("tb_people")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class People implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     @NotBlank(message="名字不能为空")
 //    @Length(max=2, message = "用户名不能超过2个字符")
@@ -36,6 +41,11 @@ public class People implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
+
+    /**
+     * 国籍
+     */
+    private String nationality;
 
 
     @TableField(value = "ext_1")
