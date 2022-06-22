@@ -1,0 +1,85 @@
+### web
+server:
+  port: 8080
+  servlet:
+    context-path: /xxl-job-admin
+
+### actuator
+#management:
+#  server:
+#    servlet:
+#      context-path: /actuator
+#  health:
+#    mail:
+#      enabled: true
+
+### web
+spring:
+  datasource:
+    hikari:
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: mdd05081212
+      maximum-pool-size: 30
+      minimum-idle: 10
+      pool-name: HikariCP
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 900000
+### resources
+  mvc:
+    servlet:
+      load-on-startup: 0
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
+
+### freemarker
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    charset: utf-8
+    request-context-attribute: request
+    settings: 0.##########
+
+
+
+  ### xxl-job, email
+  mail:
+    host: smtp.qq.com
+    port: 25
+    username: xxx@qq.com
+    from: xxx@qq.com
+    password: xxx
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+### xxl-job, access token
+xxl:
+  job:
+    accessToken:
+    i18n: zh_CN
+    triggerpool:
+      fast:
+        max: 200
+      slow:
+        max: 100
+    logretentiondays: 30
+
+
+### mybatis
+mybatis:
+  mapper-locations: classpath:/mybatis-mapper/*Mapper.xml
+
+
+
+
+

@@ -74,7 +74,11 @@ spring:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
 
-
-
+## 配置
+halo:
+  config:
+    beginTime: "03:00:00"
+    endTime: "18:00:00"
+    businessBelong: "-1,1:3:5,9,9"
 
 

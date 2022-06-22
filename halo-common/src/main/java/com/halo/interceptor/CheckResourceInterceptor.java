@@ -3,6 +3,7 @@ package com.halo.interceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Date: 2020/4/5 11:03
  */
 @Slf4j
+@Component
 public class CheckResourceInterceptor extends HandlerInterceptorAdapter {
 
     public static final ThreadLocal<Integer> BUSINESS_LINE_THREAD_LOCAL = new ThreadLocal<>();

@@ -1,6 +1,7 @@
 package com.halo.config;
 
 import com.halo.interceptor.CheckResourceInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,6 +19,9 @@ import static java.util.stream.Collectors.toList;
 @Configuration
 public class WebAppConfigurer implements WebMvcConfigurer {
 
+    @Autowired
+    private CheckResourceInterceptor checkResourceInterceptor;
+
 //    @Autowired
 //    private Environment env;
 
@@ -33,6 +37,6 @@ public class WebAppConfigurer implements WebMvcConfigurer {
         // 拦截所有请求 "/** "
 //        registry.addInterceptor(new CheckResourceInterceptor()).addPathPatterns("/api/person/**");
 //        registry.addInterceptor(new CheckResourceInterceptor()).addPathPatterns("/**").excludePathPatterns();
-        registry.addInterceptor(new CheckResourceInterceptor()).addPathPatterns(addPathPatterns.stream().map(String::trim).collect(toList()));
+        registry.addInterceptor(checkResourceInterceptor).addPathPatterns(addPathPatterns.stream().map(String::trim).collect(toList()));
     }
 }
