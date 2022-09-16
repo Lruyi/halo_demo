@@ -79,6 +79,7 @@ public class PeopleService extends ServiceImpl<PeopleMapper, People> implements 
         return peopleMapper.queryPeopleList();
     }
 
+
     @Override
     public Result<People> queryPeople(People people) {
         People one = this.getOne(new LambdaQueryWrapper<People>().
