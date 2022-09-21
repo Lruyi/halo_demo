@@ -89,7 +89,6 @@ public class GreetingController {
         log.info("这是一个get请求。。。。");
         redisTemplate.opsForSet().add(KEY, name);
         redisTemplate.expire(KEY, 10, TimeUnit.MILLISECONDS);
-
         Set<Object> members = redisTemplate.opsForSet().members(KEY);
         String collect = members.stream().map(Objects::toString).collect(Collectors.joining(","));
         return String.format("hello %s!", collect);
