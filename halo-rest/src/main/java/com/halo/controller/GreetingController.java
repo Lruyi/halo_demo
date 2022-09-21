@@ -7,7 +7,6 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.UUID;
-import com.alibaba.druid.wall.violation.ErrorCode;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -29,12 +28,8 @@ import com.halo.req.ParseTheWeekReq;
 import com.halo.rsp.PyClassInfoRsp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections.Factory;
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.commons.validator.routines.DateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.annotation.Validated;
@@ -49,7 +44,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -472,11 +466,6 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
-
-        boolean yyyyMMdd = DateValidator.getInstance().isValid("75531223", "yyyyMMdd");
-        boolean yyyyMMdd1 = DateValidator.getInstance().isValid("00531223", "yyyyMMdd");
-        System.out.println(yyyyMMdd);
-        System.out.println(yyyyMMdd1);
 
         Map<String, String> mmmmmp = new HashMap<>();
         mmmmmp.put("ni", "hao");
