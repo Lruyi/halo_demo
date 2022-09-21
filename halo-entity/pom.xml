@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.halo.demo</groupId>
         <artifactId>MyProject</artifactId>
-        <version>1.4.2-SNAPSHOT</version>
+        <version>1.4.2-RELEASE</version>
     </parent>
 
     <artifactId>halo-entity</artifactId>
