@@ -1,6 +1,6 @@
 package com.halo.mybatis;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.halo.entity.People;
 import com.halo.mapper.PeopleMapper;
 import org.apache.ibatis.io.Resources;

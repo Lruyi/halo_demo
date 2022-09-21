@@ -28,7 +28,7 @@ public class XxlJobConfig {
     private String accessToken;
     @Value("${xxl.job.executor.logpath:}")
     private String logPath;
-    @Value("${xxl.job.executor.logretentiondays:}")
+    @Value("${xxl.job.executor.logretentiondays:10}")
     private Integer logRetentionDays;
 
 //    @Profile({"my", "dev", "ext", "fz", "test", "prod", "pre"})
