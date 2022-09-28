@@ -27,6 +27,12 @@ public class HaloPeopleHandler {
     public ReturnT<String> handler() {
         XxlJobHelper.log("HaloPeopleHandler 的入参：", XxlJobHelper.getJobParam());
         List<People> peopleList = peopleServiceApi.list();
+        // 校验发送预警邮件代码
+//        String aa = null;
+//        if (aa.toString().equals("1")) {
+//            log.info("出错了");
+//        }
+
         XxlJobHelper.handleSuccess();
         XxlJobHelper.log("是否执行成功：" + XxlJobHelper.handleSuccess());
         return ReturnT.SUCCESS;
