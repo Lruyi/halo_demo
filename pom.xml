@@ -16,13 +16,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.3</version>
+        <version>2.7.4</version>
         <relativePath/>
     </parent>
 
     <groupId>com.halo.demo</groupId>
     <artifactId>MyProject</artifactId>
-    <version>1.4.2-RELEASE</version>
+    <version>1.4.3-RELEASE</version>
     <name>halo-pom</name>
     <description>My Demo project</description>
     <!--定义该工程用于进行构建管理-->
