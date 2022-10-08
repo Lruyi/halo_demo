@@ -30,7 +30,7 @@
 
     <properties>
 
-        <spring-boot.version>2.7.3</spring-boot.version>
+        <spring-boot.version>2.7.4</spring-boot.version>
         <spring.version>5.3.23</spring.version>
         <java.version>1.8</java.version>
         <junit.version>4.13.2</junit.version>
