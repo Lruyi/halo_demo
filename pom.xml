@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.4</version>
+        <version>2.7.5</version>
         <relativePath/>
     </parent>
 
@@ -30,7 +30,7 @@
 
     <properties>
 
-        <spring-boot.version>2.7.4</spring-boot.version>
+        <spring-boot.version>2.7.5</spring-boot.version>
         <spring.version>5.3.23</spring.version>
         <java.version>1.8</java.version>
         <junit.version>4.13.2</junit.version>
@@ -54,6 +54,7 @@
         <xxl-job.version>2.3.0</xxl-job.version>
         <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
         <apm-toolkit-logback-1.x.version>8.12.0</apm-toolkit-logback-1.x.version>
+        <easyexcel.version>3.1.1</easyexcel.version>
 
         <netty-all.version>4.1.82.Final</netty-all.version>
         <gson.version>2.9.1</gson.version>
@@ -189,6 +190,13 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!--Excel导入导出-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
             </dependency>
 
             <!--mysql 开始-->
