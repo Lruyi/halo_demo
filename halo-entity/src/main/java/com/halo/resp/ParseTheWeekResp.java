@@ -1,4 +1,4 @@
-package com.halo.rsp;
+package com.halo.resp;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.Map;
  * @Date: 2022/5/29 16:34
  */
 @Data
-public class ParseTheWeekRsp implements Serializable {
+public class ParseTheWeekResp implements Serializable {
     private static final long serialVersionUID = 5413795488337779391L;
 
     /**

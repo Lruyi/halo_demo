@@ -1,4 +1,4 @@
-package com.halo.rsp;
+package com.halo.resp;
 
 import lombok.*;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PyClassInfoRsp implements Serializable {
+public class PyClassInfoResp implements Serializable {
 
     private String tagTransName;
 
