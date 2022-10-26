@@ -19,15 +19,18 @@ import com.google.common.collect.Lists;
 import com.halo.api.PeopleServiceApi;
 import com.halo.common.Result;
 import com.halo.config.HaloConfig;
+import com.halo.dto.PeopleDTO;
 import com.halo.entity.Greeting;
 import com.halo.entity.People;
 import com.halo.enums.ArrangeRuleTypeEnum;
 import com.halo.enums.PeopleEnum;
 import com.halo.exception.BizException;
 import com.halo.req.ParseTheWeekReq;
-import com.halo.rsp.PyClassInfoRsp;
+import com.halo.resp.PyClassInfoResp;
+import com.halo.vo.ClassVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,6 +123,55 @@ public class GreetingController {
             return peopleServiceApi.queryPeopleCache(people);
         }
         return peopleServiceApi.queryPeople(people);
+    }
+
+    /**
+     * 测试jmeter读取CSV文件，调用post接口处理数据
+     * @param classVO
+     * @return
+     */
+    @PostMapping("importClassIds")
+    public Result<List<String>> importClassIds(@RequestBody ClassVO classVO) {
+        if (CollectionUtils.isNotEmpty(classVO.getClassId())) {
+            System.out.println(JSON.toJSONString(classVO.getClassId()));
+        }
+        return Result.getSuccess();
+    }
+
+    /**
+     * 测试jmeter读取CSV文件，调用get接口处理数据
+     * @param classId
+     * @return
+     */
+    @GetMapping(value= "importClassId")
+    public Result<String> importClassIds(@RequestParam String classId) {
+        if (StringUtils.isNotBlank(classId)) {
+            System.out.println("classId:"+ classId);
+        }
+        return Result.getSuccess(classId);
+    }
+
+    /**
+     * 测试postman读取CSV文件，调用get接口处理数据
+     * @param
+     * @return
+     */
+    @GetMapping(value= "importPeople")
+    public Result<String> importClassIds(@RequestParam String username, @RequestParam Integer age) {
+        System.out.println("username:" + username + " -- age:" + age);
+        return Result.getSuccess("username:" + username + " -- age:" + age);
+    }
+
+    /**
+     * 测试postman读取CSV文件，调用post接口处理数据
+     *
+     * @param peopleDTO
+     * @return
+     */
+    @PostMapping("importPeoples")
+    public Result<List<String>> importClassIds(@RequestBody PeopleDTO peopleDTO) {
+        System.out.println(JSON.toJSONString(peopleDTO));
+        return Result.getSuccess(JSON.toJSONString(peopleDTO));
     }
 
     /**
@@ -697,7 +749,7 @@ public class GreetingController {
         }
 
         String sjosnfs = "{\"arrangeRuleType\" : 2, \"arrangeRuleContent\": [\"1\",\"2\"]}";
-        PyClassInfoRsp.ArrangeRule body = JSON.parseObject(sjosnfs, new TypeReference<PyClassInfoRsp.ArrangeRule>() {});
+        PyClassInfoResp.ArrangeRule body = JSON.parseObject(sjosnfs, new TypeReference<PyClassInfoResp.ArrangeRule>() {});
 
         String jssong = "[{\"useLabel\":\"0\",\"tagTransName\":\"自學\",\"courseType\":0,\"gradeId\":\"1\",\"tagId\":\"14\",\"arrangeRule\":\"{\\\\\\\"arrangeRuleType\\\\\\\" : 2, \\\\\\\"arrangeRuleContent\\\\\\\": [\\\\\\\"1\\\\\\\",\\\\\\\"2\\\\\\\"]}\",\"arrangeType\":2,\"cityId\":\"010\",\"tagName\":\"自学\",\"categoryType\":16,\"courseMaxPersons\":200,\"classId\":\"5a90169d446a4c70b7564f37a1a9ded3\",\"id\":\"5a90169d446a4c70b7564f37a1a9ded3\",\"classType\":0,\"productType\":1}]";
         String jssong1 = "{\"useLabel\":\"0\",\"tagTransName\":\"自學\",\"courseType\":0,\"gradeId\":\"1\",\"tagId\":\"14\",\"arrangeRule\":\"{\\\\\\\"arrangeRuleType\\\\\\\" : 2, \\\\\\\"arrangeRuleContent\\\\\\\": [\\\\\\\"1\\\\\\\",\\\\\\\"2\\\\\\\"]}\",\"arrangeType\":2,\"cityId\":\"010\",\"tagName\":\"自学\",\"categoryType\":16,\"courseMaxPersons\":200,\"classId\":\"5a90169d446a4c70b7564f37a1a9ded3\",\"id\":\"5a90169d446a4c70b7564f37a1a9ded3\",\"classType\":0,\"productType\":1}";
