@@ -27,6 +27,7 @@ import com.halo.enums.PeopleEnum;
 import com.halo.exception.BizException;
 import com.halo.req.ParseTheWeekReq;
 import com.halo.resp.PyClassInfoResp;
+import com.halo.utils.MathUtil;
 import com.halo.vo.ClassVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -48,6 +49,7 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -519,6 +521,52 @@ public class GreetingController {
 
     public static void main(String[] args) throws ParseException {
 
+
+        AtomicInteger skip = new AtomicInteger(0);
+        System.out.println(skip.addAndGet(1));
+        System.out.println(skip.getAndAdd(1));
+
+        double priceTotal = 0D;
+        double currentPrice = 0D;
+        double overFlowPrice = 0D;
+        for (int i = 0; i < 5; i++) {
+            double price = 9D;
+            double stageAmount = (double) i * 3;
+            priceTotal += price;
+            currentPrice += stageAmount;
+            overFlowPrice += priceTotal - currentPrice;
+            priceTotal -= currentPrice;
+        }
+        for (int i = 0; i < 5; i++) {
+            double price = 9D;
+            double stageAmount = (double) i * 3;
+            priceTotal = MathUtil.add(priceTotal, price);
+            currentPrice = MathUtil.add(currentPrice, stageAmount);
+            overFlowPrice = MathUtil.add(overFlowPrice, MathUtil.sub(priceTotal, currentPrice));
+            priceTotal = MathUtil.sub(priceTotal, currentPrice);
+        }
+
+        System.out.println("priceTotal:"+ priceTotal);
+        System.out.println("currentPrice:"+ currentPrice);
+        System.out.println("overFlowPrice:"+ overFlowPrice);
+
+
+        System.out.println(63 & 63);
+
+        double price = 5.0D;
+
+        System.out.println(price * 1/3);
+
+        System.out.println(1/3);
+        double saadsdfdsaf = (double) 1/3;
+        System.out.println(saadsdfdsaf);
+
+
+        ArrayList<Integer> integerArrayList = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        int passedCount = 4;
+        List<Integer> collect5 = integerArrayList.stream().skip(passedCount).limit(0).collect(Collectors.toList());
+
+
         Map<String, String> mmmmmp = new HashMap<>();
         mmmmmp.put("ni", "hao");
         String wo = mmmmmp.get("wo");
@@ -539,7 +587,6 @@ public class GreetingController {
         String s = UUID.randomUUID().toString();
         System.out.println(UUID.fastUUID().toString().replaceAll("-",""));
         System.out.println(UUID.randomUUID().toString().replaceAll("-",""));
-
         SimpleDateFormat sfdd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String ddddddd = "2023-04-28 09:30:00";
         Date endTime1 = sfdd.parse(ddddddd);
@@ -743,7 +790,7 @@ public class GreetingController {
 
         // 对集合按照指定长度分段，每一个段为单独的集合，返回这个集合的列表
         ArrayList<String> listStr = Lists.newArrayList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n");
-        List<List<String>> split1 = ListUtil.split(listStr, 5);
+        List<List<String>> split1 = ListUtil.split(listStr, 20);
         for (List<String> list : split1) {
             System.out.println(JSON.toJSONString(list));
         }
@@ -890,6 +937,15 @@ public class GreetingController {
         people1.setName("mdd");
         people1.setCreateTime(new Date());
         peopleList.add(people1);
+
+        List<Object> collect6 = peopleList.stream().filter(people3 -> people3.getAge() >= 15).map(people3 -> {
+            People people4 = new People();
+            BeanUtil.copyProperties(people3, people4);
+            return people4;
+        }).collect(Collectors.toList());
+
+        System.out.println(collect6);
+
 
         HashMap<String, List<People>> mapppppp = new HashMap<>();
         mapppppp.put("1", peopleList);
