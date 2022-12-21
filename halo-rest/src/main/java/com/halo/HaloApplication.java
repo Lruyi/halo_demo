@@ -15,7 +15,7 @@ public class HaloApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HaloApplication.class, args);
-        System.out.println("HaloApplication START SUCCESS ... ");
+        System.out.println("HaloApplication STARTUP SUCCESS ... ");
     }
 
 }
