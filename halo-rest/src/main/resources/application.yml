@@ -148,7 +148,7 @@ logging:
   # 配置日志输出路径
   rootPath: /Users/liuruyi/tmp/halo-logs
   level:
-    com.example.halo.demo.mapper: info
+    com.halo.mapper: debug
 
 
 # 拦截器拦截如下URI

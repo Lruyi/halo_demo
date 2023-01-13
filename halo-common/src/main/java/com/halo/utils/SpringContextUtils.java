@@ -138,4 +138,19 @@ public class SpringContextUtils implements ApplicationContextAware, DisposableBe
      */
     private static void assertContextInjected() {
     }
+
+    /**
+     * 获取ApplicationName
+     */
+    public static String getApplicationName() {
+        return getApplicationContext().getApplicationName();
+    }
+
+
+    /**
+     * 获取spring.profiles.active
+     */
+    public static String getActiveProfile() {
+        return getApplicationContext().getEnvironment().getActiveProfiles()[0];
+    }
 }
