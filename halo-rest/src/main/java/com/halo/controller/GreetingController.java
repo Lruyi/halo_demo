@@ -26,6 +26,7 @@ import com.halo.enums.PeopleEnum;
 import com.halo.exception.BizException;
 import com.halo.req.ParseTheWeekReq;
 import com.halo.rsp.PyClassInfoRsp;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -45,6 +46,7 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -143,7 +145,7 @@ public class GreetingController {
     @GetMapping("/queryPeopleList")
     public Result<List<People>> queryPeopleList() {
         log.info("接口请求查询所有的人员消息（不走缓存）");
-//        List<People> list = peopleServiceApi.queryPeopleList();
+        List<People> list1 = peopleServiceApi.queryPeopleList();
         long minId = 0;
 //        AtomicBoolean flag = new AtomicBoolean(false);
         boolean flag = false;
@@ -464,8 +466,13 @@ public class GreetingController {
     }
 
 
-
     public static void main(String[] args) throws ParseException {
+
+        System.out.println(JSON.toJSONString(Lists.newArrayList("f646f2827fb94d358e2c907ab64c3e3a")));
+
+
+        AtomicInteger sort = new AtomicInteger(0);
+        System.out.println(sort.getAndIncrement());
 
         Map<String, String> mmmmmp = new HashMap<>();
         mmmmmp.put("ni", "hao");
@@ -838,6 +845,8 @@ public class GreetingController {
         people1.setName("mdd");
         people1.setCreateTime(new Date());
         peopleList.add(people1);
+
+        peopleList = peopleList.subList(0, 1);
 
         HashMap<String, List<People>> mapppppp = new HashMap<>();
         mapppppp.put("1", peopleList);
