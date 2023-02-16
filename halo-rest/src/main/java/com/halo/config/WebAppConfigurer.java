@@ -1,6 +1,7 @@
 package com.halo.config;
 
 import com.halo.interceptor.CheckResourceInterceptor;
+import com.halo.interceptor.XesOriginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,9 @@ public class WebAppConfigurer implements WebMvcConfigurer {
     @Autowired
     private CheckResourceInterceptor checkResourceInterceptor;
 
+    @Autowired
+    private XesOriginInterceptor xesOriginInterceptor;
+
 //    @Autowired
 //    private Environment env;
 
@@ -29,6 +33,9 @@ public class WebAppConfigurer implements WebMvcConfigurer {
 //    @Value("#{'${interceptor.addpathpatterns:}'.empty ? null : '${interceptor.addpathpatterns:}'.split(',')}")
     @Value("#{'${interceptor.addpathpatterns:}'.split(',')}")
     private List<String> addPathPatterns;
+
+    @Value("#{'${interceptor.xesOriginAddpathpatterns:}'.split(',')}")
+    private List<String> xesOriginAddpathpatterns;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -38,5 +45,6 @@ public class WebAppConfigurer implements WebMvcConfigurer {
 //        registry.addInterceptor(new CheckResourceInterceptor()).addPathPatterns("/api/person/**");
 //        registry.addInterceptor(new CheckResourceInterceptor()).addPathPatterns("/**").excludePathPatterns();
         registry.addInterceptor(checkResourceInterceptor).addPathPatterns(addPathPatterns.stream().map(String::trim).collect(toList()));
+        registry.addInterceptor(xesOriginInterceptor).addPathPatterns(xesOriginAddpathpatterns.stream().map(String::trim).collect(toList()));
     }
 }

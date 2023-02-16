@@ -9,7 +9,6 @@ server:
     encoding:
       charset: UTF-8
 
-
 spring:
   # 激活哪一个环境的配置文件
   profiles:
@@ -154,6 +153,8 @@ logging:
 # 拦截器拦截如下URI
 interceptor:
   addpathpatterns: "/api/person,/halo/hello"
+  xesOriginAddpathpatterns: "/halo/queryPeople"
+
 
 # xxl-job配置
 xxl:
@@ -175,5 +176,20 @@ xxl:
       logretentiondays: 10
     # 执行器通讯TOKEN [选填]：非空时启用；
     accessToken:
+
+# nacos 配置中心
+nacos:
+  config:
+    namespace: abbe6d60-47a3-4062-8b1d-e4bf4c350ffe
+    secret-key:
+    access-key:
+    server-addr: 127.0.0.1:8848
+    group: LESSON_GROUP
+    file-extension: yml
+    ext-config:
+      - { data-id: "xes-origin.yml", group: COMMON_GROUP, refresh: true }
+
+  discovery:
+    server-addr: 127.0.0.1:8848
 
 

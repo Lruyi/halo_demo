@@ -467,6 +467,13 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
+        int aaaaaaaaaaaa = 0;
+        for (int i = 0; i < 3; i++) {
+            System.out.println(UUID.fastUUID());
+        }
+
+
+        System.out.println(++aaaaaaaaaaaa);
 
         System.out.println(JSON.toJSONString(Lists.newArrayList("f646f2827fb94d358e2c907ab64c3e3a")));
 
