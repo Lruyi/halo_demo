@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.halo.mapper.SubaccountSeqDaoMapper">
-    <resultMap id="resultMap" type="com.halo.entity.SubaccountSeq">
+<mapper namespace="com.halo.mapper.SubaccountSeqMapper">
+    <resultMap id="resultMap" type="com.halo.req.SubaccountSeq">
         <id column="sn" property="sn"/>
+        <result column="id" property="id"/>
         <result column="subaccount_id" property="subaccountId"/>
         <result column="cust_id" property="custId"/>
         <result column="subaccount_type" property="subaccountType"/>
         <result column="Buiness_Type" property="buinessType"/>
         <result column="Order_Type" property="orderType"/>
         <result column="cust_account" property="custAccount"/>
-        <result column="seqflag" property="seqflag"/>
+        <result column="seq_flag" property="seqFlag"/>
         <result column="change_type" property="changeType"/>
         <result column="change_type" property="changeType"/>
-        <result column="Change_Amount" property="changeAmount"/>
-        <result column="preamount" property="preamount"/>
+        <result column="change_amount" property="changeAmount"/>
+        <result column="pre_amount" property="preAmount"/>
         <result column="availability_amount_before" property="availabilityAmountBefore"/>
         <result column="amount" property="amount"/>
         <result column="availability_amount_after" property="availabilityAmountAfter"/>
-        <result column="refsn" property="refsn"/>
-        <result column="refbatchid" property="refbatchid"/>
-        <result column="orderid" property="orderid"/>
-        <result column="Check_State" property="checkState"/>
+        <result column="ref_sn" property="refSn"/>
+        <result column="order_id" property="orderId"/>
+        <result column="check_state" property="checkState"/>
         <result column="create_time" property="createTime"/>
         <result column="remark" property="remark"/>
         <result column="operator" property="operator"/>
-        <result column="operator_login_name" property="operatorLoginName"/>
     </resultMap>
 
     <!--调额记录vo-->
@@ -32,8 +31,8 @@
         <id column="sn" property="sn"/>
         <result column="cust_id" property="custId"/>
         <result column="customer_name" property="customerName"/>
-        <result column="Merchent_Type" property="merchentType"/>
-        <result column="preamount" property="preamount"/>
+        <result column="merchent_type" property="merchentType"/>
+        <result column="pre_amount" property="preAmount"/>
         <result column="availability_amount_before" property="availabilityAmountBefore"/>
         <result column="amount" property="amount"/>
         <result column="availability_amount_after" property="availabilityAmountAfter"/>
@@ -47,7 +46,7 @@
     <resultMap id="FlowingBillListVoResultMap" type="com.halo.vo.FlowingBillListVo">
         <id column="sn" property="sn"/>
         <result column="cust_id" property="custId"/>
-        <result column="Merchent_Type" property="merchentType"/>
+        <result column="merchent_type" property="merchentType"/>
         <result column="other_cust_Id" property="otherCustId"/>
         <result column="business_association_sn" property="businessAssociationSn"/>
         <result column="buiness_type" property="buinessType"/>
@@ -58,15 +57,15 @@
         <result column="order_type" property="orderType"/>
         <result column="customer_name" property="customerName"/>
         <result column="supplier_name" property="supplierName"/>
-        <result column="Type_Operation" property="typeOperation"/>
-        <result column="Subaccount_Type" property="subAccountType"/>
-        <result column="SeqFlag" property="seqFlag"/>
+        <result column="type_operation" property="typeOperation"/>
+        <result column="subaccount_type" property="subAccountType"/>
+        <result column="seq_flag" property="seqFlag"/>
         <result column="transaction_amount" property="transactionAmount"/>
         <result column="available_credit" property="availableCredit"/>
         <result column="total_degree" property="totalDegree"/>
         <result column="total_amount" property="totalAmount"/>
         <result column="availability_amount" property="availabilityAmount"/>
-        <result column="Freeze_Amount" property="freezeAmount"/>
+        <result column="freeze_amount" property="freezeAmount"/>
         <result column="operator" property="operator"/>
         <result column="create_time" property="createTime"/>
         <result column="remark" property="remark"/>
@@ -79,17 +78,18 @@
 
     <!-- 字段名-->
     <sql id="field_name">
- 		sn,subaccount_id,cust_id,subaccount_type,Buiness_Type,Order_Type,cust_account,seqflag,
- 		change_type, Change_Amount,preamount, availability_amount_before,amount, availability_amount_after,refsn,
- 		refbatchid,orderid,Check_State,create_time,remark, operator, operator_login_name
- 	 </sql>
+        id, sn,subaccount_id,cust_id,subaccount_type,buiness_type,order_type,cust_account,seq_flag,
+ 		change_type, change_amount,pre_amount, availability_amount_before,amount, availability_amount_after,ref_sn,
+ 		order_id,check_state,create_time,remark, operator
+    </sql>
 
     <sql id="AdjustmentBill_ListVo_Field_Name">
+        s.id,
  		s.sn,
  		s.cust_id,
  		t.customer_name,
- 		t.Merchent_Type,
- 		s.preamount,
+ 		t.merchent_type,
+ 		s.pre_amount,
  		s.availability_amount_before,
  		s.amount,
  		s.availability_amount_after,
@@ -100,10 +100,9 @@
 
     <!-- 字段值-->
     <sql id="field_value">
- 		#{sn},#{subaccountId},#{custId},#{subaccountType},#{buinessType},#{orderType},
- 		#{custAccount},#{seqflag},#{changeType}, #{changeAmount},#{preamount}, #{availabilityAmountBefore},
- 		#{amount},#{availabilityAmountAfter},#{refsn},#{refbatchid},#{orderid},#{checkState},
- 		#{createTime},#{remark}, #{operator}, #{operatorLoginName}
+        #{id},#{sn},#{subaccountId},#{custId},#{subaccountType},#{buinessType},#{orderType},
+ 		#{custAccount},#{seqFlag},#{changeType}, #{changeAmount},#{preAmount}, #{availabilityAmountBefore},
+ 		#{amount},#{availabilityAmountAfter},#{refSn},#{orderId},#{checkState},#{createTime},#{remark}, #{operator}
  	 </sql>
 
     <!-- 查询条件-->
@@ -129,29 +128,26 @@
         <if test="null != custAccount and custAccount !='' ">
             AND cust_account != #{custAccount}
         </if>
-        <if test="null != seqflag and seqflag !='' ">
-            AND seqflag = #{seqflag}
+        <if test="null != seqFlag and seqFlag !='' ">
+            AND seq_flag = #{seqFlag}
         </if>
         <if test="null != changeType and changeType !='' ">
             AND change_type = #{changeType}
         </if>
-        <if test="null != preamount">
-            AND preamount =#{preamount}
+        <if test="null != preAmount">
+            AND pre_amount =#{preAmount}
         </if>
         <if test="null != amount">
             AND amount =#{amount}
         </if>
-        <if test="null != refsn and refsn !='' ">
-            AND refsn =#{refsn}
+        <if test="null != refSn and refSn !='' ">
+            AND ref_sn =#{refSn}
         </if>
-        <if test="null != refbatchid and refbatchid !='' ">
-            AND refbatchid =#{refbatchid}
-        </if>
-        <if test="null != orderid and orderid !='' ">
-            AND orderid =#{orderid}
+        <if test="null != orderId and orderId !='' ">
+            AND order_id =#{orderId}
         </if>
         <if test="null != checkState and checkState !='' ">
-            AND Check_State =#{checkState}
+            AND check_state =#{checkState}
         </if>
         <if test="null != createTime and createTime !='' ">
             AND create_time =#{createTime}
@@ -170,7 +166,7 @@
         <include refid="query_sql"/>
     </select>
 
-    <insert id="add" useGeneratedKeys="true" keyProperty="sn" parameterType="com.halo.entity.SubaccountSeq">
+    <insert id="add" useGeneratedKeys="true" keyProperty="sn" parameterType="com.halo.req.SubaccountSeq">
         insert into
         <include refid="table_name"/>
         (
@@ -181,7 +177,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.halo.entity.SubaccountSeq">
+    <update id="update" parameterType="com.halo.req.SubaccountSeq">
         UPDATE tb_subaccount_seq
         <trim prefix="set" suffixOverrides=",">
             <if test='null != sn'>sn = #{sn},</if>
@@ -189,21 +185,19 @@
             <if test='null != custId'>cust_id = #{custId},</if>
             <if test='null != subaccountType'>subaccount_type = #{subaccountType},</if>
             <if test='null != custAccount'>cust_account = #{custAccount},</if>
-            <if test='null != seqflag'>seqflag = #{seqflag},</if>
+            <if test='null != seqFlag'>seq_flag = #{seqFlag},</if>
             <if test='null != changeType'>change_type = #{changeType},</if>
-            <if test='null != changeAmount'>Change_Amount = #{changeAmount},</if>
-            <if test='null != preamount'>preamount = #{preamount},</if>
+            <if test='null != changeAmount'>change_amount = #{changeAmount},</if>
+            <if test='null != preAmount'>pre_amount = #{preAmount},</if>
             <if test='null != availabilityAmountBefore'>availability_amount_before = #{availabilityAmountBefore},</if>
             <if test='null != amount'>amount = #{amount},</if>
             <if test='null != availabilityAmountAfter'>availability_amount_after = #{availabilityAmountAfter},</if>
-            <if test='null != refsn'>refsn = #{refsn},</if>
-            <if test='null != refbatchid'>refbatchid = #{refbatchid},</if>
-            <if test='null != orderid'>orderid = #{orderid},</if>
-            <if test='null != checkState'>Check_State = #{checkState},</if>
+            <if test='null != refSn'>ref_sn = #{refSn},</if>
+            <if test='null != orderId'>order_id = #{orderId},</if>
+            <if test='null != checkState'>check_state = #{checkState},</if>
             <if test='null != createTime'>create_time = #{createTime},</if>
             <if test='null != remark'>remark = #{remark},</if>
             <if test='null != operator'>operator = #{operator},</if>
-            <if test='null != operatorLoginName'>operator_login_name = #{operatorLoginName},</if>
         </trim>
         WHERE sn = #{sn}
     </update>
@@ -224,7 +218,7 @@
             COUNT(*)
         FROM
             <include refid="table_name"/> s
-        LEFT JOIN tb_cust_info t ON s.Cust_Id = t.Cust_Id
+        LEFT JOIN tb_cust_info t ON s.cust_id = t.cust_id
         <where>
             <include refid="where_sql"/>
         </where>
@@ -236,8 +230,8 @@
             COUNT(*)
         FROM
             tb_subaccount_seq seq
-        LEFT JOIN tb_cust_info s ON seq.Cust_Id = s.Cust_Id
-        LEFT JOIN tb_subaccount c ON seq.Cust_Account = c.Cust_Account
+        LEFT JOIN tb_cust_info s ON seq.cust_id = s.cust_id
+        LEFT JOIN tb_subaccount c ON seq.cust_account = c.cust_account
         LEFT JOIN tb_pay_bill b ON b.sn = seq.REFSN
         LEFT JOIN tb_recharge_bill rec ON seq.REFSN = rec.sn
         LEFT JOIN tb_withdraw_bill w ON seq.REFSN = w.sn
@@ -251,10 +245,10 @@
             COUNT(*)
         FROM
             tb_pay_order o
-        LEFT JOIN tb_cust_info s ON o.Customer_Id = s.other_cust_Id AND s.Merchent_Type = 0
-        LEFT JOIN tb_cust_info ss ON o.Supplier_Id = s.other_cust_Id AND s.Merchent_Type = 1
-        LEFT JOIN tb_subaccount c ON s.Cust_Id = c.Cust_Id
-        LEFT JOIN tb_pay_bill b ON b.Order_SN = o.Order_SN
+        LEFT JOIN tb_cust_info s ON o.customer_id = s.other_cust_Id AND s.merchent_type = 0
+        LEFT JOIN tb_cust_info ss ON o.supplier_id = s.other_cust_Id AND s.merchent_type = 1
+        LEFT JOIN tb_subaccount c ON s.cust_id = c.cust_id
+        LEFT JOIN tb_pay_bill b ON b.order_sn = o.order_sn
         LEFT JOIN tb_subaccount_seq seq ON seq.REFSN = b.sn
         <where>
             <include refid="order_sql"/>
@@ -270,8 +264,8 @@
                 <include refid="Seq_Bill_Field"/>
             FROM
                 tb_subaccount_seq seq
-            LEFT JOIN tb_cust_info s ON seq.Cust_Id = s.Cust_Id
-            LEFT JOIN tb_subaccount c ON seq.Cust_Account = c.Cust_Account
+            LEFT JOIN tb_cust_info s ON seq.cust_id = s.cust_id
+            LEFT JOIN tb_subaccount c ON seq. cust_account = c.cust_account
             LEFT JOIN tb_pay_bill b ON b.sn = seq.REFSN
             LEFT JOIN tb_recharge_bill rec ON seq.REFSN = rec.sn
             LEFT JOIN tb_withdraw_bill w ON seq.REFSN = w.sn
@@ -285,16 +279,16 @@
                 <include refid="Order_Bill_Field"/>
             FROM
                 tb_pay_order o
-            LEFT JOIN tb_cust_info s ON o.Customer_Id = s.other_cust_Id AND s.Merchent_Type = 0
-            LEFT JOIN tb_cust_info ss ON o.Supplier_Id = s.other_cust_Id AND s.Merchent_Type = 1
-            LEFT JOIN tb_subaccount c ON s.Cust_Id = c.Cust_Id
-            LEFT JOIN tb_pay_bill b ON b.Order_SN = o.Order_SN
+            LEFT JOIN tb_cust_info s ON o.customer_id = s.other_cust_Id AND s.merchent_type = 0
+            LEFT JOIN tb_cust_info ss ON o.supplier_id = s.other_cust_Id AND s.merchent_type = 1
+            LEFT JOIN tb_subaccount c ON s.cust_id = c.cust_id
+            LEFT JOIN tb_pay_bill b ON b.order_sn = o.order_sn
             LEFT JOIN tb_subaccount_seq seq ON seq.REFSN = b.sn
             <where>
                 <include refid="order_sql"/>
             </where>
         ) seq_order
-        ORDER BY seq_order.Create_Time DESC
+        ORDER BY seq_order.create_time DESC
         <if test="pageNo != null and limit != null">
             LIMIT #{pageNo},#{limit}
         </if>
@@ -394,10 +388,10 @@
     <!--查询订单sql-->
     <sql id="order_sql">
         <if test="merchentType != null">
-            AND s.Merchent_Type = #{merchentType}
+            AND s.merchent_type = #{merchentType}
         </if>
         <if test="otherCustId != null">
-            AND s.other_cust_Id = #{otherCustId}
+            AND s.other_cust_id = #{otherCustId}
         </if>
         <if test="customerName != null">
             AND s.customer_name LIKE CONCAT('%' ,#{customerName}, '%')
@@ -407,130 +401,130 @@
         </if>
         <if test="snType != null and otherSn != null">
             <if test="snType == 1">
-                AND o.SUR_Order_SN = #{otherSn}
+                AND o.sur_order_sn = #{otherSn}
             </if>
             <if test="snType == 2">
-                AND b.Trade_No = #{otherSn}
+                AND b.trade_no = #{otherSn}
             </if>
         </if>
         <if test="buinessType != null and buinessType == 'ticket'">
             <if test="transactionType != null and transactionType == '07'">
-                AND o.Order_Type = '11'
+                AND o.order_type = '11'
             </if>
             <if test="transactionType != null and transactionType == '09'">
-                AND o.Order_Type IN('00', '04')
+                AND o.order_type IN('00', '04')
             </if>
             <if test="transactionType != null and transactionType == '10'">
-                AND o.Order_Type IN('03', '07')
+                AND o.order_type IN('03', '07')
             </if>
             <!--三方支付充值，这里300指支付宝支付-->
             <if test="transactionType != null and transactionType == '11'">
-                AND b.Channel_Type = '300'
+                AND b.channel_type = '300'
             </if>
             <if test="transactionType != null and transactionType == '12'">
-                AND o.Order_Type IN('01', '05')
+                AND o.order_type IN('01', '05')
             </if>
             <if test="transactionType != null and transactionType == '13'">
-                AND o.Order_Type IN('02', '06')
+                AND o.order_type IN('02', '06')
             </if>
         </if>
         <if test="paymentMethod != null">
             <if test="paymentMethod == '0'">
-                AND b.Channel_Type = '100'
+                AND b.channel_type = '100'
             </if>
             <if test="paymentMethod == '1'">
-                AND b.Channel_Type = '200'
+                AND b.channel_type = '200'
             </if>
             <if test="paymentMethod == '5'">
-                AND b.Channel_Type = '300'
+                AND b.channel_type = '300'
             </if>
         </if>
         <if test="domesticInternational != null">
             <if test="domesticInternational == 'domestic'">
-                AND b.Order_Type IN('00', '01', '02', '03')
+                AND b.order_type IN('00', '01', '02', '03')
             </if>
             <if test="domesticInternational == 'international'">
-                AND b.Order_Type IN('04', '05', '06', '07')
+                AND b.order_type IN('04', '05', '06', '07')
             </if>
         </if>
         <if test="typeOperation != null">
-            AND ss.Type_Operation = #{typeOperation}
+            AND ss.type_operation = #{typeOperation}
         </if>
         <if test="subAccountType != null">
-            AND seq.SubAccount_Type = #{subAccountType}
+            AND seq.subAccount_type = #{subAccountType}
         </if>
         <if test="seqFlag != null">
-            AND seq.SeqFlag = #{seqFlag}
+            AND seq.seq_flag = #{seqFlag}
         </if>
         <if test="operator != null">
             AND seq.operator = #{operator}
         </if>
         <if test="startDate != null and startDate != '' and endDate != null and endDate != '' ">
-            AND seq.Create_Time BETWEEN #{startDate} AND #{endDate}
+            AND seq.create_time BETWEEN #{startDate} AND #{endDate}
         </if>
     </sql>
 
     <!--流水vo字段-->
     <sql id="Seq_Bill_Field">
         seq.SN,
-        s.Cust_Id,
-        s.Merchent_Type,
+        s.cust_id,
+        s.merchent_type,
         s.other_cust_Id,
         seq.REFSN AS business_association_sn,
-        seq.Buiness_Type,
-        seq.Order_Type AS transaction_type,
-        CASE seq.Change_Type WHEN '01' THEN rec.Recharge_Type WHEN '03' THEN w.withdraw_the_way ELSE '' END AS payment_method,
-        CASE seq.Change_Type WHEN '01' THEN rec.payback_sn WHEN '03' THEN w.remittance_sn ELSE '' END AS trade_no,
-        CASE seq.Order_Type WHEN '00' OR '01' OR '02' OR '03' THEN 'domestic' WHEN '04' OR '05' OR '06' OR '07' THEN 'International' ELSE '' END AS domestic_international,
-        CASE s.Merchent_Type WHEN 0 THEN s.customer_name ELSE '' END AS customer_name,
-        CASE s.Merchent_Type WHEN 1 THEN s.customer_name ELSE '' END AS supplier_name,
-        CASE s.Merchent_Type WHEN 1 THEN s.Type_Operation ELSE '' END AS Type_Operation,
-        seq.SubAccount_Type,
-        seq.SeqFlag,
-        seq.Change_Amount AS transaction_amount,
-        CASE seq.SubAccount_Type WHEN '02' THEN seq.availability_amount_after ELSE '' END AS available_credit,
-        CASE seq.SubAccount_Type WHEN '02' THEN seq.Amount ELSE '' END AS total_degree,
-        CASE seq.SubAccount_Type WHEN '01' THEN seq.availability_amount_after ELSE '' END AS total_amount,
-        CASE seq.SubAccount_Type WHEN '01' THEN seq.Change_Amount ELSE '' END AS availability_amount,
-        CASE seq.SubAccount_Type WHEN '01' THEN seq.Amount ELSE '' END AS Freeze_Amount,
+        seq.buiness_type,
+        seq.order_type AS transaction_type,
+        CASE seq.change_type WHEN '01' THEN rec.recharge_type WHEN '03' THEN w.withdraw_the_way ELSE '' END AS payment_method,
+        CASE seq.change_type WHEN '01' THEN rec.payback_sn WHEN '03' THEN w.remittance_sn ELSE '' END AS trade_no,
+        CASE seq.order_type WHEN '00' OR '01' OR '02' OR '03' THEN 'domestic' WHEN '04' OR '05' OR '06' OR '07' THEN 'International' ELSE '' END AS domestic_international,
+        CASE s.merchent_type WHEN 0 THEN s.customer_name ELSE '' END AS customer_name,
+        CASE s.merchent_type WHEN 1 THEN s.customer_name ELSE '' END AS supplier_name,
+        CASE s.merchent_type WHEN 1 THEN s.type_operation ELSE '' END AS type_operation,
+        seq.subAccount_type,
+        seq.seq_flag,
+        seq.change_amount AS transaction_amount,
+        CASE seq.subAccount_type WHEN '02' THEN seq.availability_amount_after ELSE '' END AS available_credit,
+        CASE seq.subAccount_type WHEN '02' THEN seq.amount ELSE '' END AS total_degree,
+        CASE seq.subAccount_type WHEN '01' THEN seq.availability_amount_after ELSE '' END AS total_amount,
+        CASE seq.subAccount_type WHEN '01' THEN seq.change_amount ELSE '' END AS availability_amount,
+        CASE seq.subAccount_type WHEN '01' THEN seq.amount ELSE '' END AS freeze_amount,
         seq.operator,
-        seq.Create_Time,
-        seq.Remark
+        seq.create_time,
+        seq.remark
     </sql>
 
     <!--订单vo字段-->
     <sql id="Order_Bill_Field">
         seq.SN,
-        s.Cust_Id,
-        s.Merchent_Type,
+        s.cust_id,
+        s.merchent_type,
         s.other_cust_Id,
-        o.SUR_Order_SN AS business_association_sn,
-        seq.Buiness_Type,
-        seq.Order_Type AS transaction_type,
-        b.Channel_Type AS payment_method,
-        b.Trade_No,
-        CASE b.Order_Type WHEN '00' OR '01' OR '02' OR '03' THEN 'domestic' WHEN '04' OR '05' OR '06' OR '07' THEN 'International' ELSE '' END AS domestic_international,
+        o.sur_order_sn AS business_association_sn,
+        seq.buiness_type,
+        seq.order_type AS transaction_type,
+        b.channel_type AS payment_method,
+        b.trade_no,
+        CASE b.order_type WHEN '00' OR '01' OR '02' OR '03' THEN 'domestic' WHEN '04' OR '05' OR '06' OR '07' THEN 'International' ELSE '' END AS domestic_international,
         s.customer_name,
         ss.customer_name AS supplier_name,
-        ss.Type_Operation,
-        b.SubAccount_Type,
-        seq.SeqFlag,
-        b.Tran_Amount AS transaction_amount,
-        CASE seq.SubAccount_Type WHEN '02' THEN seq.availability_amount_after ELSE '' END AS available_credit,
-        CASE seq.SubAccount_Type WHEN '02' THEN seq.Amount ELSE '' END AS total_degree,
-        CASE seq.SubAccount_Type WHEN '01' THEN seq.availability_amount_after ELSE '' END AS total_amount,
-        CASE seq.SubAccount_Type WHEN '01' THEN seq.Change_Amount ELSE '' END AS availability_amount,
-        CASE seq.SubAccount_Type WHEN '01' THEN seq.Amount ELSE '' END AS Freeze_Amount,
+        ss.type_operation,
+        b.subAccount_type,
+        seq.seq_flag,
+        b.tran_amount AS transaction_amount,
+        CASE seq.subAccount_type WHEN '02' THEN seq.availability_amount_after ELSE '' END AS available_credit,
+        CASE seq.subAccount_type WHEN '02' THEN seq.amount ELSE '' END AS total_degree,
+        CASE seq.subAccount_type WHEN '01' THEN seq.availability_amount_after ELSE '' END AS total_amount,
+        CASE seq.subAccount_type WHEN '01' THEN seq.change_amount ELSE '' END AS availability_amount,
+        CASE seq.subAccount_type WHEN '01' THEN seq.amount ELSE '' END AS freeze_amount,
         seq.operator,
-        b.Create_Time,
-        seq.Remark
+        b.create_time,
+        seq.remark
     </sql>
 
     <!--平台展示流水vo字段-->
     <sql id="Flowing_Bill_List_Vo_Field">
         seq_order.sn,
         seq_order.cust_id,
-        seq_order.Merchent_Type,
+        seq_order.merchent_type,
         seq_order.other_cust_Id,
         seq_order.business_association_sn,
         seq_order.buiness_type,
@@ -540,15 +534,15 @@
         seq_order.domestic_international,
         seq_order.customer_name,
         seq_order.supplier_name,
-        seq_order.Type_Operation,
-        seq_order.Subaccount_Type,
-        seq_order.SeqFlag,
+        seq_order.type_operation,
+        seq_order.subaccount_type,
+        seq_order.seq_flag,
         seq_order.transaction_amount,
         seq_order.available_credit,
         seq_order.total_degree,
         seq_order.total_amount,
         seq_order.availability_amount,
-        seq_order.Freeze_Amount,
+        seq_order.freeze_amount,
         seq_order.operator,
         seq_order.create_time,
         seq_order.remark
@@ -564,22 +558,22 @@
         <where>
             <include refid="where_sql"/>
         </where>
-        ORDER BY s.Create_Time DESC
+        ORDER BY s.create_time DESC
         <if test="pageNo != null and limit != null">
             LIMIT #{pageNo}, #{limit}
         </if>
     </select>
 
     <sql id="where_sql">
-        AND s.Change_Type = '08'
+        AND s.change_type = '08'
         <if test="startDate != null and startDate != '' and endDate != null and endDate != '' ">
-            AND s.Create_Time BETWEEN #{startDate} AND #{endDate}
+            AND s.create_time BETWEEN #{startDate} AND #{endDate}
         </if>
         <if test="customerName != null and customerName != ''">
             AND t.customer_name LIKE CONCAT('%' ,#{customerName}, '%')
         </if>
         <if test="merchentType != null">
-            AND t.Merchent_Type = #{merchentType}
+            AND t.merchent_type = #{merchentType}
         </if>
         <if test="otherCustId != null">
             AND t.other_cust_Id = #{otherCustId}

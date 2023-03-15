@@ -1,7 +1,7 @@
 package com.halo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.halo.entity.SubaccountSeq;
+import com.halo.req.SubaccountSeq;
 import com.halo.vo.AdjustmentBillListVo;
 import com.halo.vo.FlowingBillListVo;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 * 账户资金变动流水表
 * @author HuangLei
 */
-public interface SubaccountSeqDaoMapper extends BaseMapper<SubaccountSeq> {
+public interface SubaccountSeqMapper extends BaseMapper<SubaccountSeq> {
 
     /**
     * [新增]
