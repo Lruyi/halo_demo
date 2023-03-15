@@ -39,7 +39,7 @@ public class AdjustmentBillListVo implements Serializable {
     /**
     * 变动前总金额
     */
-    private BigDecimal preamount;
+    private BigDecimal preAmount;
 
 	/**
 	 * 资金变动前可用总金额
