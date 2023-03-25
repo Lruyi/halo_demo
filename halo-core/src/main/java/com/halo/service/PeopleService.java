@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description:
@@ -46,7 +47,7 @@ public class PeopleService extends ServiceImpl<PeopleMapper, People> implements 
     @IfApiLogger(apiType = 6)
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public Result<People> queryPeopleCache(People people) {
-        Object obj = redisTemplate.opsForValue().get(people.getName() + RegexConstants.UNDERLINE + people.getId());
+        Object obj = redisTemplate.opsForValue().get(people.getName());
         if (obj != null){
             People bean = JSONUtil.toBean((String) obj, People.class);
             return Result.getSuccess(bean, "查询完毕");
@@ -54,8 +55,7 @@ public class PeopleService extends ServiceImpl<PeopleMapper, People> implements 
         People result = peopleMapper.queryPeople(people);
         if (result != null) {
             // 默认序列化方式是JdkSerializationRedisSerializer，需要改变的话，我们就自定义一些Redis的配置，RedisConfig
-            redisTemplate.opsForValue().set(result.getName() + RegexConstants.UNDERLINE + result.getId(), JSON.toJSONString(result));
-//            stringRedisTemplate.opsForValue().set(result.getName() + RegexConstants.UNDERLINE + result.getId() , JSON.toJSONString(result));
+            redisTemplate.opsForValue().set(result.getName(), JSON.toJSONString(result), 60, TimeUnit.SECONDS);
         }
         return Result.getSuccess(result, "查询完毕");
     }

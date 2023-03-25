@@ -18,6 +18,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.google.common.collect.Lists;
 import com.halo.api.PeopleServiceApi;
 import com.halo.common.Result;
+import com.halo.config.HaloCommon;
 import com.halo.config.HaloConfig;
 import com.halo.dto.PeopleDTO;
 import com.halo.entity.Greeting;
@@ -75,6 +76,9 @@ public class GreetingController {
     @Autowired
     private HaloConfig haloConfig;
 
+    @Autowired
+    private HaloCommon haloCommon;
+
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -119,6 +123,8 @@ public class GreetingController {
         Set<String> businessBelong = haloConfig.getBusinessBelong();
         System.out.println(beginTime);
         System.out.println(endTime);
+        String rootPath = haloCommon.getRootPath();
+        String level = haloCommon.getLevel();
 
 
         if (people.isFlag()) {

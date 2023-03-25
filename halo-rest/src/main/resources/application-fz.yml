@@ -1,0 +1,9 @@
+# 配置nacos
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: cdc210bb-cfd4-49c0-883f-e752fe2f29b0
+        access-key:
+        secret-key:
