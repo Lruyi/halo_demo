@@ -22,7 +22,7 @@
 
     <groupId>com.halo.demo</groupId>
     <artifactId>MyProject</artifactId>
-    <version>1.4.5-SNAPSHOT</version>
+    <version>1.4.5-RELEASE</version>
     <name>halo-pom</name>
     <description>My Demo project</description>
     <!--定义该工程用于进行构建管理-->
