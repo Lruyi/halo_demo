@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 /**
  * @author halo_ry
@@ -32,7 +31,7 @@ public class XxlJobConfig {
     private Integer logRetentionDays;
 
 //    @Profile({"my", "dev", "ext", "fz", "test", "prod", "pre"})
-    @Bean(initMethod = "start", destroyMethod = "destroy")
+    @Bean
     public XxlJobSpringExecutor xxlJobExecutor() {
         log.info(">>>>>>>>>>> xxl-job config init.");
         XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
