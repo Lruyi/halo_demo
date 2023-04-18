@@ -624,7 +624,7 @@ public class GreetingController {
         // 星期几对应的数值，周一：1，周三：3
         int weekNum = now.get(ChronoField.DAY_OF_WEEK);
 
-        LocalDate date12 = LocalDate.of(2022, 05, 29);
+        LocalDate date12 = LocalDate.of(2022, 5, 29);
         int year = date12.getYear();
         Month month = date12.getMonth();
         int day = date12.getDayOfMonth();
