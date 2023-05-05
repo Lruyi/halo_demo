@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.halo.api.PeopleServiceApi;
 import com.halo.common.Result;
 import com.halo.config.HaloConfig;
@@ -24,6 +25,7 @@ import com.halo.entity.Greeting;
 import com.halo.entity.People;
 import com.halo.enums.ArrangeRuleTypeEnum;
 import com.halo.enums.PeopleEnum;
+import com.halo.enums.PriceTypeEnum;
 import com.halo.exception.BizException;
 import com.halo.req.ParseTheWeekReq;
 import com.halo.resp.PyClassInfoResp;
@@ -113,7 +115,6 @@ public class GreetingController {
     @PostMapping("/queryPeople")
     public Result<People> queryPeople(@RequestBody @Validated People people) {
         log.info("获取对应的人信息(走缓存)接口请求参数：{}", JSON.toJSONString(people));
-
         String beginTime = haloConfig.getBeginTime();
         String endTime = haloConfig.getEndTime();
         Set<String> businessBelong = haloConfig.getBusinessBelong();
@@ -517,10 +518,63 @@ public class GreetingController {
         return dateList;
     }
 
+    /**
+     * 计算每个课次的金额
+     * @param classPrice 去掉报名费后的班级总金额
+     * @param totalCucNo 班级课次总数
+     * @return
+     */
+    public Map<Integer, Integer> calculationCucPrice(PriceTypeEnum priceTypeEnum, double classPrice, Integer totalCucNo) {
+        Map<Integer, Integer> cucMap = new HashMap<>(totalCucNo);
+        // 按总金额均摊
+        if (Objects.equals(priceTypeEnum, PriceTypeEnum.COURSE)) {
+            int averagePrice = (int) (classPrice / totalCucNo);
+            int remainingPrice = (int) (classPrice % totalCucNo);
+
+            int[] cucNoArr = new int[totalCucNo];
+            Arrays.fill(cucNoArr, averagePrice);
+            Arrays.sort(cucNoArr);
+
+            int[] myList = new int[totalCucNo];
+            Arrays.fill(myList, averagePrice);
+
+            for (int i = cucNoArr.length; i >= 0; i--) {
+                int value = cucNoArr[i];
+                if (remainingPrice >= 1) {
+                    cucMap.put(i, value + 1);
+                    remainingPrice--;
+                } else {
+                    cucMap.put(i, value);
+                }
+            }
+            return cucMap;
+        }
+        return Maps.newHashMap();
+    }
+
+    /**
+     * 按时间段拆分
+     * @param startDateStr 开始时间
+     * @param endDateStr 结束时间
+     * @return 日期集合
+     */
+    public static List<LocalDate> splitDateRange(String startDateStr, String endDateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+        List<LocalDate> dates = new ArrayList<>();
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            dates.add(date);
+        }
+        return dates;
+    }
+
+
 
 
     public static void main(String[] args) throws ParseException {
-
+        // 按时间段
+        List<LocalDate> dates = splitDateRange("2023-02-26", "2023-03-05");
 
         AtomicInteger skip = new AtomicInteger(0);
         System.out.println(skip.addAndGet(1));
@@ -771,11 +825,11 @@ public class GreetingController {
         bb.add("U");
 
         System.out.println("aa和bb是否相同：" + CollectionUtils.isEqualCollection(aa, bb));  // aa和bb是否相同：false
-        System.out.println("aa和bb去掉重："+CollectionUtils.disjunction(aa, bb));	// aa和bb去掉重：[Q, B, C, U, M]
-        System.out.println("aa和bb并集："+CollectionUtils.union(aa, bb));	// aa和bb并集：[A, Q, B, C, D, U, M]
-        System.out.println("aa和bb交集：" + CollectionUtils.intersection(aa,bb));	// aa和bb交集：[A, D]
-        System.out.println("aa和bb差集：" + CollectionUtils.subtract(aa,bb));	// aa和bb差集：[B, C]
-        System.out.println("bb和aa差集：" + CollectionUtils.subtract(bb,aa));	// bb和aa差集：[M, Q, U]
+        System.out.println("aa和bb去掉重："+CollectionUtils.disjunction(aa, bb));    // aa和bb去掉重：[Q, B, C, U, M]
+        System.out.println("aa和bb并集："+CollectionUtils.union(aa, bb));    // aa和bb并集：[A, Q, B, C, D, U, M]
+        System.out.println("aa和bb交集：" + CollectionUtils.intersection(aa,bb));    // aa和bb交集：[A, D]
+        System.out.println("aa和bb差集：" + CollectionUtils.subtract(aa,bb));    // aa和bb差集：[B, C]
+        System.out.println("bb和aa差集：" + CollectionUtils.subtract(bb,aa));    // bb和aa差集：[M, Q, U]
         System.out.println(JSON.toJSONString(CollectionUtils.subtract(aa,bb)));
 
         HashSet<String> hashSet = new HashSet<>();
