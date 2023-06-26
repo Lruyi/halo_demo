@@ -34,6 +34,7 @@
         <spring.version>5.3.28</spring.version>
         <java.version>1.8</java.version>
         <junit.version>4.13.2</junit.version>
+        <junit-jupiter.version>5.8.2</junit-jupiter.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-io.version>2.13.0</commons-io.version>
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -121,12 +122,21 @@
                 <version>${project.version}</version>
             </dependency>
 
+<!--            <dependency>-->
+<!--                <groupId>junit</groupId>-->
+<!--                <artifactId>junit</artifactId>-->
+<!--                <version>${junit.version}</version>-->
+<!--                <scope>test</scope>-->
+<!--            </dependency>-->
+
+            <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit-jupiter.version}</version>
                 <scope>test</scope>
             </dependency>
+
 
             <!--commons Utils工具-->
             <dependency>

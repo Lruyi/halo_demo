@@ -5,7 +5,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -15,7 +14,6 @@ import java.util.Map;
  * @Date: 2022/6/19 17:06
  */
 @Slf4j
-@Component
 public class SpringContextUtils implements ApplicationContextAware, DisposableBean {
 
     private static ApplicationContext applicationContext = null;

@@ -30,6 +30,7 @@ import com.halo.resp.PyClassInfoResp;
 import com.halo.utils.MathUtil;
 import com.halo.vo.ClassVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -51,6 +52,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -188,6 +191,12 @@ public class GreetingController {
             return Result.getFail("删除失败");
         }
         return Result.getSuccess(flag, "删除成功");
+    }
+
+    @PostMapping("/queryTest")
+    public Result<Object> queryTest () {
+        log.info("接口请求查询所有的人员消息（不走缓存）");
+        return Result.getSuccess("SUCCESS");
     }
 
     /**
@@ -517,10 +526,73 @@ public class GreetingController {
         return dateList;
     }
 
+    /**
+     * 按时间段拆分
+     * @param startDateStr 开始时间
+     * @param endDateStr 结束时间
+     * @return 日期集合
+     */
+    public static List<LocalDate> splitDateRange(String startDateStr, String endDateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+        List<LocalDate> dates = new ArrayList<>();
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            dates.add(date);
+        }
+        return dates;
+    }
+
 
 
     public static void main(String[] args) throws ParseException {
 
+        String startDateStr = "20200101";
+        String endDateStr = "20200131";
+        // 判断两个日期段是否大于7天
+        long betweenDay = DateUtil.betweenDay(DateUtil.parse(startDateStr, "yyyyMMdd"), DateUtil.parse(endDateStr, "yyyyMMdd"), false);
+        if (betweenDay > 7) {
+            System.out.println("日期段大于7天");
+        }
+        // 转成yyyy-MM-dd HH:mm:ss
+        Date beginOfDay = DateUtil.beginOfDay(DateUtil.parse(startDateStr, "yyyyMMdd"));// 2020-01-01 00:00:00
+        Date endOfDay = DateUtil.endOfDay(DateUtil.parse(endDateStr, "yyyyMMdd"));// 2020-01-31 23:59:59
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // 设置时区为 UTC
+        String dateString = dateFormat.format(new Date()); // 获取当前时间并转换为指定格式的字符串
+        System.out.println(dateString); // 输出转换后的字符串
+
+        String input = "[] 重新处理消息失败\n" +
+                "com.xes.mplat.trade.lesson.exception.BaseException: 未查询到调课目标班课表,classId:6c6fa1a75370439ab35634966593daab，registId:68ef0464562943a4828f50e799abf83e\n" +
+                "    at com.xes.mplat.trade.lesson.processor.studentclass.ChangeCourseStudentClassAggregationProcessor.process(ChangeCourseStudentClassAggrega";
+        String patternString = "[\\da-fA-F]{32}";
+
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(input);
+
+        StringBuffer output = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(output, "");
+        }
+        matcher.appendTail(output);
+
+        System.out.println(output.toString().length() >=100 ? output.toString().substring(0, 100) : output.toString());
+
+        if (matcher.matches()) {
+            System.out.println("Match found: " + matcher.group(0));
+        } else {
+            System.out.println("Match not found");
+        }
+
+
+        // MD5算法签名  sign = md5(taskid + "&" + timestamp + token)
+        String sign = DigestUtils.md5Hex("278&1592285175dd98e713eee47c65db528e6e0e3c08bc1c7eb867");
+        long timesss = System.currentTimeMillis() / 1000;
+        String sign1 = DigestUtils.md5Hex("1335871&1686204796" + "4069405402f4e3b2762dd2a28ff3de1942cbfae3");
+        // 按时间段
+        List<LocalDate> dates = splitDateRange("2023-02-26", "2023-03-05");
 
         AtomicInteger skip = new AtomicInteger(0);
         System.out.println(skip.addAndGet(1));
@@ -937,6 +1009,10 @@ public class GreetingController {
         people1.setName("mdd");
         people1.setCreateTime(new Date());
         peopleList.add(people1);
+
+        IntSummaryStatistics collect7 = peopleList.stream().collect(Collectors.summarizingInt(People::getAge));
+        int max = collect7.getMax();
+        int min = collect7.getMin();
 
         List<Object> collect6 = peopleList.stream().filter(people3 -> people3.getAge() >= 15).map(people3 -> {
             People people4 = new People();
