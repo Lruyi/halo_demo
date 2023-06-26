@@ -194,10 +194,11 @@ public class GreetingController {
         return Result.getSuccess(flag, "删除成功");
     }
 
-    @PostMapping("/queryTest")
+    @GetMapping("/queryTest")
     public Result<Object> queryTest () {
         log.info("接口请求查询所有的人员消息（不走缓存）");
-        return Result.getSuccess("SUCCESS");
+        List<People> list = peopleServiceApi.list();
+        return Result.getSuccess(list);
     }
 
     /**
@@ -629,8 +630,6 @@ public class GreetingController {
         String sign = DigestUtils.md5Hex("278&1592285175dd98e713eee47c65db528e6e0e3c08bc1c7eb867");
         long timesss = System.currentTimeMillis() / 1000;
         String sign1 = DigestUtils.md5Hex("1335871&1686204796" + "4069405402f4e3b2762dd2a28ff3de1942cbfae3");
-        // 按时间段
-        List<LocalDate> dates = splitDateRange("2023-02-26", "2023-03-05");
 
         AtomicInteger skip = new AtomicInteger(0);
         System.out.println(skip.addAndGet(1));
