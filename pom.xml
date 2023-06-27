@@ -22,7 +22,7 @@
 
     <groupId>com.halo.demo</groupId>
     <artifactId>MyProject</artifactId>
-    <version>1.4.5-RELEASE</version>
+    <version>1.4.6-RELEASE</version>
     <name>halo-pom</name>
     <description>My Demo project</description>
     <!--定义该工程用于进行构建管理-->
@@ -52,7 +52,7 @@
         <mybatis-spring-boot-starter.version>2.3.1</mybatis-spring-boot-starter.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
-        <xxl-job.version>2.3.0</xxl-job.version>
+        <xxl-job.version>2.4.0</xxl-job.version>
         <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
         <apm-toolkit-logback-1.x.version>8.12.0</apm-toolkit-logback-1.x.version>
         <easyexcel.version>3.3.2</easyexcel.version>
