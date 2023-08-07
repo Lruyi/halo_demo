@@ -56,6 +56,7 @@
         <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
         <apm-toolkit-logback-1.x.version>8.12.0</apm-toolkit-logback-1.x.version>
         <easyexcel.version>3.3.2</easyexcel.version>
+        <zxing.version>3.5.2</zxing.version>
 
         <netty-all.version>4.1.85.Final</netty-all.version>
         <gson.version>2.10</gson.version>
@@ -200,6 +201,20 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
+            <!--生成二维码-->
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+
 
             <!--Excel导入导出-->
             <dependency>
