@@ -2,12 +2,11 @@ package com.halo.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.*;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.HybridBinarizer;
 import com.halo.api.PeopleServiceApi;
-import com.halo.common.Result;
 import com.halo.entity.People;
 import com.halo.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +20,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +82,7 @@ public class QRCodeController {
      * @return
      */
     @GetMapping("/genQRCodeByPeopleId")
-    public Result<Object> genQRCodeByPeopleId(@RequestParam("id") String id) {
+    public Object genQRCodeByPeopleId(@RequestParam("id") String id) {
         People people = peopleServiceApi.getOne(new LambdaQueryWrapper<People>().eq(People::getId, id));
         if (people == null) {
             throw new BusinessException("用户不存在");
@@ -116,6 +116,33 @@ public class QRCodeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Result.getSuccess("二维码生成成功！");
+        return "二维码生成成功！";
+    }
+
+    /**
+     * 扫描二维码，获取信息
+     * @return
+     */
+    @GetMapping("/QRCodeScanner")
+    public Object QRCodeScanner() {
+        // 二维码图片文件
+        File qrCodeFile = new File("王鸥-qrcode.png");
+
+        try {
+            BufferedImage bufferedImage = ImageIO.read(qrCodeFile);
+            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(bufferedImage)));
+
+            // 解析二维码内容
+            Result result = new MultiFormatReader().decode(binaryBitmap);
+
+            // 获取扫码的消息
+            String message = result.getText();
+
+            System.out.println("扫码成功！消息内容为：" + message);
+            return "扫码成功！消息内容为：" + message;
+        } catch (IOException | NotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
