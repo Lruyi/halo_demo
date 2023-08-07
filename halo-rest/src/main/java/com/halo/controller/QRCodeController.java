@@ -76,6 +76,11 @@ public class QRCodeController {
         return null;
     }
 
+    /**
+     * 根据用户id生成二维码
+     * @param id
+     * @return
+     */
     @GetMapping("/genQRCodeByPeopleId")
     public Result<Object> genQRCodeByPeopleId(@RequestParam("id") String id) {
         People people = peopleServiceApi.getOne(new LambdaQueryWrapper<People>().eq(People::getId, id));
