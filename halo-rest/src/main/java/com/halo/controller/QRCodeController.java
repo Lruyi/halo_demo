@@ -7,6 +7,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.halo.api.PeopleServiceApi;
+import com.halo.common.ResultServer;
 import com.halo.entity.People;
 import com.halo.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -39,10 +40,11 @@ public class QRCodeController {
 
     /**
      * 生成二维码
+     *
      * @return
      */
     @GetMapping("/genQRCodeImage")
-    public Object genQRCodeImage() {
+    public ResultServer<Object> genQRCodeImage() {
         // 要生成二维码的数据
         String data = "This is my first QR Code";
         // 二维码图片的宽度
@@ -70,19 +72,20 @@ public class QRCodeController {
             ImageIO.write(image, "png", qrCodeFile);
 
             System.out.println("二维码生成成功！");
+            return ResultServer.getSuccess("二维码生成成功！");
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BusinessException("二维码生成失败！" + e.getMessage());
         }
-        return null;
     }
 
     /**
      * 根据用户id生成二维码
+     *
      * @param id
      * @return
      */
     @GetMapping("/genQRCodeByPeopleId")
-    public Object genQRCodeByPeopleId(@RequestParam("id") String id) {
+    public ResultServer<Object> genQRCodeByPeopleId(@RequestParam("id") String id) {
         People people = peopleServiceApi.getOne(new LambdaQueryWrapper<People>().eq(People::getId, id));
         if (people == null) {
             throw new BusinessException("用户不存在");
@@ -112,19 +115,19 @@ public class QRCodeController {
             File qrCodeFile = new File(people.getName() + "-qrcode.png");
             ImageIO.write(image, "png", qrCodeFile);
 
-            System.out.println("二维码生成成功！");
+            return ResultServer.getSuccess("二维码生成成功！");
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BusinessException("二维码生成失败！" + e.getMessage());
         }
-        return "二维码生成成功！";
     }
 
     /**
      * 扫描二维码，获取信息
+     *
      * @return
      */
     @GetMapping("/QRCodeScanner")
-    public Object QRCodeScanner() {
+    public ResultServer<Object> QRCodeScanner() {
         // 二维码图片文件
         File qrCodeFile = new File("王鸥-qrcode.png");
 
@@ -139,10 +142,9 @@ public class QRCodeController {
             String message = result.getText();
 
             System.out.println("扫码成功！消息内容为：" + message);
-            return "扫码成功！消息内容为：" + message;
+            return ResultServer.getSuccess("扫码成功！消息内容为：" + message);
         } catch (IOException | NotFoundException e) {
-            e.printStackTrace();
+            throw new BusinessException("二维码生成失败！" + e.getMessage());
         }
-        return null;
     }
 }
