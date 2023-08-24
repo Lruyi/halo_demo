@@ -39,7 +39,7 @@
         <commons-io.version>2.13.0</commons-io.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <hutool-all.version>5.8.20</hutool-all.version>
+        <hutool-all.version>5.8.21</hutool-all.version>
         <lombok.version>1.18.28</lombok.version>
         <!--todo 升级后无法打印日志，暂未升级-->
         <logback-classic.version>1.2.11</logback-classic.version>

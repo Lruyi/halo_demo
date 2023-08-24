@@ -47,6 +47,7 @@ public class ProductIdImportListener extends AnalysisEventListener<ProductIdDTO>
      */
     @Override
     public void doAfterAllAnalysed(AnalysisContext context) {
+        System.out.println("解析完成后,全部回调,productIdList: " + productIdList);
         productIdList.clear();
     }
 

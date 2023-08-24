@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -135,6 +134,7 @@ public class EasyExcelController {
              *
              * sheet    // 设置sheet，默认读取第一个
              * headRowNumber    // 设置标题所在行数
+             * doReadSync   // 同步读取excel
              */
             list = EasyExcel.read(file.getInputStream()).head(ProductIdDTO.class).sheet().headRowNumber(1).doReadSync();
         } catch (IOException e) {
@@ -156,6 +156,7 @@ public class EasyExcelController {
             /**
              * registerReadListener  // 注册监听器，可以在这里校验字段
              * headRowNumber // 设置标题所在行数
+             * doReadSync   // 同步读取excel
              */
             productIdDTOList = EasyExcel.read(file.getInputStream())
                     .registerConverter(new StringConverter())
@@ -169,6 +170,33 @@ public class EasyExcelController {
             throw new BusinessException(ErrorCode.FAILURE, "Excel上传商品ID异常");
         }
         return Result.getSuccess(productIdDTOList);
+    }
+
+    /**
+     * 上传文件+校验字段有效性
+     * @param file
+     * @return
+     */
+    @PostMapping("importProductIdV3")
+    public Result<Object> importProductIdV3 (@RequestBody MultipartFile file) {
+        try {
+            /**
+             * registerReadListener  // 注册监听器，可以在这里校验字段
+             * headRowNumber // 设置标题所在行数
+             * doRead   // 异步读取，读取完毕后会回调监听器
+             */
+            EasyExcel.read(file.getInputStream())
+                    .registerConverter(new StringConverter())
+                    .registerReadListener(new ProductIdImportListener())
+                    .head(ProductIdDTO.class)
+                    .sheet()
+                    .headRowNumber(1)
+                    .doRead();
+        } catch (IOException e) {
+            log.error("importProductIdExcel error .", e);
+            throw new BusinessException(ErrorCode.FAILURE, "Excel上传商品ID异常");
+        }
+        return Result.getSuccess("解析完全部回调");
     }
 
     /**
