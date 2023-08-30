@@ -36,6 +36,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -583,6 +584,8 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
+
+        System.out.println(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
         // 按时间段
         List<LocalDate> dates = splitDateRange("2023-02-26", "2023-03-05");
 
@@ -665,7 +668,6 @@ public class GreetingController {
         double price = 5.0D;
 
         System.out.println(price * 1/3);
-
         System.out.println(1/3);
         double saadsdfdsaf = (double) 1/3;
         System.out.println(saadsdfdsaf);
@@ -1047,15 +1049,22 @@ public class GreetingController {
         people1.setCreateTime(new Date());
         peopleList.add(people1);
 
+        Map<Integer, Integer> collect8 = peopleList.stream().collect(Collectors.groupingBy(People::getType, Collectors.summingInt(People::getAge)));
+        Map<Integer, IntSummaryStatistics> collect9 = peopleList.stream().collect(Collectors.groupingBy(People::getType, Collectors.summarizingInt(People::getAge)));
+        TreeMap<Integer, List<People>> collect10 = peopleList.stream().collect(Collectors.groupingBy(People::getAge, TreeMap::new, Collectors.toList()));
         IntSummaryStatistics collect7 = peopleList.stream().collect(Collectors.summarizingInt(People::getAge));
         int max = collect7.getMax();
         int min = collect7.getMin();
+        double average = collect7.getAverage();
+        long sum = collect7.getSum();
+        long count = collect7.getCount();
 
         List<Object> collect6 = peopleList.stream().filter(people3 -> people3.getAge() >= 15).map(people3 -> {
             People people4 = new People();
             BeanUtil.copyProperties(people3, people4);
             return people4;
         }).collect(Collectors.toList());
+
 
         System.out.println(collect6);
 
