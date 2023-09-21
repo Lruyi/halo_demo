@@ -11,6 +11,7 @@
         <module>halo-entity</module>
         <module>halo-job</module>
         <module>halo-xxl-job</module>
+        <module>halo-remote</module>
     </modules>
 
     <parent>
@@ -31,6 +32,7 @@
     <properties>
 
         <spring-boot.version>2.7.13</spring-boot.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring.version>5.3.28</spring.version>
         <java.version>1.8</java.version>
         <junit.version>4.13.2</junit.version>
@@ -50,7 +52,7 @@
         <druid-spring-boot-starter.version>1.2.18</druid-spring-boot-starter.version>
         <mybatis-plus-boot-starter.version>3.5.3.1</mybatis-plus-boot-starter.version>
         <mybatis-spring-boot-starter.version>2.3.1</mybatis-spring-boot-starter.version>
-        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+        <hibernate-validator.version>7.0.5.Final</hibernate-validator.version>
         <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
         <xxl-job.version>2.4.0</xxl-job.version>
         <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
@@ -59,6 +61,7 @@
         <pdfbox.version>2.0.29</pdfbox.version>
         <freemarker.version>2.3.32</freemarker.version>
         <itextpdf.version>5.5.13.3</itextpdf.version>
+        <jackson.version>2.15.2</jackson.version>
 
         <netty-all.version>4.1.85.Final</netty-all.version>
         <gson.version>2.10</gson.version>
@@ -82,6 +85,14 @@
     <!--声明此处进行依赖管理-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-cache</artifactId>
@@ -121,6 +132,12 @@
             <dependency>
                 <groupId>com.halo.demo</groupId>
                 <artifactId>halo-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.halo.demo</groupId>
+                <artifactId>halo-remote</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -288,6 +305,12 @@
                 <groupId>com.itextpdf</groupId>
                 <artifactId>itextpdf</artifactId>
                 <version>${itextpdf.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
 
             <!--logback 日志配置 开始-->
