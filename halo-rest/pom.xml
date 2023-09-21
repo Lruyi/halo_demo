@@ -61,6 +61,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.halo.demo</groupId>
+            <artifactId>halo-remote</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
         </dependency>
