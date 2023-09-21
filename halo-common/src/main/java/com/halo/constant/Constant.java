@@ -5,7 +5,7 @@ package com.halo.constant;
  * @author: halo_ry
  * @Date: 2022/10/22 18:06
  */
-public class Constan {
+public class Constant {
 
     /**
      * xls的ContentType
@@ -16,5 +16,9 @@ public class Constan {
      * xlsx的ContentType
      */
     public static final String XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+    public static final String ORIGIN_NAME = "xes-origin";
+
+    public static final String ORIGIN_VALUE = "mplat-trade-refund";
 
 }

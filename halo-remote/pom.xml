@@ -9,7 +9,7 @@
         <version>1.4.8-RELEASE</version>
     </parent>
 
-    <artifactId>halo-job</artifactId>
+    <artifactId>halo-remote</artifactId>
 
     <dependencies>
         <dependency>
@@ -17,24 +17,15 @@
             <artifactId>halo-common</artifactId>
         </dependency>
 
+        <!--引入openfeign-->
         <dependency>
-            <groupId>com.halo.demo</groupId>
-            <artifactId>halo-core</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.halo.demo</groupId>
-            <artifactId>halo-entity</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
 
