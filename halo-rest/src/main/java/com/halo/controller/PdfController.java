@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @Description:
@@ -98,6 +99,7 @@ public class PdfController {
             PDPage page = new PDPage();
             document.addPage(page);
 
+
             // 将数据填充到模板中
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             Writer writer = new OutputStreamWriter(outputStream);
@@ -133,7 +135,7 @@ public class PdfController {
         studentData.put("id", "12345");
         studentData.put("age", 20);
         studentData.put("address", "123 Main St, City");
-//        studentData.put("photo", "path/to/photo.jpg");
+        studentData.put("photo", "/Users/liuruyi/Downloads/景色.png");
 
         // 创建学生成绩表格
         List<Map<String, Object>> scores = new ArrayList<>();
@@ -179,7 +181,9 @@ public class PdfController {
             document.open();
 
             // 将生成的内容添加到 PDF 中
-            Paragraph paragraph = new Paragraph(generatedContent);
+            Paragraph paragraph = new Paragraph(generatedContent, FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLDITALIC, BaseColor.RED));
+//            Paragraph p = new Paragraph("This is a paragraph",
+//                    FontFactory.getFont(FontFactory.HELVETICA, 18, Font.BOLDITALIC, BaseColor.RED));
             document.add(paragraph);
 
             document.close();
@@ -230,6 +234,10 @@ public class PdfController {
         return null;
     }
 
+    /**
+     * 可以生成PDF，简单的demo
+     * @return
+     */
     @GetMapping ("/generatePdfDemo5")
     public Object generatePdfDemo4iText5() {
         // 设置 FreeMarker 配置
@@ -267,6 +275,84 @@ public class PdfController {
 
         return null;
     }
+
+    /**
+     * 可以生成PDF，但是数据只支持map，不支持list
+     * @return
+     */
+    @GetMapping ("/generatePdfDemo6")
+    public Object generatePdfDemo4iText6() {
+        // 设置 FreeMarker 配置
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_32);
+        cfg.setClassForTemplateLoading(PdfController.class, "/templates/");
+
+        // 创建数据模型
+        Map<String, Object> studentData = createStudentData();
+
+        try {
+            // 加载模板
+            Template template = cfg.getTemplate("complex_template111.ftl");
+
+            // 创建 PDF 文档
+            Document document = new Document(PageSize.A4);
+            PdfWriter.getInstance(document, new FileOutputStream("complex_template-1111.pdf"));
+
+            document.open();
+
+            // 使用 FreeMarker 填充数据到模板并写入 PDF 文档
+            StringWriter stringWriter = new StringWriter();
+            template.process(studentData, stringWriter);
+
+            HTMLWorker worker = new HTMLWorker(document);
+            worker.parse(new StringReader(stringWriter.toString()));
+
+            document.close();
+
+            System.out.println("PDF generated successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @GetMapping ("/generatePdfDemo7")
+    public Object generatePdfDemo4iText7() {
+        CompletableFuture.supplyAsync(() -> "");
+        // 设置 FreeMarker 配置
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_32);
+        cfg.setClassForTemplateLoading(PdfController.class, "/templates/");
+        // 准备学生数据
+        Map<String, Object> data = new HashMap<>();
+        data.put("student", createStudentData());
+
+        try {
+            // 加载模板
+            Template template = cfg.getTemplate("complex_template222.ftl");
+
+            // 创建 PDF 文档
+            Document document = new Document(PageSize.A4);
+            PdfWriter.getInstance(document, new FileOutputStream("complex_template-222.pdf"));
+
+            document.open();
+
+            // 使用 FreeMarker 填充数据到模板并写入 PDF 文档
+            StringWriter stringWriter = new StringWriter();
+            template.process(data, stringWriter);
+
+            HTMLWorker worker = new HTMLWorker(document);
+            worker.parse(new StringReader(stringWriter.toString()));
+
+            document.close();
+
+            System.out.println("PDF generated successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
     // 创建学生数据列表
     private static List<Map<String, Object>> createStudentDataList() {

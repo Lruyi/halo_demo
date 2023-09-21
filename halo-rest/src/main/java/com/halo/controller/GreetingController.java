@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -578,6 +579,35 @@ public class GreetingController {
             dates.add(date);
         }
         return dates;
+    }
+
+    /**
+     * 生成一个12位数随机数
+     * @return
+     */
+    @GetMapping("/generateRandomString")
+    public String randomString() {
+        // 可用的字符集合，包括大小写字母和数字
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:'\",.<>?";
+//        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        // 生成随机数生成器
+        SecureRandom random = new SecureRandom();
+
+        // 创建一个 StringBuilder 用于存储随机生成的字符串
+        StringBuilder sb = new StringBuilder(12);
+
+        // 生成12位随机字符串
+        for (int i = 0; i < 12; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            char randomChar = characters.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+
+        // 输出随机生成的字符串
+        String randomString = sb.toString();
+        System.out.println(randomString);
+        return "12位数随机数: " + randomString;
     }
 
 
