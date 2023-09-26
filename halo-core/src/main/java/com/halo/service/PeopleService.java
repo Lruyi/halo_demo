@@ -67,7 +67,7 @@ public class PeopleService extends ServiceImpl<PeopleMapper, People> implements 
         int num = peopleMapper.savePeople(people);
         if (num != 0) {
             redisTemplate.opsForValue().set(people.getName() + RegexConstants.UNDERLINE + people.getId(), JSON.toJSONString(people));
-            result = Result.getSuccess(people, "SUCCESS", num);
+            result = Result.getSuccess(people, "SUCCESS");
         } else {
             result = Result.getFail("FAIL");
         }

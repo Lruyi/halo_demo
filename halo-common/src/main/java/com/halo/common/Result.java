@@ -1,10 +1,8 @@
 package com.halo.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.commons.collections.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 后台返回页面对象
@@ -16,15 +14,12 @@ public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private static final int SUCCESS_CODE = 200;
+
     /**
      * 返回编码
      */
-    private int code = 0;
-
-    /**
-     * 返回条数
-     */
-    private int count = 0;
+    private int code;
 
     /**
      * 返回数据对象
@@ -62,14 +57,6 @@ public class Result<T> implements Serializable {
         this.msg = msg;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
     public T getData() {
         return data;
     }
@@ -103,12 +90,6 @@ public class Result<T> implements Serializable {
         this.msg = msg;
     }
 
-    public Result(int count, String msg) {
-        super();
-        this.count = count;
-        this.msg = msg;
-    }
-
     public Result(T data) {
         super();
         this.data = data;
@@ -118,19 +99,17 @@ public class Result<T> implements Serializable {
         }
     }
 
-    public Result(int code, int count, T data, String msg, boolean rtnResult) {
+    public Result(int code, T data, String msg, boolean rtnResult) {
         super();
         this.code = code;
-        this.count = count;
         this.data = data;
         this.msg = msg;
         this.rtnResult = rtnResult;
     }
 
-    public Result(int code, int count, T data, String msg, boolean rtnResult, Long version) {
+    public Result(int code, T data, String msg, boolean rtnResult, Long version) {
         super();
         this.code = code;
-        this.count = count;
         this.data = data;
         this.msg = msg;
         this.rtnResult = rtnResult;
@@ -186,7 +165,19 @@ public class Result<T> implements Serializable {
      * @Description:
      */
     public static <T> Result<T> getSuccess() {
-        return getSuccess(0, "查询无数据");
+        return getSuccess("查询成功");
+    }
+
+    /**
+     * 返回成功对象
+     *
+     * @param data  返回数据
+     * @return
+     * @Title: getSuccess
+     * @Description:
+     */
+    public static <T> Result<T> getSuccess(T data) {
+        return getSuccess(data, "操作成功");
     }
 
 
@@ -199,26 +190,7 @@ public class Result<T> implements Serializable {
      * @Description:
      */
     public static <T> Result<T> getSuccess(String msg) {
-        return getSuccess(0, null, msg);
-    }
-
-
-    /**
-     * 返回成功对象，不指定count 默认为1条
-     *
-     * @param data 返回数据
-     * @return
-     * @Title: getSuccess
-     * @Description:
-     */
-    public static <T> Result<T> getSuccess(T data) {
-        if (data instanceof List) {
-            List<?> dataTemp = (List<?>) data;
-            if (!CollectionUtils.isEmpty(dataTemp)) {
-                return getSuccess(dataTemp.size(), data);
-            }
-        }
-        return getSuccess(1, data);
+        return getSuccess(null, msg);
     }
 
 
@@ -232,7 +204,7 @@ public class Result<T> implements Serializable {
      * @Description:
      */
     public static <T> Result<T> getSuccess(T data, String msg) {
-        return getSuccess(1, data, msg);
+        return getSuccess(data, msg, SUCCESS_CODE);
     }
 
     /**
@@ -250,7 +222,6 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> getSuccess(T data, String msg, int code) {
         Result<T> result = new Result<T>();
         result.setCode(code);
-        result.setCount(1);
         result.setData(data);
         result.setMsg(msg);
         result.setVersion(null);
@@ -263,59 +234,17 @@ public class Result<T> implements Serializable {
      * 返回成功对象
      *
      * @param count 返回data条数
-     * @param msg   返回消息
-     * @return
-     * @Title: getSuccess
-     * @Description:
-     */
-    public static <T> Result<T> getSuccess(int count, String msg) {
-        return getSuccess(count, null, msg);
-    }
-
-
-    /**
-     * 返回成功对象
-     *
-     * @param count 返回data条数
-     * @param data  返回数据
-     * @return
-     * @Title: getSuccess
-     * @Description:
-     */
-    public static <T> Result<T> getSuccess(int count, T data) {
-        return getSuccess(count, data, "操作成功");
-    }
-
-    /**
-     * 返回成功对象
-     *
-     * @param count 返回data条数
      * @param data  返回数据
      * @param msg   消息结果
      * @return
      * @Title: getSuccess
      * @Description:
      */
-    public static <T> Result<T> getSuccess(int count, T data, String msg) {
-        return getSuccess(count, data, msg, null);
-    }
-
-
-    /**
-     * 返回成功对象
-     *
-     * @param count 返回data条数
-     * @param data  返回数据
-     * @param msg   消息结果
-     * @return
-     * @Title: getSuccess
-     * @Description:
-     */
-    public static <T> Result<T> getSuccess(int count, T data, String msg, Long version) {
+    public static <T> Result<T> getSuccess(T data, String msg, int code, Long version) {
         Result<T> result = new Result<T>();
-        result.setCount(count);
         result.setData(data);
         result.setMsg(msg);
+        result.setCode(code);
         result.setVersion(version);
         result.setRtnResult(true);
         return result;

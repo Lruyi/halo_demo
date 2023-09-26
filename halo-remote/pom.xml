@@ -17,6 +17,11 @@
             <artifactId>halo-common</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.halo.demo</groupId>
+            <artifactId>halo-dao</artifactId>
+        </dependency>
+
         <!--引入openfeign-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -26,6 +31,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
