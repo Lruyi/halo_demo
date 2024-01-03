@@ -51,7 +51,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
@@ -72,6 +72,7 @@ import static java.time.temporal.TemporalAdjusters.*;
 //@Validated  类上
 public class GreetingController {
     public static final String TEMPLATE = "Hello, %s!";
+    public static final Class<People> PEOPLE_CLASS = People.class;
     private final AtomicLong counter = new AtomicLong();
 
     @Autowired
@@ -583,6 +584,33 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
+
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        // 如果不指定线程池，默认情况是基于处理器核心数量的线程池
+        CompletableFuture<String> future11 = CompletableFuture.supplyAsync(() -> {
+            return "hello";
+        }, executor);
+
+
+        // 使用 supplyAsync 创建带返回值的异步任务：
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            // 异步任务的逻辑
+            return "Result of the asynchronous task";
+        });
+
+        future.thenAccept(result -> {
+            // 异步任务执行完之后的回调
+            System.out.println("异步任务执行完之后的回调");
+            System.out.println(result);
+        });
+
+        // 使用 runAsync 创建不带返回值的异步任务：
+        CompletableFuture<Void> future1 = CompletableFuture.runAsync(() -> {
+            // 异步任务的逻辑
+            System.out.println("Running asynchronous task...");
+        });
+
+
         // 按时间段
         List<LocalDate> dates = splitDateRange("2023-02-26", "2023-03-05");
 
