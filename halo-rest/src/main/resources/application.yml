@@ -36,7 +36,7 @@ spring:
 #          - {data-id: "halo_common.yml", group: HALO_GROUP, refresh: true}
   config:
     import:
-      - nacos:halo-project.yml?group=HALO_GROUP&refresh=true
+      - nacos:halo_resource.yml?group=HALO_GROUP&refresh=true
       - nacos:halo_common.yml?group=HALO_GROUP&refresh=true
 
 
