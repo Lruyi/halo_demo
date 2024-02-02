@@ -51,7 +51,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
@@ -584,7 +587,10 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
-
+//        curl --location 'ucenter-one-beta-inner.speiyou.cn/users/get?uid=1021373462&loginCity=010&isAcceptSms=1' \
+//        --header 'Cookie: JSESSIONID=87E885FBE7A073B735F01AE16FA1BCB2'
+//        String s3 = HttpUtil.get("ucenter-one-beta-inner.speiyou.cn/users/get?uid=1021373462&loginCity=010&isAcceptSms=1");
+//        CommonServerResult<UserInfo> userInfoCommonServerResult1 = JSON.parseObject(s3, new TypeReference<CommonServerResult<UserInfo>>() {});
         ExecutorService executor = Executors.newFixedThreadPool(3);
         // 如果不指定线程池，默认情况是基于处理器核心数量的线程池
         CompletableFuture<String> future11 = CompletableFuture.supplyAsync(() -> {

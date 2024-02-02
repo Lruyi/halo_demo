@@ -41,23 +41,23 @@
         <commons-io.version>2.13.0</commons-io.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <hutool-all.version>5.8.21</hutool-all.version>
-        <lombok.version>1.18.28</lombok.version>
+        <hutool-all.version>5.8.25</hutool-all.version>
+        <lombok.version>1.18.30</lombok.version>
         <!--todo 升级后无法打印日志，暂未升级-->
         <logback-classic.version>1.2.11</logback-classic.version>
-        <fastjson2.version>2.0.34</fastjson2.version>
-        <jackson-databind.version>2.15.2</jackson-databind.version>
+        <fastjson2.version>2.0.46</fastjson2.version>
+        <jackson-databind.version>2.16.1</jackson-databind.version>
         <guava.version>32.0.1-jre</guava.version>
         <druid.version>1.2.18</druid.version>
         <druid-spring-boot-starter.version>1.2.18</druid-spring-boot-starter.version>
-        <mybatis-plus-boot-starter.version>3.5.3.1</mybatis-plus-boot-starter.version>
+        <mybatis-plus-boot-starter.version>3.5.5</mybatis-plus-boot-starter.version>
         <mybatis-spring-boot-starter.version>2.3.1</mybatis-spring-boot-starter.version>
         <hibernate-validator.version>7.0.5.Final</hibernate-validator.version>
         <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
         <xxl-job.version>2.4.0</xxl-job.version>
         <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
         <apm-toolkit-logback-1.x.version>8.12.0</apm-toolkit-logback-1.x.version>
-        <easyexcel.version>3.3.2</easyexcel.version>
+        <easyexcel.version>3.3.3</easyexcel.version>
         <zxing.version>3.5.2</zxing.version>
         <jackson.version>2.15.2</jackson.version>
 
