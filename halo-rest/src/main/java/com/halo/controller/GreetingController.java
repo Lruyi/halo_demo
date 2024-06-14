@@ -7,6 +7,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -27,6 +28,7 @@ import com.halo.enums.ArrangeRuleTypeEnum;
 import com.halo.enums.PeopleEnum;
 import com.halo.enums.PriceTypeEnum;
 import com.halo.exception.BizException;
+import com.halo.mapper.PeopleMapper;
 import com.halo.req.ParseTheWeekReq;
 import com.halo.resp.PyClassInfoResp;
 import com.halo.utils.MathUtil;
@@ -80,6 +82,9 @@ public class GreetingController {
 
     @Autowired
     private PeopleServiceApi peopleServiceApi;
+
+    @Autowired
+    private PeopleMapper peopleMapper;
 
     @Autowired
     private HaloConfig haloConfig;
@@ -262,6 +267,7 @@ public class GreetingController {
 //        peopleServiceApi.save(people);
 //        System.out.println(people.getId());
         boolean flag = peopleServiceApi.save(people);// 可以返回主键
+//        int insert = peopleMapper.insert(people);// 可以返回主键
         return Result.getSuccess(people);
     }
 
@@ -587,6 +593,14 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
+        Integer minSelectCurriculumNo = 3;
+        Integer classCount = 3;
+        int max1 = Math.max(minSelectCurriculumNo, classCount);
+
+
+        DateTime dateTime1 = DateUtil.beginOfMonth(new Date());
+        DateTime dateTime2 = DateUtil.endOfMonth(new Date());
+
 //        curl --location 'ucenter-one-beta-inner.speiyou.cn/users/get?uid=1021373462&loginCity=010&isAcceptSms=1' \
 //        --header 'Cookie: JSESSIONID=87E885FBE7A073B735F01AE16FA1BCB2'
 //        String s3 = HttpUtil.get("ucenter-one-beta-inner.speiyou.cn/users/get?uid=1021373462&loginCity=010&isAcceptSms=1");
@@ -663,7 +677,7 @@ public class GreetingController {
         // MD5算法签名  sign = md5(taskid + "&" + timestamp + token)
         String sign = DigestUtils.md5Hex("278&1592285175dd98e713eee47c65db528e6e0e3c08bc1c7eb867");
         long timesss = System.currentTimeMillis() / 1000;
-        String sign1 = DigestUtils.md5Hex("1335871&1686204796" + "4069405402f4e3b2762dd2a28ff3de1942cbfae3");
+        String sign1 = DigestUtils.md5Hex("3104&" + timesss + "184ea182f5e186d233c66e15c4f110d0998b4727");
 
         AtomicInteger skip = new AtomicInteger(0);
         System.out.println(skip.addAndGet(1));
@@ -1080,6 +1094,11 @@ public class GreetingController {
         people1.setName("mdd");
         people1.setCreateTime(new Date());
         peopleList.add(people1);
+
+        Map<String, List<People>> goodsUsableReleaseMap = new HashMap<>();
+        goodsUsableReleaseMap.put("sadfdsf", peopleList);
+        log.info("商品满足优惠券批次适用范围的批次列表:{}", JSONUtil.toJsonStr(goodsUsableReleaseMap));
+
 
         IntSummaryStatistics collect7 = peopleList.stream().collect(Collectors.summarizingInt(People::getAge));
         int max = collect7.getMax();

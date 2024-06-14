@@ -46,6 +46,7 @@
         <!--todo 升级后无法打印日志，暂未升级-->
         <logback-classic.version>1.2.11</logback-classic.version>
         <fastjson2.version>2.0.46</fastjson2.version>
+        <fastjson.version>2.0.46</fastjson.version>
         <jackson-databind.version>2.16.1</jackson-databind.version>
         <guava.version>32.0.1-jre</guava.version>
         <druid.version>1.2.18</druid.version>
@@ -205,6 +206,12 @@
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
                 <version>${fastjson2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
 
             <dependency>

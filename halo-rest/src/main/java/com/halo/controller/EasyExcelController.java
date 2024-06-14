@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.halo.common.Result;
 import com.halo.constant.ErrorCode;
 import com.halo.convert.StringConverter;
+import com.halo.dto.CouponDTO;
 import com.halo.dto.DownloadDataDTO;
 import com.halo.dto.ProductIdDTO;
 import com.halo.exception.BusinessException;
@@ -257,5 +258,26 @@ public class EasyExcelController {
             throw new BusinessException(ErrorCode.BUSINESS_EXCEL_EXPORT_ERROR, "导出商品ID异常");
         }
         return Result.getSuccess("EXPORT EXCEL SUCCESS");
+    }
+
+
+    @PostMapping(value = "importCouponCode", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Result<List<CouponDTO>> importCouponCode(@RequestBody MultipartFile file) {
+        List<CouponDTO> list;
+        try {
+            /**
+             * 只需要在实体对象使用@ExcelProperty注解，读取时指定该class，即可读取，并且自动过滤了空行，对于excel的读取及其简单
+             *
+             * sheet    // 设置sheet，默认读取第一个
+             * headRowNumber    // 设置标题所在行数
+             * doReadSync   // 同步读取excel
+             */
+            list = EasyExcel.read(file.getInputStream()).head(CouponDTO.class).sheet().headRowNumber(1).doReadSync();
+        } catch (IOException e) {
+            log.error("importCouponCodeExcel error .", e);
+            throw new BusinessException(ErrorCode.FAILURE, "Excel上传商品ID异常");
+        }
+
+        return Result.getSuccess(list);
     }
 }

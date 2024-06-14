@@ -3,10 +3,12 @@ package com.halo.controller;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.halo.common.CommonServerResult;
 import com.halo.common.Result;
 import com.halo.entity.UserInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +29,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/file")
 public class FileExampleController {
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /**
      * 读取txt文件
@@ -214,6 +218,11 @@ public class FileExampleController {
         String s3 = HttpUtil.get(url, paramMap);
 //      String s3 = HttpUtil.get("ucenter-one-beta-inner.speiyou.cn/users/get?uid=1021373462&loginCity=010&isAcceptSms=1");
         CommonServerResult<UserInfo> result = JSON.parseObject(s3, new TypeReference<CommonServerResult<UserInfo>>() {});
+        Object s = JSON.parseObject(s3, new TypeReference<CommonServerResult<UserInfo>>() {});
+//        CommonServerResult<UserInfo> result1 = objectMapper.convertValue(s, new com.fasterxml.jackson.core.type.TypeReference<CommonServerResult<UserInfo>>() {
+//        });
+//        CommonServerResult<UserInfo> result2 = objectMapper.convertValue(result, new com.fasterxml.jackson.core.type.TypeReference<CommonServerResult<UserInfo>>() {
+//        });
         return Optional.ofNullable(result.getData()).orElse(new UserInfo());
     }
 }
