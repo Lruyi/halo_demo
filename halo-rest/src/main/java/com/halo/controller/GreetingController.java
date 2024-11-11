@@ -45,6 +45,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -261,13 +262,14 @@ public class GreetingController {
      * @return
      */
     @PostMapping("/savePeople")
-    public Result<People> savePeople(@RequestBody People people) {
+    public Result<People> savePeople(@Valid @RequestBody People people) {
         log.info("接口请求参数：{}", JSON.toJSONString(people));
         people.setCreateTime(new Date());
 //        peopleServiceApi.save(people);
 //        System.out.println(people.getId());
-        boolean flag = peopleServiceApi.save(people);// 可以返回主键
-//        int insert = peopleMapper.insert(people);// 可以返回主键
+//        boolean flag = peopleServiceApi.save(people);// 可以返回主键
+        int insert = peopleMapper.insert(people);// 可以返回主键
+//        boolean b = peopleServiceApi.saveBatch(Lists.newArrayList(people)); // 可以返回主键
         return Result.getSuccess(people);
     }
 
@@ -593,6 +595,8 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
+        long l5 = System.currentTimeMillis();
+
         Integer minSelectCurriculumNo = 3;
         Integer classCount = 3;
         int max1 = Math.max(minSelectCurriculumNo, classCount);
