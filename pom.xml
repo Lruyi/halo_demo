@@ -41,7 +41,7 @@
         <commons-io.version>2.13.0</commons-io.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <hutool-all.version>5.8.25</hutool-all.version>
+        <hutool-all.version>5.8.36</hutool-all.version>
         <lombok.version>1.18.30</lombok.version>
         <!--todo 升级后无法打印日志，暂未升级-->
         <logback-classic.version>1.2.11</logback-classic.version>
@@ -79,6 +79,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.test.skip>true</maven.test.skip>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
+        <opencsv.version>5.10</opencsv.version>
     </properties>
 
     <!--声明此处进行依赖管理-->
@@ -332,6 +333,12 @@
             </dependency>
             <!--logback 日志配置 结束-->
 
+            <!-- 轻量级 CSV 解析，内存占用：低， 适用数据量：10M - 1GB-->
+            <dependency>
+                <groupId>com.opencsv</groupId>
+                <artifactId>opencsv</artifactId>
+                <version>${opencsv.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -7,6 +7,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
@@ -47,6 +48,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -595,6 +597,30 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
+
+        String className = "com.halo.entity.People";
+        // 使用 Class.forName() 方法获取对应的 Class 对象
+        Class<?> studentInfoClass = null;
+        try {
+            studentInfoClass = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("获取到的 Class 对象: " + studentInfoClass);
+
+
+
+        People ppp = new People();
+        ppp.setAge(18);
+        ppp.setName("张三");
+
+        // 反射获取字段
+        Field name1111 = ReflectUtil.getField(People.class, "name");
+        Map<String, Field> fieldMap = ReflectUtil.getFieldMap(People.class);
+        // 获取字段值
+        Object name111 = ReflectUtil.getFieldValue(ppp, "name");
+        Object age111 = ReflectUtil.getFieldValue(ppp, "age");
+
         long l5 = System.currentTimeMillis();
 
         Integer minSelectCurriculumNo = 3;
