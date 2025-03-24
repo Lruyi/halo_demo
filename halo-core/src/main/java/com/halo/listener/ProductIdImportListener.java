@@ -18,7 +18,6 @@ import java.util.List;
  */
 @Slf4j
 public class ProductIdImportListener extends AnalysisEventListener<ProductIdDTO> {
-
     List<Object> productIdList = Lists.newArrayList();
 
     /**
@@ -28,7 +27,8 @@ public class ProductIdImportListener extends AnalysisEventListener<ProductIdDTO>
      */
     @Override
     public void invoke(ProductIdDTO data, AnalysisContext context) {
-
+        // 获取当前行号
+        int rowIndex = context.readRowHolder().getRowIndex() + 1;
         String productId = data.getProductId();
         if (StringUtils.isEmpty(productId)) {
             throw new BusinessException(ErrorCode.BUSINESS_EXCEL_VALIDATE_ERROR, "序号index=" + data.getIndex() + "，商品ID为空");

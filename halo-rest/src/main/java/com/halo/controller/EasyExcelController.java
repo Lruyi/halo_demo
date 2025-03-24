@@ -9,10 +9,10 @@ import com.google.common.collect.Lists;
 import com.halo.common.Result;
 import com.halo.constant.ErrorCode;
 import com.halo.convert.StringConverter;
-import com.halo.dto.CouponDTO;
-import com.halo.dto.DownloadDataDTO;
-import com.halo.dto.ProductIdDTO;
+import com.halo.dto.*;
 import com.halo.exception.BusinessException;
+import com.halo.listener.AnalysisInteractModelListener;
+import com.halo.listener.AnalysisInteractModelListenerV2;
 import com.halo.listener.ProductIdImportListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -279,5 +282,142 @@ public class EasyExcelController {
         }
 
         return Result.getSuccess(list);
+    }
+
+    /**
+     * 初始化交互模式，如果校验不通过，会在errorMsg中返回错误信息，导出一份错误信息Excel
+     *
+     * 备注：并不是在原来的Excel中，而是单独导出一个errorExcel
+     *
+     * @param file
+     * @return
+     */
+    @PostMapping("importInteractModel")
+    public Result<Object> InitInteractModel(@RequestBody MultipartFile file) {
+        try {
+            AnalysisInteractModelListener interactModelListener = new AnalysisInteractModelListener();
+
+
+            /**
+             * registerReadListener  // 注册监听器，可以在这里校验字段
+             * headRowNumber // 设置标题所在行数
+             * doRead   // 异步读取，读取完毕后会回调监听器
+             */
+            EasyExcel.read(file.getInputStream())
+                    .registerReadListener(interactModelListener)
+                    .head(InitInteractModelDTO.class)
+                    .sheet()
+                    .headRowNumber(1)
+                    .doRead();
+
+            // 获取校验结果
+            List<InitInteractModelErrorDTO> errorDataList = interactModelListener.getErrorDataList();
+            List<InitInteractModelDTO> successDataList = interactModelListener.getSuccessDataList();
+
+            // 如果有错误数据，生成错误报告
+            if (!errorDataList.isEmpty()) {
+                String errorFileName = generateErrorReport(errorDataList);
+                return Result.getSuccess(String.format("数据校验完成。成功：%d条，失败：%d条。错误报告已导出：%s",
+                        successDataList.size(), errorDataList.size(), errorFileName));
+            }
+
+            // 处理正确的数据
+            processValidData(successDataList);
+            return Result.getSuccess(String.format("数据处理完成，共处理%d条数据", successDataList.size()));
+        } catch (IOException e) {
+            log.error("importInteractModel error .", e);
+            throw new BusinessException(ErrorCode.FAILURE, "Excel上传交互模式异常");
+        }
+    }
+
+
+    private String generateErrorReport(List<InitInteractModelErrorDTO> errorDataList) {
+        // 生成错误报告文件名
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String errorFileName = "error_report_" + timestamp + ".xlsx";
+
+        // 导出错误数据到Excel
+        String filePath = System.getProperty("java.io.tmpdir") + File.separator + errorFileName;
+        EasyExcel.write(filePath, InitInteractModelErrorDTO.class)
+                .sheet("错误数据")
+                .doWrite(errorDataList);
+        return filePath;
+    }
+
+    private void processValidData(List<InitInteractModelDTO> validDataList) {
+        // 处理验证通过的数据
+        for (InitInteractModelDTO data : validDataList) {
+            try {
+                // TODO: 实现你的业务逻辑
+                log.info("Processing valid data: {}", data);
+            } catch (Exception e) {
+                log.error("处理数据失败: {}", data, e);
+            }
+        }
+    }
+
+
+    /**
+     * 初始化交互模式，如果校验不通过，会在errorMsg中返回错误信息，导出一份错误信息Excel
+     *
+     * 备注：并不是在原来的Excel中，而是单独导出一个errorExcel
+     *
+     * @param file
+     * @return
+     */
+    @PostMapping("importInteractModel2")
+    public Result<Object> InitInteractModel2(@RequestBody MultipartFile file) {
+        try {
+            AnalysisInteractModelListenerV2 interactModelListener = new AnalysisInteractModelListenerV2();
+
+
+            /**
+             * registerReadListener  // 注册监听器，可以在这里校验字段
+             * headRowNumber // 设置标题所在行数
+             * doRead   // 异步读取，读取完毕后会回调监听器
+             */
+            EasyExcel.read(file.getInputStream())
+                    .registerReadListener(interactModelListener)
+                    .head(InitInteractModelDTO.class)
+                    .sheet()
+                    .headRowNumber(1)
+                    .doRead();
+
+            // 获取所有数据
+            List<InitInteractModelDTO> allDataList = interactModelListener.getDataList();
+            // 获取成功的数据
+            List<InitInteractModelDTO> successDataList = interactModelListener.getSuccessDataList();
+
+            // 生成错误报告（包含所有数据，带错误信息）
+            String errorFileName = generateErrorReport2(allDataList);
+
+            // 如果有错误数据，返回错误信息
+            if (successDataList.size() < allDataList.size()) {
+                return Result.getSuccess(String.format("数据校验完成。成功：%d条，失败：%d条。详细信息已导出：%s",
+                        successDataList.size(),
+                        allDataList.size() - successDataList.size(),
+                        errorFileName));
+            }
+
+            // 处理正确的数据
+            processValidData(successDataList);
+            return Result.getSuccess(String.format("数据处理完成，共处理%d条数据", successDataList.size()));
+        } catch (IOException e) {
+            log.error("importInteractModel error .", e);
+            throw new BusinessException(ErrorCode.FAILURE, "Excel上传交互模式异常");
+        }
+    }
+
+    private String generateErrorReport2(List<InitInteractModelDTO> dataList) {
+        // 生成报告文件名
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String fileName = "excel_report_" + timestamp + ".xlsx";
+
+        // 导出数据到Excel
+        String filePath = System.getProperty("java.io.tmpdir") + File.separator + fileName;
+        EasyExcel.write(filePath, InitInteractModelDTO.class)
+                .sheet("数据报告")
+                .doWrite(dataList);
+        return filePath;
     }
 }

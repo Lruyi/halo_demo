@@ -22,6 +22,7 @@ import com.google.common.collect.Maps;
 import com.halo.api.PeopleServiceApi;
 import com.halo.common.Result;
 import com.halo.config.HaloConfig;
+import com.halo.dto.InitInteractModelErrorDTO;
 import com.halo.dto.PeopleDTO;
 import com.halo.entity.Greeting;
 import com.halo.entity.People;
@@ -597,6 +598,18 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("1", 1);
+        hashMap.put("2", "2");
+        hashMap.put("3", "3sdfadsf");
+        InitInteractModelErrorDTO build = InitInteractModelErrorDTO.builder()
+                .interactModel(1)
+                .classId("123")
+                .productId("456")
+                .map(hashMap)
+                .build();
+
+        System.out.println(JSONUtil.toJsonStr(build));
 
         String className = "com.halo.entity.People";
         // 使用 Class.forName() 方法获取对应的 Class 对象
