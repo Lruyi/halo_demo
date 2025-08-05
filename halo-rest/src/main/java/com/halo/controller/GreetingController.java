@@ -49,6 +49,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.File;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -598,6 +599,20 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
+        System.out.println(String.format("数据校验完成。共导入%d条数据，正确内容有：%d条，错误内容有：%d条，重复内容有：%d条。详细信息已导出：%s",
+                10,
+                5,
+                3,
+                2,
+                "www.baidu.com"));
+
+        String fileKey = "/recite-word/excel/error-reports/error-report-202503281453001221.xlsx";
+        String fileKey1 = "recite-word/excel/error-reports/error-report-202503281453001221.xlsx";
+        File file = new File(fileKey);
+        File file1 = new File(fileKey1);
+        System.out.println("是否为绝对路径：" + file.isAbsolute());// true
+        System.out.println("是否为绝对路径：" + file1.isAbsolute());// false
+
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("1", 1);
         hashMap.put("2", "2");

@@ -61,6 +61,7 @@
         <easyexcel.version>3.3.3</easyexcel.version>
         <zxing.version>3.5.2</zxing.version>
         <jackson.version>2.15.2</jackson.version>
+        <dashscope-sdk-java.version>2.21.1</dashscope-sdk-java.version>
 
         <netty-all.version>4.1.85.Final</netty-all.version>
         <gson.version>2.10</gson.version>
@@ -338,6 +339,14 @@
                 <groupId>com.opencsv</groupId>
                 <artifactId>opencsv</artifactId>
                 <version>${opencsv.version}</version>
+            </dependency>
+
+            <!--调用阿里语音合成大模型-->
+            <!-- https://mvnrepository.com/artifact/com.alibaba/dashscope-sdk-java -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dashscope-sdk-java</artifactId>
+                <version>${dashscope-sdk-java.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
