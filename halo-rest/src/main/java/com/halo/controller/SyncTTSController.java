@@ -26,9 +26,10 @@ public class SyncTTSController {
                 // 若没有将API Key配置到环境变量中，需将下面这行代码注释放开，并将apiKey替换为自己的API Key
 //                .apiKey("yourApikey")
 //                .text("今天天气怎么样")                     // 合成文本
-                .text("<speak voice=\"sambert-zhimao-v1\" rate=\"-200\" volume=\"80\">\n" +
-                        "  这不是我的影子！\n" +
-                        "</speak>")                     // 合成文本
+//                .text("<speak voice=\"sambert-zhimao-v1\" rate=\"-200\" volume=\"80\">\n" +
+//                        "  这不是我的影子！\n" +
+//                        "</speak>")                     // 合成文本
+                .text("<speak voice=\"sambert-zhishu-v1\">皮皮，今天天气真好啊！</speak>\n <speak voice=\"sambert-zhiyuan-v1\"> <break time=\"500ms\"/>是啊，我们一起出去玩吧！</speak>")                     // 合成文本
                 .model("sambert-zhichu-v1")               // Sambert知厨发音人模型
 //                .rate(1.75f)                            // 语速（默认1.0）
                 .sampleRate(48000)                        // 采样率（支持16000/48000）
@@ -40,7 +41,7 @@ public class SyncTTSController {
         byte[] audioData = synthesizer.call(param).array();
 
         // 3. 保存音频文件
-        String outputPath = "/Users/liuruyi/Downloads/output19.wav";
+        String outputPath = "/Users/liuruyi/Downloads/output21.wav";
         File outputFile = new File(outputPath);
 
         // 确保父目录存在
