@@ -27,7 +27,11 @@ public class StreamTTSController {
 //                .text("今天天气怎么样")
                 .text("Good afternoon! The weather is great today. Let's go cycling and enjoy the beautiful day!")
                 .model("sambert-donna-v1")
-                .sampleRate(48000)
+//                .rate(1.75f)                            // 语速（默认1.0）
+//                .pitch(1.5f)                            // 音调（默认1.0）取值范围0.5~2.0
+//                .volume(100)                            // 音量大小（默认50）取值范围0~100
+//                .format(SpeechSynthesisAudioFormat.WAV)     // 音频格式（默认WAV）MP3/WAV/PCM
+                .sampleRate(48000)              // 采样率（默认16000,支持16000/48000）
                 .enableWordTimestamp(true)      // 启用单词级时间戳
                 .enablePhonemeTimestamp(true)   // 启用音素级时间戳
                 .build();

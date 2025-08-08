@@ -25,8 +25,12 @@ public class SyncTTSController {
         SpeechSynthesisParam param = SpeechSynthesisParam.builder()
                 // 若没有将API Key配置到环境变量中，需将下面这行代码注释放开，并将apiKey替换为自己的API Key
 //                .apiKey("yourApikey")
-                .text("今天天气怎么样")                     // 合成文本
-                .model("sambert-zhimao-v1")               // Sambert知厨发音人模型
+//                .text("今天天气怎么样")                     // 合成文本
+                .text("<speak voice=\"sambert-zhimao-v1\" rate=\"-200\" volume=\"80\">\n" +
+                        "  这不是我的影子！\n" +
+                        "</speak>")                     // 合成文本
+                .model("sambert-zhichu-v1")               // Sambert知厨发音人模型
+//                .rate(1.75f)                            // 语速（默认1.0）
                 .sampleRate(48000)                        // 采样率（支持16000/48000）
                 .format(SpeechSynthesisAudioFormat.WAV)   // 音频格式（默认WAV）
                 .build();
@@ -36,7 +40,7 @@ public class SyncTTSController {
         byte[] audioData = synthesizer.call(param).array();
 
         // 3. 保存音频文件
-        String outputPath = "/Users/liuruyi/Downloads/output11.wav";
+        String outputPath = "/Users/liuruyi/Downloads/output19.wav";
         File outputFile = new File(outputPath);
 
         // 确保父目录存在
@@ -47,6 +51,6 @@ public class SyncTTSController {
         try (FileOutputStream fos = new FileOutputStream(outputFile)) {
             fos.write(audioData);
         }
-        System.out.println("合成完成，音频已保存至 output11.wav");
+        System.out.println("合成完成，音频已保存至 output17.wav");
     }
 }
