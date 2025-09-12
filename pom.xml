@@ -61,7 +61,9 @@
         <easyexcel.version>3.3.3</easyexcel.version>
         <zxing.version>3.5.2</zxing.version>
         <jackson.version>2.15.2</jackson.version>
-        <dashscope-sdk-java.version>2.21.1</dashscope-sdk-java.version>
+        <dashscope-sdk-java.version>2.21.3</dashscope-sdk-java.version>
+        <cos_api.version>5.6.253</cos_api.version>
+        <cos-sts_api.version>3.1.1</cos-sts_api.version>
 
         <netty-all.version>4.1.85.Final</netty-all.version>
         <gson.version>2.10</gson.version>
@@ -347,6 +349,21 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>dashscope-sdk-java</artifactId>
                 <version>${dashscope-sdk-java.version}</version>
+            </dependency>
+
+            <!--腾讯云对象存储 cos-->
+            <!-- https://mvnrepository.com/artifact/com.qcloud/cos_api -->
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos_api</artifactId>
+                <version>${cos_api.version}</version>
+            </dependency>
+
+            <!--腾讯云对象存储 sts 临时密钥-->
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos-sts_api</artifactId>
+                <version>${cos-sts_api.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
