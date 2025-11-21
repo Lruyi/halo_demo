@@ -17,6 +17,10 @@ spring:
     # 服务名称
   application:
     name: halo-project
+  servlet:
+    multipart: # 文件上传
+      max-file-size: 50MB
+      max-request-size: 50MB
   jackson:
     default-property-inclusion: non_null # 全局jackson配置
     time-zone: GMT+8
@@ -172,7 +176,6 @@ feign:
         loggerLevel: full
         requestInterceptors:
           - com.halo.demo.config.XesOriginRequestInterceptor
-
 
 
 # xxl-job配置

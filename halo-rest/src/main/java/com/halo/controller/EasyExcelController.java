@@ -10,10 +10,13 @@ import com.halo.common.Result;
 import com.halo.constant.ErrorCode;
 import com.halo.convert.StringConverter;
 import com.halo.dto.*;
+import com.halo.dto.resp.GameContentHierarchyResp;
 import com.halo.exception.BusinessException;
 import com.halo.listener.AnalysisInteractModelListener;
 import com.halo.listener.AnalysisInteractModelListenerV2;
+import com.halo.listener.GameContentListener;
 import com.halo.listener.ProductIdImportListener;
+import com.halo.utils.GameContentParser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.http.MediaType;
@@ -419,5 +422,68 @@ public class EasyExcelController {
                 .sheet("数据报告")
                 .doWrite(dataList);
         return filePath;
+    }
+
+    /**
+     * 解析游戏内容Excel表格
+     * 支持合并单元格和层级关系解析
+     * 
+     * @param file Excel文件
+     * @return 解析后的层级结构数据
+     */
+    @PostMapping(value = "importGameContent", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Result<Object> importGameContent(@RequestBody MultipartFile file) {
+        try {
+            GameContentListener listener = new GameContentListener();
+
+            /**
+             * registerReadListener  // 注册监听器，处理合并单元格
+             * headRowNumber // 设置标题所在行数（通常是第1行）
+             * doRead   // 异步读取，读取完毕后会回调监听器
+             */
+            EasyExcel.read(file.getInputStream())
+                    .registerReadListener(listener)
+                    .head(GameContentDTO.class)
+                    .sheet()
+                    .headRowNumber(1)
+                    .doRead();
+
+            // 获取解析后的数据列表
+            List<GameContentDTO> dataList = listener.getDataList();
+
+            // 转换为层级结构
+            GameContentHierarchyResp hierarchyResp = GameContentParser.parseToHierarchy(dataList);
+
+            return Result.getSuccess(hierarchyResp);
+        } catch (IOException e) {
+            log.error("importGameContent error .", e);
+            throw new BusinessException(ErrorCode.FAILURE, "Excel上传游戏内容异常: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 解析游戏内容Excel表格（返回原始扁平数据）
+     * 
+     * @param file Excel文件
+     * @return 解析后的原始数据列表
+     */
+    @PostMapping(value = "importGameContentFlat", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Result<List<GameContentDTO>> importGameContentFlat(@RequestBody MultipartFile file) {
+        try {
+            GameContentListener listener = new GameContentListener();
+
+            EasyExcel.read(file.getInputStream())
+                    .registerReadListener(listener)
+                    .head(GameContentDTO.class)
+                    .sheet()
+                    .headRowNumber(1)
+                    .doRead();
+
+            List<GameContentDTO> dataList = listener.getDataList();
+            return Result.getSuccess(dataList);
+        } catch (IOException e) {
+            log.error("importGameContentFlat error .", e);
+            throw new BusinessException(ErrorCode.FAILURE, "Excel上传游戏内容异常: " + e.getMessage());
+        }
     }
 }
