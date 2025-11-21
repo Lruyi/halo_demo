@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 游戏内容Excel解析监听器
@@ -24,8 +25,8 @@ public class GameContentListener extends AnalysisEventListener<GameContentDTO> {
     private String lastProject = null;
     private String lastGameTemplate = null;
     private String lastSeasonLectureOrder = null;
-    private String lastGameNumber = null;
-    private String lastLevelQuantity = null;
+    private Integer lastGameNumber = null;
+    private Integer lastLevelQuantity = null;
     private String lastGameInfo = null;
 
     @Override
@@ -49,13 +50,13 @@ public class GameContentListener extends AnalysisEventListener<GameContentDTO> {
             data.setSeasonLectureOrder(lastSeasonLectureOrder);
         }
 
-        if (StringUtils.isNotBlank(data.getGameNumber())) {
+        if (Objects.nonNull(data.getGameNumber())) {
             lastGameNumber = data.getGameNumber();
         } else {
             data.setGameNumber(lastGameNumber);
         }
 
-        if (StringUtils.isNotBlank(data.getLevelQuantity())) {
+        if (Objects.nonNull(data.getLevelQuantity())) {
             lastLevelQuantity = data.getLevelQuantity();
         } else {
             data.setLevelQuantity(lastLevelQuantity);

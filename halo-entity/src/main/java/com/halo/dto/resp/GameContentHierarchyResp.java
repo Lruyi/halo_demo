@@ -60,7 +60,7 @@ public class GameContentHierarchyResp {
         /**
          * 游戏序号
          */
-        private String gameNumber;
+        private Integer gameNumber;
 
         /**
          * 关卡列表
@@ -76,7 +76,7 @@ public class GameContentHierarchyResp {
         /**
          * 关卡数量（关卡编号）
          */
-        private String levelNumber;
+        private Integer levelNumber;
         
         /**
          * 游戏信息
@@ -119,7 +119,7 @@ public class GameContentHierarchyResp {
         /**
          * 题干序号
          */
-        private String number;
+        private Integer number;
         
         /**
          * 内容
@@ -141,7 +141,7 @@ public class GameContentHierarchyResp {
         /**
          * 选项序号
          */
-        private String number;
+        private Integer number;
         
         /**
          * 内容

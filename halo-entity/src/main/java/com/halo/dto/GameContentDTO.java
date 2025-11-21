@@ -42,14 +42,14 @@ public class GameContentDTO {
      */
     @ExcelProperty(value = "游戏序号", index = 3)
     @ColumnWidth(value = 12)
-    private String gameNumber;
+    private Integer gameNumber;
 
     /**
      * 关卡数量
      */
     @ExcelProperty(value = "关卡数量", index = 4)
     @ColumnWidth(value = 12)
-    private String levelQuantity;
+    private Integer levelQuantity;
 
     /**
      * 游戏信息
