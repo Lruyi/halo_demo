@@ -30,8 +30,9 @@ public class GameContentParser {
         // 用于存储当前层级的信息
         GameContentHierarchyResp.ProjectInfo currentProject = null;
         GameContentHierarchyResp.GameTemplateInfo currentGameTemplate = null;
+        GameContentHierarchyResp.gameNumInfo currentGameNumInfo = null;
         GameContentHierarchyResp.LevelInfo currentLevel = null;
-        GameContentHierarchyResp.QuestionStemInfo currentQuestionStem = null;
+        GameContentHierarchyResp.GameInfo currentGameInfo = null;
 
         for (GameContentDTO dto : dataList) {
             // 跳过完全空白的行
@@ -44,8 +45,9 @@ public class GameContentParser {
                 // 查找或创建项目
                 currentProject = findOrCreateProject(result.getProjects(), dto.getProject());
                 currentGameTemplate = null; // 重置游戏模版
+                currentGameNumInfo = null; // 重置游戏序号
                 currentLevel = null; // 重置关卡
-                currentQuestionStem = null; // 重置题干
+                currentGameInfo = null; // 重置游戏信息
             }
 
             if (currentProject == null) {
@@ -58,53 +60,107 @@ public class GameContentParser {
                 currentGameTemplate = findOrCreateGameTemplate(
                     currentProject.getGameTemplates(),
                     dto.getGameTemplate(),
-                    dto.getSeasonLectureOrder(),
-                    dto.getGameNumber()
+                    dto.getSeasonLectureOrder()
                 );
+                currentGameNumInfo = null; // 重置游戏序号
                 currentLevel = null; // 重置关卡
-                currentQuestionStem = null; // 重置题干
+                currentGameInfo = null; // 重置游戏信息
             }
 
             if (currentGameTemplate == null) {
                 continue; // 如果没有游戏模版，跳过
             }
 
+            // 处理游戏序号层级
+            if (StringUtils.isNotBlank(dto.getGameNumber())) {
+                // 查找或创建游戏序号信息
+                currentGameNumInfo = findOrCreateGameNumInfo(
+                    currentGameTemplate.getGameNumInfos(),
+                    dto.getGameNumber()
+                );
+                currentLevel = null; // 重置关卡
+                currentGameInfo = null; // 重置游戏信息
+            }
+
+            if (currentGameNumInfo == null) {
+                continue; // 如果没有游戏序号，跳过
+            }
+
             // 处理关卡层级
             if (StringUtils.isNotBlank(dto.getLevelQuantity())) {
                 // 查找或创建关卡
                 currentLevel = findOrCreateLevel(
-                    currentGameTemplate.getLevels(),
-                    dto.getLevelQuantity(),
-                    dto.getGameInfo()
+                    currentGameNumInfo.getLevels(),
+                    dto.getLevelQuantity()
                 );
-                currentQuestionStem = null; // 重置题干
+                currentGameInfo = null; // 重置游戏信息
             }
 
             if (currentLevel == null) {
                 continue; // 如果没有关卡，跳过
             }
 
+            // 处理游戏信息（关卡下的游戏信息）
+            if (StringUtils.isNotBlank(dto.getGameInfo())) {
+                // 获取或创建GameInfo
+                if (currentLevel.getGameInfo() == null) {
+                    GameContentHierarchyResp.GameInfo gameInfo = new GameContentHierarchyResp.GameInfo();
+                    gameInfo.setGameName(dto.getGameInfo());
+                    currentLevel.setGameInfo(gameInfo);
+                }
+                currentGameInfo = currentLevel.getGameInfo();
+            }
+
+            if (currentGameInfo == null) {
+                // 如果还没有GameInfo，创建一个默认的
+                GameContentHierarchyResp.GameInfo gameInfo = new GameContentHierarchyResp.GameInfo();
+                currentLevel.setGameInfo(gameInfo);
+                currentGameInfo = gameInfo;
+            }
+
             // 处理题干层级
             if (StringUtils.isNotBlank(dto.getQuestionStemNumber())) {
+                // 解析题干类型和序号
+                String[] stemParts = parseTypeAndNumber(dto.getQuestionStemNumber());
+                String stemType = stemParts[0];
+                String stemNumber = stemParts[1];
+                
                 // 查找或创建题干
-                currentQuestionStem = findOrCreateQuestionStem(
-                    currentLevel.getQuestionStems(),
-                    dto.getQuestionStemNumber(),
-                    dto.getQuestionStemInfo()
+                GameContentHierarchyResp.QuestionStemInfo questionStem = findOrCreateQuestionStem(
+                    currentGameInfo.getQuestionStems(),
+                    stemType,
+                    stemNumber
                 );
+                
+                // 设置题干内容
+                if (StringUtils.isNotBlank(dto.getQuestionStemInfo())) {
+                    questionStem.setContent(dto.getQuestionStemInfo());
+                }
             }
 
-            if (currentQuestionStem == null) {
-                continue; // 如果没有题干，跳过
-            }
-
-            // 处理选项（每个选项都添加到当前题干下）
+            // 处理选项层级（选项属于GameInfo，不是QuestionStemInfo）
             if (StringUtils.isNotBlank(dto.getOptionNumber())) {
+                // 解析选项类型和序号
+                String[] optionParts = parseTypeAndNumber(dto.getOptionNumber());
+                String optionType = optionParts[0];
+                String optionNumber = optionParts[1];
+                
+                // 创建选项
                 GameContentHierarchyResp.OptionInfo option = new GameContentHierarchyResp.OptionInfo();
-                option.setOptionNumber(dto.getOptionNumber());
-                option.setOptionInfo(dto.getOptionInfo());
-                option.setAiPrompt(dto.getAiPrompt());
-                currentQuestionStem.getOptions().add(option);
+                option.setType(optionType);
+                option.setNumber(optionNumber);
+                
+                // 设置选项内容
+                if (StringUtils.isNotBlank(dto.getOptionInfo())) {
+                    option.setContent(dto.getOptionInfo());
+                }
+                
+                // 设置AI提示词
+                if (StringUtils.isNotBlank(dto.getAiPrompt())) {
+                    option.setAiPrompt(dto.getAiPrompt());
+                }
+                
+                currentGameInfo.getOptions().add(option);
             }
         }
 
@@ -149,20 +205,35 @@ public class GameContentParser {
      */
     private static GameContentHierarchyResp.GameTemplateInfo findOrCreateGameTemplate(
             List<GameContentHierarchyResp.GameTemplateInfo> gameTemplates,
-            String templateName, String seasonLectureOrder, String gameNumber) {
+            String templateName, String seasonCode) {
         for (GameContentHierarchyResp.GameTemplateInfo template : gameTemplates) {
             if (templateName.equals(template.getTemplateName())
-                && equalsIgnoreEmpty(seasonLectureOrder, template.getSeasonLectureOrder())
-                && equalsIgnoreEmpty(gameNumber, template.getGameNumber())) {
+                && equalsIgnoreEmpty(seasonCode, template.getSeasonCode())) {
                 return template;
             }
         }
         GameContentHierarchyResp.GameTemplateInfo template = new GameContentHierarchyResp.GameTemplateInfo();
         template.setTemplateName(templateName);
-        template.setSeasonLectureOrder(seasonLectureOrder);
-        template.setGameNumber(gameNumber);
+        template.setSeasonCode(seasonCode);
         gameTemplates.add(template);
         return template;
+    }
+
+    /**
+     * 查找或创建游戏序号信息
+     */
+    private static GameContentHierarchyResp.gameNumInfo findOrCreateGameNumInfo(
+            List<GameContentHierarchyResp.gameNumInfo> gameNumInfos,
+            String gameNumber) {
+        for (GameContentHierarchyResp.gameNumInfo gameNumInfo : gameNumInfos) {
+            if (equalsIgnoreEmpty(gameNumber, gameNumInfo.getGameNumber())) {
+                return gameNumInfo;
+            }
+        }
+        GameContentHierarchyResp.gameNumInfo gameNumInfo = new GameContentHierarchyResp.gameNumInfo();
+        gameNumInfo.setGameNumber(gameNumber);
+        gameNumInfos.add(gameNumInfo);
+        return gameNumInfo;
     }
 
     /**
@@ -170,16 +241,14 @@ public class GameContentParser {
      */
     private static GameContentHierarchyResp.LevelInfo findOrCreateLevel(
             List<GameContentHierarchyResp.LevelInfo> levels,
-            String levelQuantity, String gameInfo) {
+            String levelNumber) {
         for (GameContentHierarchyResp.LevelInfo level : levels) {
-            if (equalsIgnoreEmpty(levelQuantity, level.getLevelQuantity())
-                && equalsIgnoreEmpty(gameInfo, level.getGameInfo())) {
+            if (equalsIgnoreEmpty(levelNumber, level.getLevelNumber())) {
                 return level;
             }
         }
         GameContentHierarchyResp.LevelInfo level = new GameContentHierarchyResp.LevelInfo();
-        level.setLevelQuantity(levelQuantity);
-        level.setGameInfo(gameInfo);
+        level.setLevelNumber(levelNumber);
         levels.add(level);
         return level;
     }
@@ -189,17 +258,51 @@ public class GameContentParser {
      */
     private static GameContentHierarchyResp.QuestionStemInfo findOrCreateQuestionStem(
             List<GameContentHierarchyResp.QuestionStemInfo> questionStems,
-            String questionStemNumber, String questionStemInfo) {
+            String type, String number) {
         for (GameContentHierarchyResp.QuestionStemInfo stem : questionStems) {
-            if (equalsIgnoreEmpty(questionStemNumber, stem.getQuestionStemNumber())) {
+            if (equalsIgnoreEmpty(type, stem.getType())
+                && equalsIgnoreEmpty(number, stem.getNumber())) {
                 return stem;
             }
         }
         GameContentHierarchyResp.QuestionStemInfo stem = new GameContentHierarchyResp.QuestionStemInfo();
-        stem.setQuestionStemNumber(questionStemNumber);
-        stem.setQuestionStemInfo(questionStemInfo);
+        stem.setType(type);
+        stem.setNumber(number);
         questionStems.add(stem);
         return stem;
+    }
+
+    /**
+     * 解析类型和序号
+     * 例如：t1 -> ["t", "1"], w2 -> ["w", "2"], tw1 -> ["tw", "1"]
+     * 
+     * @param typeAndNumber 类型和序号的组合字符串
+     * @return [类型, 序号]
+     */
+    private static String[] parseTypeAndNumber(String typeAndNumber) {
+        if (StringUtils.isBlank(typeAndNumber)) {
+            return new String[]{"", ""};
+        }
+        
+        String trimmed = typeAndNumber.trim();
+        // 尝试提取类型（字母部分）和序号（数字部分）
+        // 支持：t, w, y, tw, ty, wy 等类型
+        int lastLetterIndex = -1;
+        for (int i = trimmed.length() - 1; i >= 0; i--) {
+            if (Character.isLetter(trimmed.charAt(i))) {
+                lastLetterIndex = i;
+                break;
+            }
+        }
+        
+        if (lastLetterIndex >= 0) {
+            String type = trimmed.substring(0, lastLetterIndex + 1);
+            String number = trimmed.substring(lastLetterIndex + 1);
+            return new String[]{type, number};
+        }
+        
+        // 如果没有找到字母，全部作为序号
+        return new String[]{"", trimmed};
     }
 
     /**
@@ -215,4 +318,3 @@ public class GameContentParser {
         return str1.equals(str2);
     }
 }
-

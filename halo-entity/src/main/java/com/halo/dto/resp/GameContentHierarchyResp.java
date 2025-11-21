@@ -122,9 +122,9 @@ public class GameContentHierarchyResp {
         private String number;
         
         /**
-         * 题干信息
+         * 内容
          */
-        private Content content;
+        private String content;
     }
 
     /**
@@ -144,36 +144,14 @@ public class GameContentHierarchyResp {
         private String number;
         
         /**
-         * 选项信息
+         * 内容
          */
-        private Content content;
+        private String content;
         
         /**
          * AI提示词
          */
         private String aiPrompt;
-    }
-
-    /**
-     * 内容信息
-     */
-    @Data
-    public static class Content {
-
-        /**
-         * 文本
-         */
-        private String text;
-
-        /**
-         * 图片
-         */
-        private String image;
-
-        /**
-         * 音频
-         */
-        private String audio;
     }
 }
 
