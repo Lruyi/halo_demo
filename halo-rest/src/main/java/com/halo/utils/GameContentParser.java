@@ -43,12 +43,11 @@ public class GameContentParser {
 
             // 处理项目层级
             if (StringUtils.isNotBlank(dto.getProject())) {
-                // 查找或创建项目
                 currentProject = findOrCreateProject(result.getProjects(), dto.getProject());
-                currentGameTemplate = null; // 重置游戏模版
-                currentGameNumInfo = null; // 重置游戏序号
-                currentLevel = null; // 重置关卡
-                currentGameInfo = null; // 重置游戏信息
+                currentGameTemplate = null;
+                currentGameNumInfo = null;
+                currentLevel = null;
+                currentGameInfo = null;
             }
 
             if (currentProject == null) {
@@ -57,15 +56,14 @@ public class GameContentParser {
 
             // 处理游戏模版层级
             if (StringUtils.isNotBlank(dto.getGameTemplate())) {
-                // 查找或创建游戏模版
                 currentGameTemplate = findOrCreateGameTemplate(
                     currentProject.getGameTemplates(),
                     dto.getGameTemplate(),
                     dto.getSeasonLectureOrder()
                 );
-                currentGameNumInfo = null; // 重置游戏序号
-                currentLevel = null; // 重置关卡
-                currentGameInfo = null; // 重置游戏信息
+                currentGameNumInfo = null;
+                currentLevel = null;
+                currentGameInfo = null;
             }
 
             if (currentGameTemplate == null) {
@@ -74,15 +72,12 @@ public class GameContentParser {
 
             // 处理游戏序号层级
             if (Objects.nonNull(dto.getGameNumber())) {
-                // 将字符串转换为Integer
-                Integer gameNumber = dto.getGameNumber();
-                // 查找或创建游戏序号信息
                 currentGameNumInfo = findOrCreateGameNumInfo(
                     currentGameTemplate.getGameNumInfos(),
-                    gameNumber
+                    dto.getGameNumber()
                 );
-                currentLevel = null; // 重置关卡
-                currentGameInfo = null; // 重置游戏信息
+                currentLevel = null;
+                currentGameInfo = null;
             }
 
             if (currentGameNumInfo == null) {
@@ -91,12 +86,9 @@ public class GameContentParser {
 
             // 处理关卡层级
             if (Objects.nonNull(dto.getLevelQuantity())) {
-                // 将字符串转换为Integer
-                Integer levelNumber = dto.getLevelQuantity();
-                // 查找或创建关卡
                 currentLevel = findOrCreateLevel(
                     currentGameNumInfo.getLevels(),
-                    levelNumber
+                    dto.getLevelQuantity()
                 );
                 currentGameInfo = null; // 重置游戏信息
             }
@@ -106,22 +98,7 @@ public class GameContentParser {
             }
 
             // 处理游戏信息（关卡下的游戏信息）
-            if (StringUtils.isNotBlank(dto.getGameInfo())) {
-                // 获取或创建GameInfo
-                if (currentLevel.getGameInfo() == null) {
-                    GameContentHierarchyResp.GameInfo gameInfo = new GameContentHierarchyResp.GameInfo();
-                    gameInfo.setGameName(dto.getGameInfo());
-                    currentLevel.setGameInfo(gameInfo);
-                }
-                currentGameInfo = currentLevel.getGameInfo();
-            }
-
-            if (currentGameInfo == null) {
-                // 如果还没有GameInfo，创建一个默认的
-                GameContentHierarchyResp.GameInfo gameInfo = new GameContentHierarchyResp.GameInfo();
-                currentLevel.setGameInfo(gameInfo);
-                currentGameInfo = gameInfo;
-            }
+            currentGameInfo = getOrCreateGameInfo(currentLevel, dto.getGameInfo());
 
             // 处理题干层级
             if (StringUtils.isNotBlank(dto.getQuestionStemNumber())) {
@@ -260,6 +237,25 @@ public class GameContentParser {
         level.setLevelNumber(levelNumber);
         levels.add(level);
         return level;
+    }
+
+    /**
+     * 获取或创建GameInfo
+     */
+    private static GameContentHierarchyResp.GameInfo getOrCreateGameInfo(
+            GameContentHierarchyResp.LevelInfo level, String gameName) {
+        GameContentHierarchyResp.GameInfo gameInfo = level.getGameInfo();
+        if (gameInfo == null) {
+            gameInfo = new GameContentHierarchyResp.GameInfo();
+            if (StringUtils.isNotBlank(gameName)) {
+                gameInfo.setGameName(gameName);
+            }
+            level.setGameInfo(gameInfo);
+        } else if (StringUtils.isNotBlank(gameName) && StringUtils.isBlank(gameInfo.getGameName())) {
+            // 如果GameInfo已存在但没有名称，设置名称
+            gameInfo.setGameName(gameName);
+        }
+        return gameInfo;
     }
 
     /**

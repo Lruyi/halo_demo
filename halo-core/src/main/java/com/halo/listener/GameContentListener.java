@@ -3,12 +3,14 @@ package com.halo.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.halo.dto.GameContentDTO;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * 游戏内容Excel解析监听器
@@ -19,7 +21,8 @@ import java.util.Objects;
 @Slf4j
 public class GameContentListener extends AnalysisEventListener<GameContentDTO> {
 
-    private List<GameContentDTO> dataList = new ArrayList<>();
+    @Getter
+    private final List<GameContentDTO> dataList = new ArrayList<>();
     
     // 用于存储上一行的数据，处理合并单元格
     private String lastProject = null;
@@ -32,48 +35,37 @@ public class GameContentListener extends AnalysisEventListener<GameContentDTO> {
     @Override
     public void invoke(GameContentDTO data, AnalysisContext context) {
         // 处理合并单元格：如果当前行为空，使用上一行的值
-        if (StringUtils.isNotBlank(data.getProject())) {
-            lastProject = data.getProject();
-        } else {
-            data.setProject(lastProject);
-        }
-
-        if (StringUtils.isNotBlank(data.getGameTemplate())) {
-            lastGameTemplate = data.getGameTemplate();
-        } else {
-            data.setGameTemplate(lastGameTemplate);
-        }
-
-        if (StringUtils.isNotBlank(data.getSeasonLectureOrder())) {
-            lastSeasonLectureOrder = data.getSeasonLectureOrder();
-        } else {
-            data.setSeasonLectureOrder(lastSeasonLectureOrder);
-        }
-
-        if (Objects.nonNull(data.getGameNumber())) {
-            lastGameNumber = data.getGameNumber();
-        } else {
-            data.setGameNumber(lastGameNumber);
-        }
-
-        if (Objects.nonNull(data.getLevelQuantity())) {
-            lastLevelQuantity = data.getLevelQuantity();
-        } else {
-            data.setLevelQuantity(lastLevelQuantity);
-        }
-
-        if (StringUtils.isNotBlank(data.getGameInfo())) {
-            lastGameInfo = data.getGameInfo();
-        } else {
-            data.setGameInfo(lastGameInfo);
-        }
+        lastProject = fillIfBlank(data.getProject(), lastProject, data::setProject);
+        lastGameTemplate = fillIfBlank(data.getGameTemplate(), lastGameTemplate, data::setGameTemplate);
+        lastSeasonLectureOrder = fillIfBlank(data.getSeasonLectureOrder(), lastSeasonLectureOrder, data::setSeasonLectureOrder);
+        lastGameNumber = fillIfNull(data.getGameNumber(), lastGameNumber, data::setGameNumber);
+        lastLevelQuantity = fillIfNull(data.getLevelQuantity(), lastLevelQuantity, data::setLevelQuantity);
+        lastGameInfo = fillIfBlank(data.getGameInfo(), lastGameInfo, data::setGameInfo);
 
         // 添加到数据列表
         dataList.add(data);
     }
 
-    public List<GameContentDTO> getDataList() {
-        return dataList;
+    /**
+     * 如果当前值为空，使用上一个值填充
+     */
+    private String fillIfBlank(String current, String last, Consumer<String> setter) {
+        if (StringUtils.isNotBlank(current)) {
+            return current;
+        }
+        setter.accept(last);
+        return last;
+    }
+
+    /**
+     * 如果当前值为空，使用上一个值填充（Integer类型）
+     */
+    private Integer fillIfNull(Integer current, Integer last, Consumer<Integer> setter) {
+        if (Objects.nonNull(current)) {
+            return current;
+        }
+        setter.accept(last);
+        return last;
     }
 
     @Override
