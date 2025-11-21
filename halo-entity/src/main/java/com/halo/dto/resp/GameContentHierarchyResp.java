@@ -11,7 +11,7 @@ import java.util.List;
  * @author halo_ry
  */
 @Data
-public class GameContentHierarchyV2Resp {
+public class GameContentHierarchyResp {
 
     /**
      * 项目列表
