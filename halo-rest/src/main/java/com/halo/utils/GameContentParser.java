@@ -76,15 +76,13 @@ public class GameContentParser {
             if (Objects.nonNull(dto.getGameNumber())) {
                 // 将字符串转换为Integer
                 Integer gameNumber = dto.getGameNumber();
-                if (gameNumber != null) {
-                    // 查找或创建游戏序号信息
-                    currentGameNumInfo = findOrCreateGameNumInfo(
-                        currentGameTemplate.getGameNumInfos(),
-                        gameNumber
-                    );
-                    currentLevel = null; // 重置关卡
-                    currentGameInfo = null; // 重置游戏信息
-                }
+                // 查找或创建游戏序号信息
+                currentGameNumInfo = findOrCreateGameNumInfo(
+                    currentGameTemplate.getGameNumInfos(),
+                    gameNumber
+                );
+                currentLevel = null; // 重置关卡
+                currentGameInfo = null; // 重置游戏信息
             }
 
             if (currentGameNumInfo == null) {
@@ -95,14 +93,12 @@ public class GameContentParser {
             if (Objects.nonNull(dto.getLevelQuantity())) {
                 // 将字符串转换为Integer
                 Integer levelNumber = dto.getLevelQuantity();
-                if (levelNumber != null) {
-                    // 查找或创建关卡
-                    currentLevel = findOrCreateLevel(
-                        currentGameNumInfo.getLevels(),
-                        levelNumber
-                    );
-                    currentGameInfo = null; // 重置游戏信息
-                }
+                // 查找或创建关卡
+                currentLevel = findOrCreateLevel(
+                    currentGameNumInfo.getLevels(),
+                    levelNumber
+                );
+                currentGameInfo = null; // 重置游戏信息
             }
 
             if (currentLevel == null) {
@@ -203,7 +199,7 @@ public class GameContentParser {
     private static GameContentHierarchyResp.ProjectInfo findOrCreateProject(
             List<GameContentHierarchyResp.ProjectInfo> projects, String projectName) {
         for (GameContentHierarchyResp.ProjectInfo project : projects) {
-            if (projectName.equals(project.getProjectName())) {
+            if (Objects.equals(projectName, project.getProjectName())) {
                 return project;
             }
         }
@@ -220,7 +216,7 @@ public class GameContentParser {
             List<GameContentHierarchyResp.GameTemplateInfo> gameTemplates,
             String templateName, String seasonCode) {
         for (GameContentHierarchyResp.GameTemplateInfo template : gameTemplates) {
-            if (templateName.equals(template.getTemplateName())
+            if (Objects.equals(templateName, template.getTemplateName())
                 && equalsIgnoreEmpty(seasonCode, template.getSeasonCode())) {
                 return template;
             }
