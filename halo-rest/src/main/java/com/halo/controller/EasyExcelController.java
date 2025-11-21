@@ -10,7 +10,7 @@ import com.halo.common.Result;
 import com.halo.constant.ErrorCode;
 import com.halo.convert.StringConverter;
 import com.halo.dto.*;
-import com.halo.dto.resp.GameContentHierarchyResp;
+import com.halo.dto.resp.GameContentHierarchyV2Resp;
 import com.halo.exception.BusinessException;
 import com.halo.listener.AnalysisInteractModelListener;
 import com.halo.listener.AnalysisInteractModelListenerV2;
@@ -452,7 +452,7 @@ public class EasyExcelController {
             List<GameContentDTO> dataList = listener.getDataList();
 
             // 转换为层级结构
-            GameContentHierarchyResp hierarchyResp = GameContentParser.parseToHierarchy(dataList);
+            GameContentHierarchyV2Resp hierarchyResp = GameContentParser.parseToHierarchy(dataList);
 
             return Result.getSuccess(hierarchyResp);
         } catch (IOException e) {

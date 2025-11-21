@@ -1,10 +1,9 @@
 package com.halo.utils;
 
 import com.halo.dto.GameContentDTO;
-import com.halo.dto.resp.GameContentHierarchyResp;
+import com.halo.dto.resp.GameContentHierarchyV2Resp;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +20,7 @@ public class GameContentParser {
      * @param dataList Excel解析后的数据列表
      * @return 层级结构数据
      */
-    public static GameContentHierarchyResp parseToHierarchy(List<GameContentDTO> dataList) {
+    public static GameContentHierarchyV2Resp parseToHierarchy(List<GameContentDTO> dataList) {
         GameContentHierarchyResp result = new GameContentHierarchyResp();
         
         if (dataList == null || dataList.isEmpty()) {

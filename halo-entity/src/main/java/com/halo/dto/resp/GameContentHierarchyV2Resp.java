@@ -11,7 +11,7 @@ import java.util.List;
  * @author halo_ry
  */
 @Data
-public class GameContentHierarchyResp {
+public class GameContentHierarchyV2Resp {
 
     /**
      * 项目列表
@@ -47,13 +47,21 @@ public class GameContentHierarchyResp {
         /**
          * 季节讲次
          */
-        private String seasonLectureOrder;
+        private String seasonCode;
         
+        private List<gameNumInfo> gameNumInfos = new ArrayList<>();
+    }
+
+    /**
+     * 游戏序号信息
+     */
+    @Data
+    public static class gameNumInfo {
         /**
          * 游戏序号
          */
         private String gameNumber;
-        
+
         /**
          * 关卡列表
          */
@@ -68,34 +76,29 @@ public class GameContentHierarchyResp {
         /**
          * 关卡数量（关卡编号）
          */
-        private String levelQuantity;
+        private String levelNumber;
         
         /**
          * 游戏信息
          */
-        private String gameInfo;
-        
+        private GameInfo gameInfo;
+    }
+
+    /**
+     * 游戏信息
+     */
+    @Data
+    public static class GameInfo {
+        /**
+         * 游戏名称
+         */
+        private String gameName;
+
         /**
          * 题干列表
          */
         private List<QuestionStemInfo> questionStems = new ArrayList<>();
-    }
 
-    /**
-     * 题干信息
-     */
-    @Data
-    public static class QuestionStemInfo {
-        /**
-         * 题干序号
-         */
-        private String questionStemNumber;
-        
-        /**
-         * 题干信息
-         */
-        private String questionStemInfo;
-        
         /**
          * 选项列表
          */
@@ -103,24 +106,74 @@ public class GameContentHierarchyResp {
     }
 
     /**
+     * 题干信息
+     */
+    @Data
+    public static class QuestionStemInfo {
+
+        /**
+         * 题干类型：t、w、y、tw、ty、wy
+         */
+        private String type;
+
+        /**
+         * 题干序号
+         */
+        private String number;
+        
+        /**
+         * 题干信息
+         */
+        private Content content;
+    }
+
+    /**
      * 选项信息
      */
     @Data
     public static class OptionInfo {
+
+        /**
+         * 选项类型：t、w、tw
+         */
+        private String type;
+
         /**
          * 选项序号
          */
-        private String optionNumber;
+        private String number;
         
         /**
          * 选项信息
          */
-        private String optionInfo;
+        private Content content;
         
         /**
          * AI提示词
          */
         private String aiPrompt;
+    }
+
+    /**
+     * 内容信息
+     */
+    @Data
+    public static class Content {
+
+        /**
+         * 文本
+         */
+        private String text;
+
+        /**
+         * 图片
+         */
+        private String image;
+
+        /**
+         * 音频
+         */
+        private String audio;
     }
 }
 
