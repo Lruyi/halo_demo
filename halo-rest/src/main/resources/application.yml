@@ -199,4 +199,13 @@ xxl:
     # 执行器通讯TOKEN [选填]：非空时启用；
     accessToken: default_token
 
+# HMAC-SHA256签名服务配置
+service:
+  b:
+    # B服务分配给A服务的密钥（实际项目中应该从配置中心或数据库获取）
+    secret:
+      key: ${SERVICE_B_SECRET_KEY:default-secret-key-123456}
+    # B服务的接口地址
+    url: ${SERVICE_B_URL:http://localhost:8090/report/serviceB/verify}
+
 

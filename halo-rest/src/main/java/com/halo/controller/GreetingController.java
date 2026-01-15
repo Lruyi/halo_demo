@@ -50,7 +50,10 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -599,6 +602,22 @@ public class GreetingController {
 
 
     public static void main(String[] args) throws ParseException {
+        DateTimeFormatter TIMESTAMP_MILLISECOND_FORMATTER =  DateTimeFormatter.ofPattern("HHmmssSSS");
+
+
+        // URL解码
+        String encoded = "%E3%80%8A%E8%BF%B7%E5%AE%AB%E7%AE%A1%E9%81%93%E7%AB%99%E3%80%8B.psb";
+        String decoded = null;
+        try {
+            decoded = URLDecoder.decode(encoded, String.valueOf(StandardCharsets.UTF_8));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(decoded); // 输出：《迷宫管道站》.psb
+
+
+
+
         System.out.println(String.format("数据校验完成。共导入%d条数据，正确内容有：%d条，错误内容有：%d条，重复内容有：%d条。详细信息已导出：%s",
                 10,
                 5,

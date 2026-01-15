@@ -64,6 +64,8 @@
         <dashscope-sdk-java.version>2.21.3</dashscope-sdk-java.version>
         <cos_api.version>5.6.253</cos_api.version>
         <cos-sts_api.version>3.1.1</cos-sts_api.version>
+        <thumbnailator.version>0.4.21</thumbnailator.version>
+        <webp-imageio-core.version>0.1.6</webp-imageio-core.version>
 
         <netty-all.version>4.1.85.Final</netty-all.version>
         <gson.version>2.10</gson.version>
@@ -364,6 +366,19 @@
                 <groupId>com.qcloud</groupId>
                 <artifactId>cos-sts_api</artifactId>
                 <version>${cos-sts_api.version}</version>
+            </dependency>
+
+            <!-- 图片缩放核心依赖 -->
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${thumbnailator.version}</version>
+            </dependency>
+            <!-- WebP编码依赖 -->
+            <dependency>
+                <groupId>com.luciad.imageio.webp</groupId>
+                <artifactId>webp-imageio-core</artifactId>
+                <version>${webp-imageio-core.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
