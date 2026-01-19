@@ -26,17 +26,17 @@ public class HmacSha256Test {
         // 测试1: 正常流程测试
         testNormalFlow();
         
-        System.out.println("\n" + "=".repeat(50) + "\n");
+//        System.out.println("\n" + "=".repeat(50) + "\n");
         
         // 测试2: 签名错误测试
         testInvalidSign();
         
-        System.out.println("\n" + "=".repeat(50) + "\n");
+//        System.out.println("\n" + "=".repeat(50) + "\n");
         
         // 测试3: 时间戳过期测试
         testExpiredTimestamp();
         
-        System.out.println("\n" + "=".repeat(50) + "\n");
+//        System.out.println("\n" + "=".repeat(50) + "\n");
         
         // 测试4: 多次测试不同empNo
         testMultipleEmpNos();
@@ -49,7 +49,7 @@ public class HmacSha256Test {
      */
     private static void testNormalFlow() {
         System.out.println("【测试1】正常流程测试");
-        System.out.println("-".repeat(50));
+//        System.out.println("-".repeat(50));
         
         String empNo = "EMP001";
         
@@ -81,7 +81,7 @@ public class HmacSha256Test {
      */
     private static void testInvalidSign() {
         System.out.println("【测试2】签名错误测试");
-        System.out.println("-".repeat(50));
+//        System.out.println("-".repeat(50));
         
         String empNo = "EMP002";
         
@@ -113,7 +113,7 @@ public class HmacSha256Test {
      */
     private static void testExpiredTimestamp() {
         System.out.println("【测试3】时间戳过期测试");
-        System.out.println("-".repeat(50));
+//        System.out.println("-".repeat(50));
         
         String empNo = "EMP003";
         
@@ -145,7 +145,7 @@ public class HmacSha256Test {
      */
     private static void testMultipleEmpNos() {
         System.out.println("【测试4】多个empNo测试");
-        System.out.println("-".repeat(50));
+//        System.out.println("-".repeat(50));
         
         String[] empNos = {"EMP001", "EMP002", "EMP003", "EMP999"};
         
