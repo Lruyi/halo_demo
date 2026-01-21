@@ -380,6 +380,21 @@
                 <artifactId>webp-imageio-core</artifactId>
                 <version>${webp-imageio-core.version}</version>
             </dependency>
+
+            <!-- WebP image encoding support (支持 ARM64) -->
+            <!-- 生成缩略图 -->
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>0.4.21</version>
+            </dependency>
+
+            <!-- WebP 编码，支持 ARM64 -->
+            <dependency>
+                <groupId>dev.matrixlab</groupId>
+                <artifactId>webp4j</artifactId>
+                <version>1.4.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

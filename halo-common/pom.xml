@@ -99,5 +99,20 @@
             <groupId>com.qcloud</groupId>
             <artifactId>cos-sts_api</artifactId>
         </dependency>
+
+        <!-- WebP image encoding support (支持 ARM64) -->
+        <!-- 生成缩略图 -->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.21</version>
+        </dependency>
+
+        <!-- WebP 编码，支持 ARM64 -->
+        <dependency>
+            <groupId>dev.matrixlab</groupId>
+            <artifactId>webp4j</artifactId>
+            <version>1.4.0</version>
+        </dependency>
     </dependencies>
 </project>
