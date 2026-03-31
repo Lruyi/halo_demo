@@ -1,9 +1,10 @@
 package com.halo.demo.facade;
 
-import com.halo.common.CommonServerResult;
+import com.halo.demo.serverresult.CommonServerResult;
 import com.halo.demo.client.LessonClient;
 import com.halo.demo.page.LessonApiPage;
 import com.halo.dto.req.CustomPageQueryReq;
+import com.halo.dto.req.StudentSummaryReq;
 import com.halo.dto.resp.StudentLessonSummaryResp;
 import com.halo.exception.RemoteCallException;
 import com.halo.utils.PageToQuerier;
@@ -21,10 +22,20 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
-public class LessonFacade {
+public class LessonFacade extends BaseFacade {
 
     @Autowired(required = false)
     private LessonClient lessonClient;
+
+    /**
+     * 根据学员uid和时间段查询学员在读课表记录
+     *
+     * @param req
+     * @return
+     */
+    public List<StudentLessonSummaryResp> querySummaryByStudentUidAndDatePeriod(StudentSummaryReq req) {
+        return getData("根据学员uid和时间段查询学员在读课表记录", null, log, () -> lessonClient.querySummaryByStudentUidAndDatePeriod(req));
+    }
 
 
     public LessonApiPage<StudentLessonSummaryResp> customPageQuery(CustomPageQueryReq req) {

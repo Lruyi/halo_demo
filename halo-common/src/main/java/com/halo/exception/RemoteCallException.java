@@ -1,12 +1,14 @@
 package com.halo.exception;
 
 /**
- * @Description:
- * @author: halo_ry
- * @Date: 2023/9/26 15:16
+ * 远程调用异常
+ *
+ * @author zhy
  */
 public class RemoteCallException extends RuntimeException {
-
+    /**
+     * 三方返回的响应码
+     */
     private String code;
 
     public RemoteCallException(String code, String message) {

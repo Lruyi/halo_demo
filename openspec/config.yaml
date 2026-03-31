@@ -1,0 +1,33 @@
+schema: spec-driven
+
+# Project context
+# This is shown to AI when creating artifacts.
+context: |
+  Tech stack: Java 8, Spring Boot 2.7.13, Maven
+  Framework: Spring Cloud 2021.0.8, MyBatis Plus 3.5.5
+  Database: MySQL 8.0, Redis
+  Build tool: Maven
+  Code style: 
+    - Use Lombok for reducing boilerplate code
+    - Follow Spring Boot conventions
+    - Use Result<T> wrapper for API responses
+    - Use @Slf4j for logging
+  Project structure: Multi-module Maven project
+    - halo-common: Common utilities and shared code
+    - halo-rest: REST API controllers
+    - halo-core: Core business logic
+    - halo-dao: Data access layer
+    - halo-entity: Entity classes
+    - halo-job: Scheduled jobs (XXL-Job)
+    - halo-remote: Remote service clients
+  Domain: Enterprise application with lesson management, student management, and data checking/repair features
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours

@@ -5,7 +5,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import com.halo.common.CommonServerResult;
+import com.halo.demo.serverresult.CommonServerResult;
 import com.halo.common.Result;
 import com.halo.entity.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.halo.demo.client;
 
-import com.halo.common.CommonServerResult;
+import com.halo.demo.serverresult.CommonServerResult;
 import com.halo.demo.page.LessonApiPage;
 import com.halo.dto.req.CustomPageQueryReq;
 import com.halo.dto.req.StudentSummaryReq;
