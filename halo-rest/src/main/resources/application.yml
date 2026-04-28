@@ -5,9 +5,6 @@ server:
     context-path: /report
   tomcat:
     uri-encoding: UTF-8
-  http:
-    encoding:
-      charset: UTF-8
 
 
 spring:
@@ -25,12 +22,6 @@ spring:
     default-property-inclusion: non_null # 全局jackson配置
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
-  http:
-    encoding:
-      force: true
-      charset: UTF-8
-      enabled: true
-
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -102,16 +93,17 @@ spring:
 
 
 # Redis配置
-  redis:
-    database: 2
-    host: 192.168.158.5
-    port: 6379
-    jedis:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
-        max-wait: 1000
+  data:
+    redis:
+      database: 2
+      host: 192.168.158.5
+      port: 6379
+      jedis:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: 1000
 
 # 报警邮箱
   mail:
