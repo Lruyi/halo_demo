@@ -3,7 +3,6 @@ package com.halo.controller;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.halo.demo.serverresult.CommonServerResult;
 import com.halo.common.Result;
@@ -29,9 +28,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/file")
 public class FileExampleController {
-    @Autowired
-    private ObjectMapper objectMapper;
-
     /**
      * 读取txt文件
      * @return
