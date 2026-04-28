@@ -49,7 +49,7 @@ public class XxlJobSimpleExecutor extends XxlJobExecutor {
 
 
     private void initJobHandlerMethodRepository(List<Object> xxlJobBeanList) {
-        if (xxlJobBeanList==null || xxlJobBeanList.size()==0) {
+        if (xxlJobBeanList==null || xxlJobBeanList.isEmpty()) {
             return;
         }
 
@@ -63,7 +63,7 @@ public class XxlJobSimpleExecutor extends XxlJobExecutor {
             for (Method executeMethod : methods) {
                 XxlJob xxlJob = executeMethod.getAnnotation(XxlJob.class);
                 // registry
-                registJobHandler(xxlJob, bean, executeMethod);
+                registryJobHandler(xxlJob, bean, executeMethod);
             }
 
         }
