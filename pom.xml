@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.13</version>
+        <version>4.0.6</version>
         <relativePath/>
     </parent>
 
@@ -30,12 +30,9 @@
     <packaging>pom</packaging>
 
     <properties>
-
-        <spring-boot.version>2.7.13</spring-boot.version>
-        <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <spring.version>5.3.28</spring.version>
-        <java.version>1.8</java.version>
-        <junit.version>4.13.2</junit.version>
+        <spring-boot.version>4.0.6</spring-boot.version>
+        <spring-cloud.version>2025.1.1</spring-cloud.version>
+        <java.version>21</java.version>
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-io.version>2.13.0</commons-io.version>
@@ -43,19 +40,18 @@
         <commons-collections4.version>4.4</commons-collections4.version>
         <hutool-all.version>5.8.41</hutool-all.version>
         <lombok.version>1.18.30</lombok.version>
-        <!--todo 升级后无法打印日志，暂未升级-->
-        <logback-classic.version>1.2.11</logback-classic.version>
         <fastjson2.version>2.0.46</fastjson2.version>
         <fastjson.version>2.0.46</fastjson.version>
         <jackson-databind.version>2.16.1</jackson-databind.version>
         <guava.version>32.0.1-jre</guava.version>
-        <druid.version>1.2.18</druid.version>
-        <druid-spring-boot-starter.version>1.2.18</druid-spring-boot-starter.version>
-        <mybatis-plus-boot-starter.version>3.5.5</mybatis-plus-boot-starter.version>
-        <mybatis-spring-boot-starter.version>2.3.1</mybatis-spring-boot-starter.version>
-        <hibernate-validator.version>6.1.0.Final</hibernate-validator.version>
+        <druid-spring-boot-3-starter.version>1.2.28</druid-spring-boot-3-starter.version>
+        <druid.version>1.2.28</druid.version>
+        <mybatis-plus-spring-boot3-starter.version>3.5.16</mybatis-plus-spring-boot3-starter.version>
+        <mybatis-spring-boot-starter.version>4.0.1</mybatis-spring-boot-starter.version>
         <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
-        <xxl-job.version>2.4.0</xxl-job.version>
+        <xxl-job.version>3.4.0</xxl-job.version>
+        <xxl-tool.version>2.5.0</xxl-tool.version>
+        <xxl-sso.version>2.4.0</xxl-sso.version>
         <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
         <apm-toolkit-logback-1.x.version>8.12.0</apm-toolkit-logback-1.x.version>
         <easyexcel.version>4.0.3</easyexcel.version>
@@ -66,22 +62,18 @@
         <cos-sts_api.version>3.1.1</cos-sts_api.version>
         <thumbnailator.version>0.4.21</thumbnailator.version>
         <webp-imageio-core.version>0.1.6</webp-imageio-core.version>
-
-        <netty-all.version>4.1.85.Final</netty-all.version>
-        <gson.version>2.10</gson.version>
-        <slf4j-api.version>2.0.1</slf4j-api.version>
-        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
-
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
-        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-
-        <!--halo-xxl-job的版本管理-->
+        <netty.version>4.2.12.Final</netty.version>
+        <gson.version>2.13.2</gson.version>
+        <slf4j-api.version>2.0.17</slf4j-api.version>
+        <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
+        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <maven.test.skip>true</maven.test.skip>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
         <opencsv.version>5.10</opencsv.version>
@@ -99,61 +91,41 @@
             </dependency>
 
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-cache</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>com.halo.demo</groupId>
                 <artifactId>halo-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.halo.demo</groupId>
                 <artifactId>halo-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.halo.demo</groupId>
                 <artifactId>halo-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.halo.demo</groupId>
                 <artifactId>halo-job</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.halo.demo</groupId>
                 <artifactId>halo-entity</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.halo.demo</groupId>
                 <artifactId>halo-rest</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.halo.demo</groupId>
                 <artifactId>halo-remote</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>junit</groupId>-->
-<!--                <artifactId>junit</artifactId>-->
-<!--                <version>${junit.version}</version>-->
-<!--                <scope>test</scope>-->
-<!--            </dependency>-->
-
-            <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
@@ -161,65 +133,49 @@
                 <scope>test</scope>
             </dependency>
 
-
-            <!--commons Utils工具-->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
             </dependency>
-
-            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool-all.version}</version>
             </dependency>
 
-            <!--lombok 开始-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback-classic.version}</version>
-            </dependency>
-            <!--lombok 结束-->
 
             <dependency>
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
                 <version>${fastjson2.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
@@ -231,9 +187,6 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
-
-            <!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
-            <!--生成二维码-->
             <dependency>
                 <groupId>com.google.zxing</groupId>
                 <artifactId>core</artifactId>
@@ -244,53 +197,45 @@
                 <artifactId>javase</artifactId>
                 <version>${zxing.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
 
-
-            <!--Excel导入导出-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
             </dependency>
 
-            <!--mysql 开始-->
-            <!--mysql驱动-->
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql-connector-j.version}</version>
             </dependency>
-
-            <!--数据库连接池-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
             </dependency>
-
-            <!--引入阿里druid的starter-->
             <dependency>
                 <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid-spring-boot-starter.version}</version>
+                <artifactId>druid-spring-boot-3-starter</artifactId>
+                <version>${druid-spring-boot-3-starter.version}</version>
             </dependency>
-            <!--mysql 结束-->
 
-            <!--mybatis plus-->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus-boot-starter.version}</version>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>${mybatis-plus-spring-boot3-starter.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-annotation</artifactId>
-                <version>${mybatis-plus-boot-starter.version}</version>
+                <version>${mybatis-plus-spring-boot3-starter.version}</version>
                 <scope>compile</scope>
             </dependency>
-
-            <!-- mybatis依赖 -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -298,98 +243,65 @@
             </dependency>
 
             <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator.version}</version>
-            </dependency>
-
-            <!-- 引入xxl-job -->
-            <dependency>
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
             </dependency>
-
-
-            <!-- FreeMarker -->
             <dependency>
-                <groupId>org.freemarker</groupId>
-                <artifactId>freemarker</artifactId>
-                <version>${freemarker.version}</version>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-tool</artifactId>
+                <version>${xxl-tool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-sso-core</artifactId>
+                <version>${xxl-sso.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-
-            <!--logback 日志配置 开始-->
             <dependency>
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash-logback-encoder.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-logback-1.x</artifactId>
                 <version>${apm-toolkit-logback-1.x.version}</version>
             </dependency>
-            <!--logback 日志配置 结束-->
 
-            <!-- 轻量级 CSV 解析，内存占用：低， 适用数据量：10M - 1GB-->
             <dependency>
                 <groupId>com.opencsv</groupId>
                 <artifactId>opencsv</artifactId>
                 <version>${opencsv.version}</version>
             </dependency>
 
-            <!--调用阿里语音合成大模型-->
-            <!-- https://mvnrepository.com/artifact/com.alibaba/dashscope-sdk-java -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>dashscope-sdk-java</artifactId>
                 <version>${dashscope-sdk-java.version}</version>
             </dependency>
 
-            <!--腾讯云对象存储 cos-->
-            <!-- https://mvnrepository.com/artifact/com.qcloud/cos_api -->
             <dependency>
                 <groupId>com.qcloud</groupId>
                 <artifactId>cos_api</artifactId>
                 <version>${cos_api.version}</version>
             </dependency>
-
-            <!--腾讯云对象存储 sts 临时密钥-->
             <dependency>
                 <groupId>com.qcloud</groupId>
                 <artifactId>cos-sts_api</artifactId>
                 <version>${cos-sts_api.version}</version>
             </dependency>
 
-            <!-- 图片缩放核心依赖 -->
             <dependency>
                 <groupId>net.coobird</groupId>
                 <artifactId>thumbnailator</artifactId>
                 <version>${thumbnailator.version}</version>
             </dependency>
-            <!-- WebP编码依赖 -->
             <dependency>
                 <groupId>com.luciad.imageio.webp</groupId>
                 <artifactId>webp-imageio-core</artifactId>
                 <version>${webp-imageio-core.version}</version>
             </dependency>
-
-            <!-- WebP image encoding support (支持 ARM64) -->
-            <!-- 生成缩略图 -->
-            <dependency>
-                <groupId>net.coobird</groupId>
-                <artifactId>thumbnailator</artifactId>
-                <version>0.4.21</version>
-            </dependency>
-
-            <!-- WebP 编码，支持 ARM64 -->
             <dependency>
                 <groupId>dev.matrixlab</groupId>
                 <artifactId>webp4j</artifactId>
@@ -397,18 +309,31 @@
             </dependency>
 
             <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>${jakarta.annotation-api.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
                 <version>4.10.0</version>
             </dependency>
-
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
                 <artifactId>webdrivermanager</artifactId>
                 <version>5.7.0</version>
             </dependency>
-
-
         </dependencies>
     </dependencyManagement>
 
@@ -417,7 +342,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
