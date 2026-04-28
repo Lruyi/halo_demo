@@ -8,6 +8,9 @@ server:
 
 
 spring:
+  autoconfigure:
+    exclude:
+      - com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure
   # 激活哪一个环境的配置文件
   profiles:
     active: ${ACTIVE_ENV:lry}

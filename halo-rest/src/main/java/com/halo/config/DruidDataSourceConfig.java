@@ -3,6 +3,7 @@ package com.halo.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.jakarta.StatViewServlet;
 import com.alibaba.druid.support.jakarta.WebStatFilter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -25,8 +26,8 @@ public class DruidDataSourceConfig {
         this.dbTestProperties = dbTestProperties;
     }
 
-    //    @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource druid() {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setUsername(dbTestProperties.getUsername());
