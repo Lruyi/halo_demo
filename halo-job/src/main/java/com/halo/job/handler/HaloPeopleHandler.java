@@ -2,7 +2,6 @@ package com.halo.job.handler;
 
 import com.halo.api.PeopleServiceApi;
 import com.halo.entity.People;
-import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,7 @@ public class HaloPeopleHandler {
     private PeopleServiceApi peopleServiceApi;
 
     @XxlJob("haloPeopleHandler")
-    public ReturnT<String> handler() {
+    public void handler() {
         XxlJobHelper.log("HaloPeopleHandler 的入参：", XxlJobHelper.getJobParam());
         List<People> peopleList = peopleServiceApi.list();
         // 校验发送预警邮件代码
@@ -34,7 +33,6 @@ public class HaloPeopleHandler {
 //        }
 
         XxlJobHelper.handleSuccess();
-        XxlJobHelper.log("是否执行成功：" + XxlJobHelper.handleSuccess());
-        return ReturnT.SUCCESS;
+        XxlJobHelper.log("是否执行成功：true");
     }
 }

@@ -39,7 +39,7 @@
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <hutool-all.version>5.8.41</hutool-all.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.46</lombok.version>
         <fastjson2.version>2.0.46</fastjson2.version>
         <fastjson.version>2.0.46</fastjson.version>
         <jackson-databind.version>2.16.1</jackson-databind.version>
