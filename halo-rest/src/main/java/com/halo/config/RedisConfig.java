@@ -1,6 +1,5 @@
 package com.halo.config;
 
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -14,7 +13,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @Date: 2020/4/7 16:05
  */
 @Configuration
-@EnableCaching //启用缓存，这个注解很重要
 public class RedisConfig {
 
 //    @Bean
