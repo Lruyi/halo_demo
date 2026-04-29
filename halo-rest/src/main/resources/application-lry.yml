@@ -72,6 +72,14 @@ spring:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
 
+# xxl-job本地开发环境不启动admin，禁用执行器自动注册
+xxl:
+  job:
+    admin:
+      addresses: ""
+    executor:
+      logpath: /tmp/xxl-job/jobhandler
+
 ## 配置
 halo:
   config:

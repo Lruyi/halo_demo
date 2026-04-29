@@ -8,9 +8,6 @@ server:
 
 
 spring:
-  autoconfigure:
-    exclude:
-      - com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure
   # 激活哪一个环境的配置文件
   profiles:
     active: ${ACTIVE_ENV:lry}
@@ -123,6 +120,19 @@ spring:
             required: true
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
+  ## 配置远程调用feignClient（Spring Cloud OpenFeign 5.x）
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: full
+            requestInterceptors:
+              - com.halo.demo.config.XesOriginRequestInterceptor
+          lessonClient:
+            url: http://${remote.server.lesson.basePath}
 
 
 mybatis-plus:
@@ -161,16 +171,7 @@ remote:
     lesson:
       basePath: lesson-beta-inner.speiyou.cn
 
-## 配置远程调用feignClient
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 5000
-        loggerLevel: full
-        requestInterceptors:
-          - com.halo.demo.config.XesOriginRequestInterceptor
+## 配置远程调用feignClient（Spring Cloud OpenFeign 5.x 使用 spring.cloud.openfeign.client.config）
 
 
 # xxl-job配置

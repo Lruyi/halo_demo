@@ -16,7 +16,7 @@ import java.util.List;
  * @author: halo_ry
  * @Date: 2023/9/20 14:09
  */
-@FeignClient(name = "lessonClient", url = "${remote.server.lesson.basePath}")
+@FeignClient(name = "lessonClient", url = "${remote.server.lesson.basePath:http://lesson-beta-inner.speiyou.cn}")
 public interface LessonClient {
 
     /**
