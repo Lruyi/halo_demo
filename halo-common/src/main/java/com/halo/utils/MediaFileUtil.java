@@ -110,7 +110,7 @@ public class MediaFileUtil {
      * 创建基于日期的临时目录
      * @return 日期临时目录
      */
-    private static File createDateTempDir() {
+    public static File createDateTempDir() {
         String datePath = new SimpleDateFormat("yyyyMMdd").format(new Date());
         File tmpDir = new File(System.getProperty("java.io.tmpdir"), datePath);
         if (!tmpDir.exists()) {

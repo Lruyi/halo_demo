@@ -1,7 +1,6 @@
 package com.halo.utils.ffmpeg;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -59,7 +58,7 @@ public final class FFmpegEncodeParams {
 
     private static String resolvePreset() {
         String raw = System.getProperty(PROP_X264_PRESET);
-        if (StringUtils.isBlank(raw)) {
+        if (raw == null || raw.isBlank()) {
             return DEFAULT_PRESET;
         }
         return raw.trim();
@@ -67,7 +66,7 @@ public final class FFmpegEncodeParams {
 
     private static Integer resolveX264Threads() {
         String raw = System.getProperty(PROP_X264_THREADS);
-        if (StringUtils.isBlank(raw)) {
+        if (raw == null || raw.isBlank()) {
             return null;
         }
         raw = raw.trim();
@@ -91,7 +90,7 @@ public final class FFmpegEncodeParams {
 
     private static int resolveFilterThreads() {
         String raw = System.getProperty(PROP_FILTER_THREADS);
-        if (StringUtils.isBlank(raw)) {
+        if (raw == null || raw.isBlank()) {
             return 0;
         }
         try {

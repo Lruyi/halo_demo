@@ -2,7 +2,6 @@ package com.halo.utils.ffmpeg;
 
 import com.google.common.base.Stopwatch;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -110,8 +109,7 @@ public class FFmpegCommandRunner {
             } else {
                 // 启动进程
                 process = pb.start();
-                // TODO jdk21的命令
-//                log.debug("[ffmpeg] 进程已启动, PID: {}", process.pid());
+                log.debug("[ffmpeg] 进程已启动, PID: {}", process.pid());
 
                 // 读取进程输出
                 result = handler.handler(process.getInputStream());
@@ -162,7 +160,7 @@ public class FFmpegCommandRunner {
 
     private static int resolveMaxConcurrentProcesses() {
         String raw = System.getProperty("aigc.ffmpeg.max-concurrency");
-        if (StringUtils.isBlank(raw)) {
+        if (raw == null || raw.isBlank()) {
             return DEFAULT_MAX_CONCURRENT_PROCESSES;
         }
         try {
@@ -176,7 +174,7 @@ public class FFmpegCommandRunner {
 
     private static long resolveAcquireTimeoutMillis() {
         String raw = System.getProperty("aigc.ffmpeg.acquire-timeout-ms");
-        if (StringUtils.isBlank(raw)) {
+        if (raw == null || raw.isBlank()) {
             return DEFAULT_ACQUIRE_TIMEOUT_MILLIS;
         }
         try {

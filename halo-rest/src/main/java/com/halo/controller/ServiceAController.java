@@ -3,6 +3,7 @@ package com.halo.controller;
 import com.halo.common.Result;
 import com.halo.dto.req.ServiceARequest;
 import com.halo.utils.HmacSha256Util;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 

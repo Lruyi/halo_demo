@@ -38,7 +38,7 @@
         <commons-io.version>2.13.0</commons-io.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <hutool-all.version>5.8.41</hutool-all.version>
+        <hutool-all.version>5.8.44</hutool-all.version>
         <lombok.version>1.18.46</lombok.version>
         <fastjson2.version>2.0.46</fastjson2.version>
         <fastjson.version>2.0.46</fastjson.version>
@@ -75,6 +75,7 @@
         <maven.test.skip>true</maven.test.skip>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
         <opencsv.version>5.10</opencsv.version>
+        <jjwt.version>0.13.0</jjwt.version>
     </properties>
 
     <!--声明此处进行依赖管理-->
@@ -325,6 +326,23 @@
                 <groupId>io.github.bonigarcia</groupId>
                 <artifactId>webdrivermanager</artifactId>
                 <version>5.7.0</version>
+            </dependency>
+
+            <!-- jwt -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

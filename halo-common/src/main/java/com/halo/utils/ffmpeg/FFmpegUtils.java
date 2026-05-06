@@ -101,10 +101,9 @@ public class FFmpegUtils {
 
         StringBuilder sb = new StringBuilder();
         for (String command : commands) {
-            // TODO jdk21的命令
-//            if (!sb.isEmpty()) {
-//                sb.append(" ");
-//            }
+            if (!sb.isEmpty()) {
+                sb.append(" ");
+            }
             sb.append(command);
         }
         return sb.toString();
