@@ -1,6 +1,7 @@
 package com.halo.exception;
 
 import com.halo.constant.ErrorCode;
+import com.halo.enums.ErrorCodeEnum;
 
 /**
  * @Description: 业务异常
@@ -9,6 +10,9 @@ import com.halo.constant.ErrorCode;
  */
 public class BusinessException extends BaseException {
 
+    public BusinessException(ErrorCodeEnum errorCodeEnum) {
+        this(ErrorCode.BUSINESS_ERROR, errorCodeEnum.getMessage());
+    }
 
     public BusinessException(ErrorCode errorCode, String message) {
         super(errorCode, message);

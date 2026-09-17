@@ -34,8 +34,8 @@ public class Result<T> implements Serializable {
     /**
      * 返回结果
      */
-    private boolean rtnResult = false;
-
+    private boolean rlt = false;
+    
     /**
      * 版本
      */
@@ -73,12 +73,12 @@ public class Result<T> implements Serializable {
         this.version = version;
     }
 
-    public boolean isRtnResult() {
-        return rtnResult;
+    public boolean isRlt() {
+        return rlt;
     }
 
-    public void setRtnResult(boolean rtnResult) {
-        this.rtnResult = rtnResult;
+    public void setRlt(boolean rlt) {
+        this.rlt = rlt;
     }
 
     public Result() {
@@ -95,24 +95,24 @@ public class Result<T> implements Serializable {
         this.data = data;
         if (null != data) {
             this.msg = "操作成功";
-            this.rtnResult = true;
+            this.rlt = true;
         }
     }
 
-    public Result(int code, T data, String msg, boolean rtnResult) {
+    public Result(int code, T data, String msg, boolean rlt) {
         super();
         this.code = code;
         this.data = data;
         this.msg = msg;
-        this.rtnResult = rtnResult;
+        this.rlt = rlt;
     }
 
-    public Result(int code, T data, String msg, boolean rtnResult, Long version) {
+    public Result(int code, T data, String msg, boolean rlt, Long version) {
         super();
         this.code = code;
         this.data = data;
         this.msg = msg;
-        this.rtnResult = rtnResult;
+        this.rlt = rlt;
         this.version = version;
     }
 
@@ -138,7 +138,7 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> getFail(String msg) {
         Result<T> result = new Result<T>();
         result.setMsg(msg);
-        result.setRtnResult(false);
+        result.setRlt(false);
         return result;
     }
 
@@ -153,7 +153,7 @@ public class Result<T> implements Serializable {
         Result<T> result = new Result<T>();
         result.setMsg(msg);
         result.setCode(code);
-        result.setRtnResult(false);
+        result.setRlt(false);
         return result;
     }
 
@@ -225,7 +225,7 @@ public class Result<T> implements Serializable {
         result.setData(data);
         result.setMsg(msg);
         result.setVersion(null);
-        result.setRtnResult(true);
+        result.setRlt(true);
         return result;
     }
 
@@ -246,7 +246,7 @@ public class Result<T> implements Serializable {
         result.setMsg(msg);
         result.setCode(code);
         result.setVersion(version);
-        result.setRtnResult(true);
+        result.setRlt(true);
         return result;
     }
 

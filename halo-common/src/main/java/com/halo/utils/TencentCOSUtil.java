@@ -75,24 +75,19 @@ public class TencentCOSUtil {
     private COSClient cosClient;
 
     /**
-     * 初始化单例COSClient
+     * 初始化单例COSClient（仅在 secretId 已配置时初始化）
      */
     @PostConstruct
     public void initCosClient() {
+        if (StringUtils.isBlank(accessKeyId)) {
+            log.warn("TencentCOS secretId 未配置，跳过 COSClient 初始化");
+            return;
+        }
         log.info("Initializing COSClient singleton...");
-        // 1、实例化一个认证对象，入参需要传入腾讯云账户secretId，secretKey,此处还需注意密钥对的保密
-        // 密钥可前往https://console.cloud.tencent.com/cam/capi网站进行获取
         COSCredentials cred = new BasicCOSCredentials(accessKeyId, accessKeySecret);
-
-        // 2 设置 bucket 的地域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
-        // clientConfig 中包含了设置 region, https(默认 http), 超时, 代理等 set 方法, 使用可参见源码或者常见问题 Java SDK 部分。
         Region region = new Region(mpsRegionId);
         ClientConfig clientConfig = new ClientConfig(region);
-        // 这里建议设置使用 https 协议
-        // 从 5.6.54 版本开始，默认使用了 https
         clientConfig.setHttpProtocol(HttpProtocol.https);
-
-        // 3 生成 cos 客户端。
         this.cosClient = new COSClient(cred, clientConfig);
         log.info("COSClient singleton initialized successfully");
     }
@@ -118,6 +113,9 @@ public class TencentCOSUtil {
      */
     @ExecutionTime("上传文件到COS")
     public String uploadFile(File file, String fileKey) {
+        if (cosClient == null) {
+            throw new IllegalStateException("COS 未配置，无法上传文件");
+        }
         try {
             cosClient.putObject(fileBucketName, fileKey, file);
             log.info("uploadFile | putObjectResult successful");
@@ -176,6 +174,9 @@ public class TencentCOSUtil {
      * @return
      */
     public String uploadFileByInputStream(InputStream inputStream, String filePath, String fileName) {
+        if (cosClient == null) {
+            throw new IllegalStateException("COS 未配置，无法上传文件");
+        }
         try {
             PutObjectResult putObjectResult = cosClient.putObject(fileBucketName, filePath, inputStream, new ObjectMetadata());
             log.info("uploadFileByInputStream | putObjectResult successful, putObjectResult is {} filePath is {}", putObjectResult.getETag(), filePath);

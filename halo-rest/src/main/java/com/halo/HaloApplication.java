@@ -4,11 +4,13 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Halo_ry
  */
+@EnableRetry
 @SpringBootApplication(scanBasePackages = {"com.halo.*"})
 @RestController
 @MapperScan(basePackages = {"com.halo.mapper"})
@@ -19,5 +21,4 @@ public class HaloApplication {
         SpringApplication.run(HaloApplication.class, args);
         System.out.println("HaloApplication STARTUP SUCCESS ... ");
     }
-
 }

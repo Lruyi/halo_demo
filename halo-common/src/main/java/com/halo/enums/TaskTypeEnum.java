@@ -1,6 +1,6 @@
 package com.halo.enums;
 
-//import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -23,9 +23,9 @@ public enum TaskTypeEnum {
     AUDIO_CONCAT("AUDIO_CONCAT", "音频拼接"),
     PAGE_COMPOSE("PAGE_COMPOSE", "页面合成"),
     VIDEO_SEGMENT_REPLACE("VIDEO_SEGMENT_REPLACE", "视频片段替换"),
+    VIDEO_TRANSITION("VIDEO_TRANSITION", "视频转场"),
     ;
-// TODO
-//    @EnumValue
+    @EnumValue
     private final String code;
     private final String desc;
 
